@@ -93,189 +93,189 @@ let cameraState = 2400;
 function preload()
 {
 
-    backgroundImage = loadImage("Assets/bg_forest.png");
-    defaultImage.push(loadImage("Assets/Default.PNG"));
-    defaultImage.push(loadImage("Assets/Default_2.PNG"));
-    rightMoveImage.push(loadImage("Assets/Right/right_1.png"));
-    rightMoveImage.push(loadImage("Assets/Right/right_2.png"));
-    rightMoveImage.push(loadImage("Assets/Right/right_3.png"));
-    rightMoveImage.push(loadImage("Assets/Right/right_4.png"));
-    rightMoveImage.push(loadImage("Assets/Right/right_5.png"));
-    leftMoveImage.push(loadImage("Assets/Left/left_1.png"));
-    leftMoveImage.push(loadImage("Assets/Left/left_2.png"));
-    leftMoveImage.push(loadImage("Assets/Left/left_3.png"));
-    leftMoveImage.push(loadImage("Assets/Left/left_4.png"));
-    leftMoveImage.push(loadImage("Assets/Left/left_5.png"));
-    leftAttackImage.push(loadImage("Assets/LeftAttack/leftAttack1.png"));
-    leftAttackImage.push(loadImage("Assets/LeftAttack/leftAttack2.png"));
-    leftAttackImage.push(loadImage("Assets/LeftAttack/leftAttack3.png"));
-    leftAttackImage.push(loadImage("Assets/LeftAttack/leftAttack4.png"));
-    leftAttackImage.push(loadImage("Assets/LeftAttack/leftAttack5.png"));
-    leftAttackImage.push(loadImage("Assets/LeftAttack/leftAttack6.png"));
-    leftAttackImage.push(loadImage("Assets/LeftAttack/leftAttack7.png"));
-    leftAttackImage.push(loadImage("Assets/LeftAttack/Left_2_1.png"));
-    leftAttackImage.push(loadImage("Assets/LeftAttack/Left_2_2.png"));
-    leftAttackImage.push(loadImage("Assets/LeftAttack/Left_2_3.png"));
+    backgroundImage = loadImage("./Assets/bg_forest.png");
+    defaultImage.push(loadImage("./Assets/Default.PNG"));
+    defaultImage.push(loadImage("./Assets/Default_2.PNG"));
+    rightMoveImage.push(loadImage("./Assets/Right/right_1.png"));
+    rightMoveImage.push(loadImage("./Assets/Right/right_2.png"));
+    rightMoveImage.push(loadImage("./Assets/Right/right_3.png"));
+    rightMoveImage.push(loadImage("./Assets/Right/right_4.png"));
+    rightMoveImage.push(loadImage("./Assets/Right/right_5.png"));
+    leftMoveImage.push(loadImage("./Assets/Left/left_1.png"));
+    leftMoveImage.push(loadImage("./Assets/Left/left_2.png"));
+    leftMoveImage.push(loadImage("./Assets/Left/left_3.png"));
+    leftMoveImage.push(loadImage("./Assets/Left/left_4.png"));
+    leftMoveImage.push(loadImage("./Assets/Left/left_5.png"));
+    leftAttackImage.push(loadImage("./Assets/LeftAttack/leftAttack1.png"));
+    leftAttackImage.push(loadImage("./Assets/LeftAttack/leftAttack2.png"));
+    leftAttackImage.push(loadImage("./Assets/LeftAttack/leftAttack3.png"));
+    leftAttackImage.push(loadImage("./Assets/LeftAttack/leftAttack4.png"));
+    leftAttackImage.push(loadImage("./Assets/LeftAttack/leftAttack5.png"));
+    leftAttackImage.push(loadImage("./Assets/LeftAttack/leftAttack6.png"));
+    leftAttackImage.push(loadImage("./Assets/LeftAttack/leftAttack7.png"));
+    leftAttackImage.push(loadImage("./Assets/LeftAttack/Left_2_1.png"));
+    leftAttackImage.push(loadImage("./Assets/LeftAttack/Left_2_2.png"));
+    leftAttackImage.push(loadImage("./Assets/LeftAttack/Left_2_3.png"));
     
 
 
-    rightAttackImage.push(loadImage("Assets/RightAttack/right_1.png"));
-    rightAttackImage.push(loadImage("Assets/RightAttack/right_2.png"));
-    rightAttackImage.push(loadImage("Assets/RightAttack/right_3.png"));
-    rightAttackImage.push(loadImage("Assets/RightAttack/right_4.png"));
-    rightAttackImage.push(loadImage("Assets/RightAttack/right_5.png"));
-    rightAttackImage.push(loadImage("Assets/RightAttack/right_6.png"));
-    rightAttackImage.push(loadImage("Assets/RightAttack/right_7.png"));
-    rightAttackImage.push(loadImage("Assets/RightAttack/Right_2_1.png"));
-    rightAttackImage.push(loadImage("Assets/RightAttack/Right_2_2.png"));
-    rightAttackImage.push(loadImage("Assets/RightAttack/Right_2_3.png"));
+    rightAttackImage.push(loadImage("./Assets/RightAttack/right_1.png"));
+    rightAttackImage.push(loadImage("./Assets/RightAttack/right_2.png"));
+    rightAttackImage.push(loadImage("./Assets/RightAttack/right_3.png"));
+    rightAttackImage.push(loadImage("./Assets/RightAttack/right_4.png"));
+    rightAttackImage.push(loadImage("./Assets/RightAttack/right_5.png"));
+    rightAttackImage.push(loadImage("./Assets/RightAttack/right_6.png"));
+    rightAttackImage.push(loadImage("./Assets/RightAttack/right_7.png"));
+    rightAttackImage.push(loadImage("./Assets/RightAttack/Right_2_1.png"));
+    rightAttackImage.push(loadImage("./Assets/RightAttack/Right_2_2.png"));
+    rightAttackImage.push(loadImage("./Assets/RightAttack/Right_2_3.png"));
     
     
-    rigthGuardImage.push(loadImage("Assets/guardR/guard_R_1.png"));
-    rigthGuardImage.push(loadImage("Assets/guardR/guard_R_2.png"));
-    rigthGuardImage.push(loadImage("Assets/guardR/guard_R_3.png"));
-    rigthGuardImage.push(loadImage("Assets/guardR/guard_R_4.png"));
-    rigthGuardImage.push(loadImage("Assets/guardR/guard_R_5.png"));
-    rigthGuardImage.push(loadImage("Assets/guardR/guard_R_6.png"));
-    leftGuardImage.push(loadImage('Assets/guardL/guard_L_1.png'));
-    leftGuardImage.push(loadImage('Assets/guardL/guard_L_2.png'));
-    leftGuardImage.push(loadImage('Assets/guardL/guard_L_3.png'));
-    leftGuardImage.push(loadImage('Assets/guardL/guard_L_4.png'));
-    leftGuardImage.push(loadImage('Assets/guardL/guard_L_5.png'));
-    leftGuardImage.push(loadImage('Assets/guardL/guard_L_6.png'));
+    rigthGuardImage.push(loadImage("./Assets/guardR/guard_R_1.png"));
+    rigthGuardImage.push(loadImage("./Assets/guardR/guard_R_2.png"));
+    rigthGuardImage.push(loadImage("./Assets/guardR/guard_R_3.png"));
+    rigthGuardImage.push(loadImage("./Assets/guardR/guard_R_4.png"));
+    rigthGuardImage.push(loadImage("./Assets/guardR/guard_R_5.png"));
+    rigthGuardImage.push(loadImage("./Assets/guardR/guard_R_6.png"));
+    leftGuardImage.push(loadImage('./Assets/guardL/guard_L_1.png'));
+    leftGuardImage.push(loadImage('./Assets/guardL/guard_L_2.png'));
+    leftGuardImage.push(loadImage('./Assets/guardL/guard_L_3.png'));
+    leftGuardImage.push(loadImage('./Assets/guardL/guard_L_4.png'));
+    leftGuardImage.push(loadImage('./Assets/guardL/guard_L_5.png'));
+    leftGuardImage.push(loadImage('./Assets/guardL/guard_L_6.png'));
 
     
-    RRollImage.push(loadImage('Assets/RRoll/RollR_2.png'));
-    RRollImage.push(loadImage('Assets/RRoll/RollR_3.png'));
-    RRollImage.push(loadImage('Assets/RRoll/RollR_4.png'));
+    RRollImage.push(loadImage('./Assets/RRoll/RollR_2.png'));
+    RRollImage.push(loadImage('./Assets/RRoll/RollR_3.png'));
+    RRollImage.push(loadImage('./Assets/RRoll/RollR_4.png'));
 
-    RRollImage.push(loadImage('Assets/LRoll/RollL_1.png'));
-    RRollImage.push(loadImage('Assets/LRoll/RollL_2.png'));
-    RRollImage.push(loadImage('Assets/LRoll/RollL_3.png'));
+    RRollImage.push(loadImage('./Assets/LRoll/RollL_1.png'));
+    RRollImage.push(loadImage('./Assets/LRoll/RollL_2.png'));
+    RRollImage.push(loadImage('./Assets/LRoll/RollL_3.png'));
 
-    mageMove.push(loadImage('Assets/Mage/Move/moveR.png'));
-    mageMove.push(loadImage('Assets/Mage/Move/moveL.png'));
-    mageMove.push(loadImage('Assets/Mage/Move/RAttacked_1.png'));
-    mageMove.push(loadImage('Assets/Mage/Move/LAttacked_1.png'));
+    mageMove.push(loadImage('./Assets/Mage/Move/moveR.png'));
+    mageMove.push(loadImage('./Assets/Mage/Move/moveL.png'));
+    mageMove.push(loadImage('./Assets/Mage/Move/RAttacked_1.png'));
+    mageMove.push(loadImage('./Assets/Mage/Move/LAttacked_1.png'));
 
-    mageRAttack.push(loadImage('Assets/Mage/RAttack/RAttack_1.png'));
-    mageRAttack.push(loadImage('Assets/Mage/RAttack/RAttack_2.png'));
-    mageRAttack.push(loadImage('Assets/Mage/RAttack/RAttack_3.png'));
-    mageRAttack.push(loadImage('Assets/Mage/RAttack/RAttack_4.png'));
-    mageRAttack.push(loadImage('Assets/Mage/RAttack/RAttack_5.png'));
-    mageRAttack.push(loadImage('Assets/Mage/RAttack/RAttack_6.png'));
-    mageRAttack.push(loadImage('Assets/Mage/RAttack/RAttack_7.png'));
+    mageRAttack.push(loadImage('./Assets/Mage/RAttack/RAttack_1.png'));
+    mageRAttack.push(loadImage('./Assets/Mage/RAttack/RAttack_2.png'));
+    mageRAttack.push(loadImage('./Assets/Mage/RAttack/RAttack_3.png'));
+    mageRAttack.push(loadImage('./Assets/Mage/RAttack/RAttack_4.png'));
+    mageRAttack.push(loadImage('./Assets/Mage/RAttack/RAttack_5.png'));
+    mageRAttack.push(loadImage('./Assets/Mage/RAttack/RAttack_6.png'));
+    mageRAttack.push(loadImage('./Assets/Mage/RAttack/RAttack_7.png'));
 
-    mageLAttack.push(loadImage('Assets/Mage/LAttack/LAttack_1.png'));
-    mageLAttack.push(loadImage('Assets/Mage/LAttack/LAttack_2.png'));
-    mageLAttack.push(loadImage('Assets/Mage/LAttack/LAttack_3.png'));
-    mageLAttack.push(loadImage('Assets/Mage/LAttack/LAttack_4.png'));
-    mageLAttack.push(loadImage('Assets/Mage/LAttack/LAttack_5.png'));
-    mageLAttack.push(loadImage('Assets/Mage/LAttack/LAttack_6.png'));
-    mageLAttack.push(loadImage('Assets/Mage/LAttack/LAttack_7.png'));
+    mageLAttack.push(loadImage('./Assets/Mage/LAttack/LAttack_1.png'));
+    mageLAttack.push(loadImage('./Assets/Mage/LAttack/LAttack_2.png'));
+    mageLAttack.push(loadImage('./Assets/Mage/LAttack/LAttack_3.png'));
+    mageLAttack.push(loadImage('./Assets/Mage/LAttack/LAttack_4.png'));
+    mageLAttack.push(loadImage('./Assets/Mage/LAttack/LAttack_5.png'));
+    mageLAttack.push(loadImage('./Assets/Mage/LAttack/LAttack_6.png'));
+    mageLAttack.push(loadImage('./Assets/Mage/LAttack/LAttack_7.png'));
 
 
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_1.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_2.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_3.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_4.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_5.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_6.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_7.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_8.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_9.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_10.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_11.png'));
-    magicImage.push(loadImage('Assets/Mage/Magic/magic_12.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_1.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_2.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_3.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_4.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_5.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_6.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_7.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_8.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_9.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_10.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_11.png'));
+    magicImage.push(loadImage('./Assets/Mage/Magic/magic_12.png'));
 
     //BigSkelton
     
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_1.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_2.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_3.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_4.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_5.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_6.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_7.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_8.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_9.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_10.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_11.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/LEffect/LEffect_12.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_1.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_2.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_3.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_4.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_5.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_6.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_7.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_8.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_9.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_10.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_11.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/LEffect/LEffect_12.png'));
     
 
     
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_2.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_3.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_4.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_5.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_6.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_7.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_8.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_9.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_10.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_11.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_12.png'));
-    bigSkelEffect.push(loadImage('Assets/BigSkel/REffect/REffect_13.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_2.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_3.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_4.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_5.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_6.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_7.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_8.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_9.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_10.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_11.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_12.png'));
+    bigSkelEffect.push(loadImage('./Assets/BigSkel/REffect/REffect_13.png'));
 
-    bigSkelL.push(loadImage('Assets/BigSkel/Left/Left_1.png'));
-    bigSkelL.push(loadImage('Assets/BigSkel/Left/Left_2.png'));
-    bigSkelL.push(loadImage('Assets/BigSkel/Left/Left_3.png'));
-    bigSkelL.push(loadImage('Assets/BigSkel/Left/Left_4.png'));
-    bigSkelL.push(loadImage('Assets/BigSkel/Left/Left_5.png'));
-    bigSkelL.push(loadImage('Assets/BigSkel/Left/Left_6.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Left/Left_1.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Left/Left_2.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Left/Left_3.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Left/Left_4.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Left/Left_5.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Left/Left_6.png'));
 
-    bigSkelL.push(loadImage('Assets/BigSkel/Right/Right_1.png'));
-    bigSkelL.push(loadImage('Assets/BigSkel/Right/Right_2.png'));
-    bigSkelL.push(loadImage('Assets/BigSkel/Right/Right_3.png'));
-    bigSkelL.push(loadImage('Assets/BigSkel/Right/Right_4.png'));
-    bigSkelL.push(loadImage('Assets/BigSkel/Right/Right_5.png'));
-    bigSkelL.push(loadImage('Assets/BigSkel/Right/Right_6.png'));
-
-    
-    bigSkelLA.push(loadImage('Assets/BigSkel/LeftA/LeftA_3.png'));
-    bigSkelLA.push(loadImage('Assets/BigSkel/LeftA/LeftA_4.png'));
-    bigSkelLA.push(loadImage('Assets/BigSkel/LeftA/LeftA_5.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Right/Right_1.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Right/Right_2.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Right/Right_3.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Right/Right_4.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Right/Right_5.png'));
+    bigSkelL.push(loadImage('./Assets/BigSkel/Right/Right_6.png'));
 
     
-    bigSkelRA.push(loadImage('Assets/BigSkel/RightA/RightA_3.png'));
-    bigSkelRA.push(loadImage('Assets/BigSkel/RightA/RightA_4.png'));
-    bigSkelRA.push(loadImage('Assets/BigSkel/RightA/RightA_5.png'));
+    bigSkelLA.push(loadImage('./Assets/BigSkel/LeftA/LeftA_3.png'));
+    bigSkelLA.push(loadImage('./Assets/BigSkel/LeftA/LeftA_4.png'));
+    bigSkelLA.push(loadImage('./Assets/BigSkel/LeftA/LeftA_5.png'));
+
+    
+    bigSkelRA.push(loadImage('./Assets/BigSkel/RightA/RightA_3.png'));
+    bigSkelRA.push(loadImage('./Assets/BigSkel/RightA/RightA_4.png'));
+    bigSkelRA.push(loadImage('./Assets/BigSkel/RightA/RightA_5.png'));
 
 
     //Archer
-    archerArrow.push(loadImage('Assets/Archer/Arrow/LArrow.png'));
-    archerArrow.push(loadImage('Assets/Archer/Arrow/RArrow.png'));
+    archerArrow.push(loadImage('./Assets/Archer/Arrow/LArrow.png'));
+    archerArrow.push(loadImage('./Assets/Archer/Arrow/RArrow.png'));
 
-    archerMove.push(loadImage('Assets/Archer/Move/ArcherL_1.png'));
-    archerMove.push(loadImage('Assets/Archer/Move/ArcherL_2.png'));
-    archerMove.push(loadImage('Assets/Archer/Move/ArcherL_3.png'));
-    archerMove.push(loadImage('Assets/Archer/Move/ArcherL_4.png'));
-    archerMove.push(loadImage('Assets/Archer/Move/ArcherL_5.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/ArcherL_1.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/ArcherL_2.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/ArcherL_3.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/ArcherL_4.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/ArcherL_5.png'));
 
-    archerMove.push(loadImage('Assets/Archer/Move/ArcherR_1.png'));
-    archerMove.push(loadImage('Assets/Archer/Move/ArcherR_2.png'));
-    archerMove.push(loadImage('Assets/Archer/Move/ArcherR_3.png'));
-    archerMove.push(loadImage('Assets/Archer/Move/ArcherR_4.png'));
-    archerMove.push(loadImage('Assets/Archer/Move/ArcherR_5.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/ArcherR_1.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/ArcherR_2.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/ArcherR_3.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/ArcherR_4.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/ArcherR_5.png'));
 
-    archerMove.push(loadImage('Assets/Archer/Move/LAttacked.png'));
-    archerMove.push(loadImage('Assets/Archer/Move/RAttacked.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/LAttacked.png'));
+    archerMove.push(loadImage('./Assets/Archer/Move/RAttacked.png'));
 
-    archerLA.push(loadImage('Assets/Archer/LAttack/LAttack_2.png'));
-    archerLA.push(loadImage('Assets/Archer/LAttack/LAttack_3.png'));
-    archerLA.push(loadImage('Assets/Archer/LAttack/LAttack_4.png'));
-    archerLA.push(loadImage('Assets/Archer/LAttack/LAttack_5.png'));
-    archerLA.push(loadImage('Assets/Archer/LAttack/LAttack_6.png'));
+    archerLA.push(loadImage('./Assets/Archer/LAttack/LAttack_2.png'));
+    archerLA.push(loadImage('./Assets/Archer/LAttack/LAttack_3.png'));
+    archerLA.push(loadImage('./Assets/Archer/LAttack/LAttack_4.png'));
+    archerLA.push(loadImage('./Assets/Archer/LAttack/LAttack_5.png'));
+    archerLA.push(loadImage('./Assets/Archer/LAttack/LAttack_6.png'));
 
-    archerRA.push(loadImage('Assets/Archer/RAttack/RAttack_2.png'));
-    archerRA.push(loadImage('Assets/Archer/RAttack/RAttack_3.png'));
-    archerRA.push(loadImage('Assets/Archer/RAttack/RAttack_4.png'));
-    archerRA.push(loadImage('Assets/Archer/RAttack/RAttack_5.png'));
-    archerRA.push(loadImage('Assets/Archer/RAttack/RAttack_6.png'));
+    archerRA.push(loadImage('./Assets/Archer/RAttack/RAttack_2.png'));
+    archerRA.push(loadImage('./Assets/Archer/RAttack/RAttack_3.png'));
+    archerRA.push(loadImage('./Assets/Archer/RAttack/RAttack_4.png'));
+    archerRA.push(loadImage('./Assets/Archer/RAttack/RAttack_5.png'));
+    archerRA.push(loadImage('./Assets/Archer/RAttack/RAttack_6.png'));
 
-    mainImage.push(loadImage('Assets/MainMenu.png'));
-    mainImage.push(loadImage('Assets/Start.png'));
+    mainImage.push(loadImage('./Assets/MainMenu.png'));
+    mainImage.push(loadImage('./Assets/Start.png'));
     
 
 
@@ -283,77 +283,77 @@ function preload()
 
 
     //수직 플랫폼
-    verPlatForm = loadImage('Assets/PlatForm/Vetical_Platfrom.png');
+    verPlatForm = loadImage('./Assets/PlatForm/Vetical_Platfrom.png');
     //아이템
-    itemImage.push(loadImage("Assets/Item/Key.png"));
+    itemImage.push(loadImage("./Assets/Item/Key.png"));
 
     //이펙트 이미지
-    effectImage = loadImage("Assets/Effect/Effect.png");
+    effectImage = loadImage("./Assets/Effect/Effect.png");
 
     //도어
-    doorImage.push(loadImage('Assets/PlatForm/door_1.png'));
-    doorImage.push(loadImage('Assets/PlatForm/door_2.png'));
-    doorImage.push(loadImage('Assets/PlatForm/door_3.png'));
+    doorImage.push(loadImage('./Assets/PlatForm/door_1.png'));
+    doorImage.push(loadImage('./Assets/PlatForm/door_2.png'));
+    doorImage.push(loadImage('./Assets/PlatForm/door_3.png'));
 
     //Skeleton
-    skeletonDefault.push(loadImage('Assets/Skleton/Default/Defualt_1.png'));
-    skeletonDefault.push(loadImage('Assets/Skleton/Default/Defualt_2.png'));
-    skeletonDefault.push(loadImage('Assets/Skleton/Default/Defualt_3.png'));
+    skeletonDefault.push(loadImage('./Assets/Skleton/Default/Defualt_1.png'));
+    skeletonDefault.push(loadImage('./Assets/Skleton/Default/Defualt_2.png'));
+    skeletonDefault.push(loadImage('./Assets/Skleton/Default/Defualt_3.png'));
     
-    skeletonDefault.push(loadImage('Assets/Skleton/AttackedRight/AttackedRIght_2.png'));
-    skeletonDefault.push(loadImage("Assets/Skleton/AttackedLeft/LeftAttacked_2.png"));
+    skeletonDefault.push(loadImage('./Assets/Skleton/AttackedRight/AttackedRIght_2.png'));
+    skeletonDefault.push(loadImage("./Assets/Skleton/AttackedLeft/LeftAttacked_2.png"));
 
 
 
-    skelRAttack.push(loadImage('Assets/Skleton/rAttack/attackR_1.png'));
-    skelRAttack.push(loadImage('Assets/Skleton/rAttack/attackR_2.png'));
-    skelRAttack.push(loadImage('Assets/Skleton/rAttack/attackR_3.png'));
+    skelRAttack.push(loadImage('./Assets/Skleton/rAttack/attackR_1.png'));
+    skelRAttack.push(loadImage('./Assets/Skleton/rAttack/attackR_2.png'));
+    skelRAttack.push(loadImage('./Assets/Skleton/rAttack/attackR_3.png'));
     //여기부턴 스턴.
-    skelRAttack.push(loadImage("Assets/Skleton/rStun/stun_1.png"));
-    skelRAttack.push(loadImage("Assets/Skleton/rStun/stun_2.png"));
-    skelRAttack.push(loadImage("Assets/Skleton/rStun/stun_3.png"));
+    skelRAttack.push(loadImage("./Assets/Skleton/rStun/stun_1.png"));
+    skelRAttack.push(loadImage("./Assets/Skleton/rStun/stun_2.png"));
+    skelRAttack.push(loadImage("./Assets/Skleton/rStun/stun_3.png"));
 
     //왼쪽공격
-    skelLAttack.push(loadImage("Assets/Skleton/lAttack/lAttack_1.png"));
-    skelLAttack.push(loadImage("Assets/Skleton/lAttack/lAttack_2.png"));
-    skelLAttack.push(loadImage("Assets/Skleton/lAttack/lAttack_3.png"));
+    skelLAttack.push(loadImage("./Assets/Skleton/lAttack/lAttack_1.png"));
+    skelLAttack.push(loadImage("./Assets/Skleton/lAttack/lAttack_2.png"));
+    skelLAttack.push(loadImage("./Assets/Skleton/lAttack/lAttack_3.png"));
 
     //스턴
-    skelLAttack.push(loadImage("Assets/Skleton/lStun/lStun_1.png"));
-    skelLAttack.push(loadImage("Assets/Skleton/lStun/lStun_2.png"));
-    skelLAttack.push(loadImage("Assets/Skleton/lStun/lStun_3.png"));
+    skelLAttack.push(loadImage("./Assets/Skleton/lStun/lStun_1.png"));
+    skelLAttack.push(loadImage("./Assets/Skleton/lStun/lStun_2.png"));
+    skelLAttack.push(loadImage("./Assets/Skleton/lStun/lStun_3.png"));
 
     //무브 오른쪽
-    skelMove.push(loadImage("Assets/Skleton/walkRight/rightWalk_1.png"));
-    skelMove.push(loadImage("Assets/Skleton/walkRight/rightWalk_2.png"));
-    skelMove.push(loadImage("Assets/Skleton/walkRight/rightWalk_3.png"));
-    skelMove.push(loadImage("Assets/Skleton/walkRight/rightWalk_4.png"));
+    skelMove.push(loadImage("./Assets/Skleton/walkRight/rightWalk_1.png"));
+    skelMove.push(loadImage("./Assets/Skleton/walkRight/rightWalk_2.png"));
+    skelMove.push(loadImage("./Assets/Skleton/walkRight/rightWalk_3.png"));
+    skelMove.push(loadImage("./Assets/Skleton/walkRight/rightWalk_4.png"));
     
     //무브 왼쪽
-    skelMove.push(loadImage("Assets/Skleton/walkLeft/walkLeft_1.png"));
-    skelMove.push(loadImage("Assets/Skleton/walkLeft/walkLeft_2.png"));
-    skelMove.push(loadImage("Assets/Skleton/walkLeft/walkLeft_3.png"));
-    skelMove.push(loadImage("Assets/Skleton/walkLeft/walkLeft_4.png"));
+    skelMove.push(loadImage("./Assets/Skleton/walkLeft/walkLeft_1.png"));
+    skelMove.push(loadImage("./Assets/Skleton/walkLeft/walkLeft_2.png"));
+    skelMove.push(loadImage("./Assets/Skleton/walkLeft/walkLeft_3.png"));
+    skelMove.push(loadImage("./Assets/Skleton/walkLeft/walkLeft_4.png"));
 
     //피격모션.
-    skelMove.push(loadImage("Assets/Skleton/attackedImage/attackedLeft.png"));
-    skelMove.push(loadImage("Assets/Skleton/attackedImage/attackedRight.png"));
+    skelMove.push(loadImage("./Assets/Skleton/attackedImage/attackedLeft.png"));
+    skelMove.push(loadImage("./Assets/Skleton/attackedImage/attackedRight.png"));
 
 
     
-    slimeDefualt.push(loadImage("Assets/Slime/Slime_0.png"));
-    slimeDefualt.push(loadImage("Assets/Slime/Slime_1.png"));
-    slimeDefualt.push(loadImage("Assets/Slime/Slime_2.png"));
-    slimeDefualt.push(loadImage("Assets/Slime/slime_Attacked.png"));
+    slimeDefualt.push(loadImage("./Assets/Slime/Slime_0.png"));
+    slimeDefualt.push(loadImage("./Assets/Slime/Slime_1.png"));
+    slimeDefualt.push(loadImage("./Assets/Slime/Slime_2.png"));
+    slimeDefualt.push(loadImage("./Assets/Slime/slime_Attacked.png"));
 
     //UI
-    // hpImage = loadImage("Assets/UI/HP.png");
-    uiImage.push(loadImage("Assets/UI/HP.png"));
-    uiImage.push(loadImage("Assets/UI/shield.png"));
-    uiImage.push(loadImage("Assets/UI/brokenShield.png"));
+    // hpImage = loadImage("./Assets/UI/HP.png");
+    uiImage.push(loadImage("./Assets/UI/HP.png"));
+    uiImage.push(loadImage("./Assets/UI/shield.png"));
+    uiImage.push(loadImage("./Assets/UI/brokenShield.png"));
 
-    pikeImage.push(loadImage("Assets/PlatForm/Pike_1.PNG"));
-    pikeImage.push(loadImage("Assets/PlatForm/Pike_2.PNG"));
+    pikeImage.push(loadImage("./Assets/PlatForm/Pike_1.PNG"));
+    pikeImage.push(loadImage("./Assets/PlatForm/Pike_2.PNG"));
 
 
     
