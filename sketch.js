@@ -675,6 +675,8 @@ function playerCheck()
         player.rollCount = 3;
         player.skillCount = 1;
         player.animState = 0;
+        player.isSkill = 0;
+        player.attackCheck = 0;
 
         //이미지 오류시 여기로오기
         player.attackedVel.x = 0;

@@ -679,6 +679,7 @@ class Player
                 this.rollDeltaTime = 0;
                 this.checkRoll = 0;
                 this.rollVec.x = 0;
+                this.moveVel.x = 0;
                 
 
             }else if(this.rollDeltaTime > 0.2)
@@ -700,6 +701,7 @@ class Player
                 this.rollDeltaTime = 0;
                 this.checkRoll = 0;
                 this.rollVec.x = 0;
+                this.moveVel.x = 0;
                 
 
             }else if(this.rollDeltaTime > 0.2)
@@ -843,29 +845,32 @@ class Player
             this.moveAcc.x = 0;
             this.moveAcc.y = 0;
             // this.attackLeft.set(this.pos.x+80,this.pos.y+40);
-            this.checkA = 0;
+            // this.checkA = 0;
             this.isGuard = 0;
             
             
         }
 
-        if(keyIsDown(65) && this.attackCheck == 0 && (!keyIsDown(37)) && this.checkRoll == 0 && this.isSkill == 0)
-            {
+        //가만히 있을떄 공격
+
+        // if(keyIsDown(65) && this.attackCheck == 0 && (!keyIsDown(37)) && this.checkRoll == 0 && this.isSkill == 0)
+        //     {
                 
-                this.animState = 4
-                this.attackCheck = 1;
-                this.moveVel.x = 0;
-                this.moveAcc.x = 0;
-                this.moveAcc.y = 0;
-                this.isGuard = 0;
-                this.checkA = 0;
-                this.startPlay = 1;
+        //         this.animState = 4
+        //         this.attackCheck = 1;
+        //         this.moveVel.x = 0;
+        //         this.moveAcc.x = 0;
+        //         this.moveAcc.y = 0;
+        //         this.isGuard = 0;
+        //         this.checkA = 0;
+        //         this.startPlay = 1;
                 
-            }
+        //     }
         
         // 오른쪽키가기.
         if(keyIsDown(39) && this.attackCheck == 0 && this.checkRoll == 0 && this.isSkill == 0)
         {
+            console.log("add");
             this.animDefaultDelta = 0;
             this.moveVel.x = 500;
             
@@ -922,7 +927,8 @@ class Player
             
 
         }
-        if(keyIsDown(65) && this.attackCheck == 0 && keyIsDown(37) && this.checkRoll == 0 && this.isSkill == 0)
+        //왼쪽 공격
+        if(keyIsDown(65) && this.attackCheck == 0 && (keyIsDown(37)  || this.checkA == 1) && this.checkRoll == 0 && this.isSkill == 0)
         {
             
             this.animState = 3
@@ -935,8 +941,9 @@ class Player
             console.log(this.checkA);
             this.startPlay = 1;
         }
-
-        if(keyIsDown(65) && this.attackCheck == 0 && keyIsDown(39) && this.checkRoll == 0 && this.isSkill == 0)
+        
+        //오른쪽 공격
+        if(keyIsDown(65) && this.attackCheck == 0 && (keyIsDown(39)  || this.checkA == 0) && this.checkRoll == 0 && this.isSkill == 0)
         {
             
             this.animState = 4
@@ -988,7 +995,7 @@ class Player
         //     this.startPlay = 1;
         // }
 
-        if(keyIsDown(68) && keyIsDown(37)&& this.attackCheck == 0 && this.shieldCount >0 && this.checkRoll == 0 && this.isSkill == 0)
+        if(keyIsDown(68) && (keyIsDown(37) || this.checkA == 1)&& this.attackCheck == 0 && this.shieldCount >0 && this.checkRoll == 0 && this.isSkill == 0)
         {
             console.log("a2")
             this.checkA = 1;
@@ -1001,7 +1008,7 @@ class Player
         }
 
         // 방어하는것.
-        if(keyIsDown(68) && keyIsDown(39)&& this.attackCheck == 0 && this.shieldCount >0 && this.checkRoll == 0 && this.isSkill == 0)
+        if(keyIsDown(68) && (keyIsDown(39) || this.checkA == 0)&& this.attackCheck == 0 && this.shieldCount >0 && this.checkRoll == 0 && this.isSkill == 0)
         {
             console.log("a3");
             this.checkA = 0;
@@ -1022,27 +1029,40 @@ class Player
 
         //구르기
 
-        if(keyIsDown(83) && keyIsDown(39) && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.rollCount > 0 && this.isSkill == 0)
+        if(keyIsDown(83) && (keyIsDown(39) || this.checkA == 0) && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.rollCount > 0 && this.isSkill == 0)
         {
             console.log("여기는23?");
             this.animState = RIGHTROLL;
             this.checkRoll = 1;
-            this.rollVec.x = 300;
+            
             this.startPlay = 1;
             this.rollCount--;
             
         }
 
-        if(keyIsDown(83) && keyIsDown(37) && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.rollCount > 0 && this.isSkill == 0)
+        if(keyIsDown(83) && (keyIsDown(37) || this.checkA == 1) && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.rollCount > 0 && this.isSkill == 0)
         {
             this.animState = LEFTROLL;
             this.checkRoll = 1;
-            this.rollVec.x = -300;
             this.startPlay = 1;
             this.rollCount--;
         }
 
-        if(keyIsDown(88) && keyIsDown(39) && this.isSkill == 0 && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.skillCount > 0)
+        if(this.checkRoll == 1)
+        {
+            if(this.checkA == 0)
+            {
+                this.rollVec.x = 300;
+            }else{
+                this.rollVec.x = -300;
+            }
+        }
+
+
+
+
+
+        if(keyIsDown(87) && keyIsDown(39) && this.isSkill == 0 && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.skillCount > 0)
         {
             
             this.moveVel.x = 0;
@@ -1054,7 +1074,7 @@ class Player
 
         }
 
-        if(keyIsDown(88) && keyIsDown(37) && this.isSkill == 0 && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.skillCount > 0)
+        if(keyIsDown(87) && keyIsDown(37) && this.isSkill == 0 && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.skillCount > 0)
         {
             
             this.moveVel.x = 0;
