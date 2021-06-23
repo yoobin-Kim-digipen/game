@@ -15,6 +15,7 @@ let RRollImage = [];
 let doorImage = [];
 
 let verPlatForm;
+let platFormImage;
 // let hpImage;
 
 let uiImage =[];
@@ -99,6 +100,7 @@ function preload()
     backgroundMusic = loadSound("./Assets/Music/The golden Forest.mp3");
 
 
+    platFormImage = loadImage("./Assets/platForm.png");
 
     backgroundImage = loadImage("./Assets/bg_forest.png");
     defaultImage.push(loadImage("./Assets/Default.PNG"));
@@ -545,9 +547,9 @@ function firstStateSpawn(state)
 
         door = new Door(doorImage,2400,400,100,100);
         key = new Item(itemImage,1800,440);
-        platForm.push(new PlatForm(0,500,1200,100,true,0));
-        platForm.push(new PlatForm(1300,500,1200,100,true,0));
-        platForm.push(new PlatForm(900,300,1200,100,false,0));
+        platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
+        platForm.push(new PlatForm(1300,500,1200,100,true,0,0,platFormImage));
+        platForm.push(new PlatForm(900,300,1200,100,false,0,0,platFormImage));
         platForm.push(new PlatForm(2400,0,100,400,true,1,verPlatForm));
         platForm.push(new Pike(500,436,pikeImage,10.0));
 
@@ -574,10 +576,10 @@ function firstStateSpawn(state)
         
         key = new Item(itemImage,3000,440);
 
-        platForm.push(new PlatForm(0,500,1200,100,true,0));
-        platForm.push(new PlatForm(1300,500,1200,100,true,0));
-        platForm.push(new PlatForm(900,300,1200,100,false,0));
-        platForm.push(new PlatForm(2500,500,1200,100,false,0));
+        platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
+        platForm.push(new PlatForm(1300,500,1200,100,true,0,0,platFormImage));
+        platForm.push(new PlatForm(900,300,1200,100,false,0,0,platFormImage));
+        platForm.push(new PlatForm(2500,500,1200,100,false,0,0,platFormImage));
         platForm.push(new PlatForm(3600,0,100,400,true,1,verPlatForm));
         slime.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage));
         slime.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));

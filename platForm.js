@@ -1,12 +1,12 @@
 class PlatForm
 {
-    constructor(_x,_y,_width,_height,_base,_type,_vertical = 0)
+    constructor(_x,_y,_width,_height,_base,_type,_vertical = 0 , _thisImage = 0)
     {
         this.x = _x;
         this.y = _y;
         this.width = _width;
         this._height = _height;
-        this.image = loadImage("./Assets/platForm.PNG");
+        this.image = _thisImage;
         this.base = _base;
         this.type = _type;
         this.vertical = _vertical;
