@@ -410,7 +410,7 @@ function setup()
 
 function draw()
 {
-    console.log(frameRate());
+    
     
     background( 0 );
     push();
