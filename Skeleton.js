@@ -360,6 +360,7 @@ class Skeleton
                     image(this.defaultImage[4],this.pos.x,this.pos.y-10,300,300);
                     this.behaviorCheck = 0;
                     this.acc.x = 0;
+                    this.vel.x = 0;
                 }
 
             //오른쪽 피격 모션.
@@ -386,6 +387,7 @@ class Skeleton
                     image(this.defaultImage[3],this.pos.x,this.pos.y-10,300,300);
                     this.behaviorCheck = 0;
                     this.acc.x = 0;
+                    this.vel.x = 0;
                 }
             }
         }

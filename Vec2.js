@@ -135,6 +135,11 @@ class Vec2
         return new Vec2(-this.x,0);
     }
 
+    reaction()
+    {
+        return new Vec2(-this.x,-this.y);
+    }
+
 
 
 

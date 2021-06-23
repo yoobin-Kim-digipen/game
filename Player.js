@@ -7,6 +7,8 @@ const LEFTGUARD = 5;
 const RIGHTGUARD = 6;
 const RIGHTROLL = 7;
 const LEFTROLL = 8;
+const LEFTSKILL = 9;
+const RIGHTSKILL = 10;
 
 
 
@@ -180,6 +182,19 @@ class Player
 
         //시작을 알림
         this.startPlay = 0;
+        //구르기 관련
+        this.rollCount = 3;
+        this.rollCountDeltaTime = 0;
+
+        //스킬관련.
+        this.isSkill = 0;
+        //RightSkillDelta;
+        this.skillDeltaTime = 0;
+        this.skillMoveCheck = 0;
+        this.skillMovePos = new Vec2(0,0);
+        this.isSkillAttack = 0;
+        this.skillCount = 1;
+        this.skillCountDelta = 0;
 
     }
 
@@ -299,6 +314,25 @@ class Player
                 this.shieldCount++;
             }
         }
+
+        if(this.rollCount < 3)
+        {
+            this.rollCountDeltaTime += deltaTime/1000;
+            if(this.rollCountDeltaTime > 3.0)
+            {
+                this.rollCount += 1;
+                this.rollCountDeltaTime = 0;
+            }
+        }
+        if(this.skillCount < 1)
+        {
+            this.skillCountDelta += deltaTime/1000;
+            if(this.skillCountDelta > 5)
+            {
+                this.skillCount += 1;
+                this.skillCountDelta = 0;
+            }
+        }
         
 
 
@@ -315,7 +349,11 @@ class Player
             
             
             this.attackedDelta += deltaTime/1000;
-            tint(255, 128);
+            if(this.isSkill != 1)
+            {
+                tint(255, 128);
+            }
+            
             
         }
         //페링 타이밍 재주는 거.
@@ -352,6 +390,16 @@ class Player
                     this.animDefaultDelta = 0;
                     this.defaultCheck = 0;
                 }
+                //갑자기 이미지에서 오류뜨면 여기로오기.
+                this.RightDeltaTime = 0;
+                this.LeftDeltaTime = 0;
+                this.LeftAttackDeltaTime = 0;
+                this.RightAttackDeltaTime = 0;
+                this.guardRightDeltaTime = 0;
+                this.guardLeftDeltaTime = 0;
+                this.rollDeltaTime = 0;
+                this.skillDeltaTime = 0;
+
             }
 
         }else if(this.animState == RIGHT && this.animState != RIGHTROLL)
@@ -663,6 +711,90 @@ class Player
             }else{
                 image(this.RollImage[3],this.pos.x-10,this.pos.y,130,130);
             }
+
+
+        }else if(this.animState == RIGHTSKILL)
+        {
+            this.skillDeltaTime += deltaTime/1000;
+            console.log("여기는 들어와 지는가?");
+            if(this.skillDeltaTime > 0.7)
+            {
+                image(this.rightAttackImage[11],this.pos.x-10,this.pos.y,130,130);
+                image(this.uiImage[7],this.pos.x-260,this.skillMovePos.y+20);
+                this.animState = 0;
+                this.isSkill = 0;
+                this.skillDeltaTime = 0;
+                this.attackedCheck = 0;
+                this.attackedDelta = 0;
+                this.skillMoveCheck = 0;
+                this.isSkillAttack = 0;
+            }else if(this.skillDeltaTime > 0.6 && this.skillDeltaTime < 0.7)
+            {
+                image(this.rightAttackImage[11],this.pos.x-10,this.pos.y,130,130);
+                image(this.uiImage[7],this.pos.x-260,this.skillMovePos.y+20);
+            }else if(this.skillDeltaTime >0.5 && this.skillDeltaTime < 0.6)
+            {
+                
+                image(this.rightAttackImage[11],this.pos.x-10,this.pos.y,130,130);
+                if(this.skillMoveCheck == 0)
+                {
+                    this.pos.x += 300;
+                    this.skillMoveCheck = 1;
+                    this.isSkillAttack = 1;
+                    
+                }
+                
+                
+                
+                
+            }else{
+                image(this.rightAttackImage[10],this.pos.x-10,this.pos.y,130,130);
+                this.attackedCheck = 1;
+                this.skillMovePos.y = this.pos.y+20;
+                this.skillMovePos.x = this.pos.x+20;
+                circle(this.skillMovePos,this.pos.y,30);
+            }
+        }else if(this.animState == LEFTSKILL)
+        {
+            this.skillDeltaTime += deltaTime/1000;
+            console.log("여기는 들어와 지는가?");
+            if(this.skillDeltaTime > 0.7)
+            {
+                image(this.leftAttackImage[11],this.pos.x-10,this.pos.y,130,130);
+                image(this.uiImage[7],this.pos.x+70,this.skillMovePos.y+20);
+                this.animState = 0;
+                this.isSkill = 0;
+                this.skillDeltaTime = 0;
+                this.attackedCheck = 0;
+                this.attackedDelta = 0;
+                this.skillMoveCheck = 0;
+                this.isSkillAttack = 0;
+            }else if(this.skillDeltaTime > 0.6 && this.skillDeltaTime < 0.7)
+            {
+                image(this.leftAttackImage[11],this.pos.x-10,this.pos.y,130,130);
+                image(this.uiImage[7],this.pos.x+70,this.skillMovePos.y+20);
+            }else if(this.skillDeltaTime >0.5 && this.skillDeltaTime < 0.6)
+            {
+                
+                image(this.leftAttackImage[11],this.pos.x-10,this.pos.y,130,130);
+                if(this.skillMoveCheck == 0)
+                {
+                    this.pos.x -= 300;
+                    this.skillMoveCheck = 1;
+                    this.isSkillAttack = 1;
+                    
+                }
+                
+                
+                
+                
+            }else{
+                image(this.leftAttackImage[10],this.pos.x-10,this.pos.y,130,130);
+                this.attackedCheck = 1;
+                this.skillMovePos.y = this.pos.y+20;
+                this.skillMovePos.x = this.pos.x-230;
+                circle(this.skillMovePos,this.pos.y,30);
+            }
         }
         
         if(this.isGuard == 0)
@@ -699,33 +831,11 @@ class Player
 
     checkKeyboard()
     {
-        // if(this.moveVel.x > 0 )
-        // {
-        //     this.attackLeft.set(this.pos.x+80,this.pos.y+40);
-        // }else if(this.moveVel.x < 0){
-        //     console.log("addd");
-        //     this.attackLeft.set(this.pos.x-30,this.pos.y+40);
-        // }else{
-        //     this.attackLeft.set(this.pos.x+80,this.pos.y+40);
-        // }
-
-
-
-
-        //카메라
-        // if(this.pos.x < this.checkCameraX){
-                
-        //     this.cameraR = false;
-        //     this.cameraL = false;
-            
-        // }
-
-
-
+        
 
 
         // 가만히있는상태.
-        if(!keyIsPressed && this.attackCheck == 0 && this.checkRoll == 0)
+        if(!keyIsPressed && this.attackCheck == 0 && this.checkRoll == 0 && this.isSkill == 0)
         {
             
             this.animState = 0;
@@ -739,7 +849,7 @@ class Player
             
         }
 
-        if(keyIsDown(65) && this.attackCheck == 0 && (!keyIsDown(37)) && this.checkRoll == 0)
+        if(keyIsDown(65) && this.attackCheck == 0 && (!keyIsDown(37)) && this.checkRoll == 0 && this.isSkill == 0)
             {
                 
                 this.animState = 4
@@ -754,7 +864,7 @@ class Player
             }
         
         // 오른쪽키가기.
-        if(keyIsDown(39) && this.attackCheck == 0 && this.checkRoll == 0)
+        if(keyIsDown(39) && this.attackCheck == 0 && this.checkRoll == 0 && this.isSkill == 0)
         {
             this.animDefaultDelta = 0;
             this.moveVel.x = 500;
@@ -787,7 +897,7 @@ class Player
             // this.attackLeft.set(this.pos.x+80,this.pos.y+40);
         }
         //왼쪽으로가기.
-        if(keyIsDown(37) && this.attackCheck == 0 && this.checkRoll == 0)
+        if(keyIsDown(37) && this.attackCheck == 0 && this.checkRoll == 0 && this.isSkill == 0)
         {
             this.animDefaultDelta = 0;
             this.animState = 2;
@@ -812,7 +922,7 @@ class Player
             
 
         }
-        if(keyIsDown(65) && this.attackCheck == 0 && keyIsDown(37) && this.checkRoll == 0)
+        if(keyIsDown(65) && this.attackCheck == 0 && keyIsDown(37) && this.checkRoll == 0 && this.isSkill == 0)
         {
             
             this.animState = 3
@@ -826,7 +936,7 @@ class Player
             this.startPlay = 1;
         }
 
-        if(keyIsDown(65) && this.attackCheck == 0 && keyIsDown(39) && this.checkRoll == 0)
+        if(keyIsDown(65) && this.attackCheck == 0 && keyIsDown(39) && this.checkRoll == 0 && this.isSkill == 0)
         {
             
             this.animState = 4
@@ -840,7 +950,7 @@ class Player
             this.startPlay = 1;
         }
 
-        if(keyIsDown(32) && this.isJump == false && this.checkRoll == 0)
+        if(keyIsDown(32) && this.isJump == false && this.checkRoll == 0 && this.isSkill == 0)
         {
             
             this.isJump = true;
@@ -849,7 +959,7 @@ class Player
             this.startPlay = 1;
         }
 
-        if(keyIsDown(40) && this.checkRoll == 0)
+        if(keyIsDown(40) && this.checkRoll == 0 && this.isSkill == 0)
         {
             this.downCheck = true;
             this.downCheck_2 = true;
@@ -866,21 +976,21 @@ class Player
         }
 
 
-        if(keyIsDown(68) && (!keyIsDown(37)) && (!keyIsDown(39)) && this.attackCheck == 0 && this.shieldCount >0 && this.checkRoll == 0)
-        {
-            console.log("68")
-            this.isGuard = 1;
-            this.checkA = 0;
-            this.animState = RIGHTGUARD;
-            this.moveVel.x = 0;
-            this.moveAcc.x = 0;
-            this.moveAcc.y = 0;
-            this.startPlay = 1;
-        }
+        // if(keyIsDown(68) && (!keyIsDown(37)) && (!keyIsDown(39)) && this.shieldCount > 0  &&this.attackCheck == 0 && this.checkRoll == 0 && this.isSkill == 0)
+        // {
+        //     console.log("a1")
+        //     this.isGuard = 1;
+        //     this.checkA = 0;
+        //     this.animState = RIGHTGUARD;
+        //     this.moveVel.x = 0;
+        //     this.moveAcc.x = 0;
+        //     this.moveAcc.y = 0;
+        //     this.startPlay = 1;
+        // }
 
-        if(keyIsDown(68) && keyIsDown(37)&& this.attackCheck == 0 && this.shieldCount >0 && this.checkRoll == 0)
+        if(keyIsDown(68) && keyIsDown(37)&& this.attackCheck == 0 && this.shieldCount >0 && this.checkRoll == 0 && this.isSkill == 0)
         {
-            console.log("37")
+            console.log("a2")
             this.checkA = 1;
             this.isGuard = 1;
             this.animState = LEFTGUARD;
@@ -891,9 +1001,9 @@ class Player
         }
 
         // 방어하는것.
-        if(keyIsDown(68) && keyIsDown(39)&& this.attackCheck == 0 && this.shieldCount >0 && this.checkRoll == 0)
+        if(keyIsDown(68) && keyIsDown(39)&& this.attackCheck == 0 && this.shieldCount >0 && this.checkRoll == 0 && this.isSkill == 0)
         {
-            console.log("39");
+            console.log("a3");
             this.checkA = 0;
             this.isGuard = 1;
             this.animState = RIGHTGUARD;
@@ -911,24 +1021,50 @@ class Player
         }
 
         //구르기
-        if(keyIsDown(83) && keyIsDown(39) && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0)
+
+        if(keyIsDown(83) && keyIsDown(39) && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.rollCount > 0 && this.isSkill == 0)
         {
             console.log("여기는23?");
             this.animState = RIGHTROLL;
             this.checkRoll = 1;
             this.rollVec.x = 300;
             this.startPlay = 1;
+            this.rollCount--;
             
         }
 
-        if(keyIsDown(83) && keyIsDown(37) && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0)
+        if(keyIsDown(83) && keyIsDown(37) && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.rollCount > 0 && this.isSkill == 0)
         {
             this.animState = LEFTROLL;
             this.checkRoll = 1;
             this.rollVec.x = -300;
             this.startPlay = 1;
+            this.rollCount--;
         }
 
+        if(keyIsDown(88) && keyIsDown(39) && this.isSkill == 0 && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.skillCount > 0)
+        {
+            
+            this.moveVel.x = 0;
+            this.isSkill = 1;
+            this.animState = RIGHTSKILL;
+            this.attackedVel.x = 0;
+            this.skillCount -= 1;
+            
+
+        }
+
+        if(keyIsDown(88) && keyIsDown(37) && this.isSkill == 0 && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.skillCount > 0)
+        {
+            
+            this.moveVel.x = 0;
+            this.isSkill = 1;
+            this.animState = LEFTSKILL;
+            this.attackedVel.x = 0;
+            this.skillCount -= 1;
+            
+
+        }
 
 
 
@@ -1056,7 +1192,60 @@ class Player
         }
         
         
+        
     }
+    if(this.isSkillAttack == 1)
+        {
+            
+        
+            for(var a = 0; a<monster.length;a++)
+            {
+                console.log("여기 들어왔기를 제발!")
+                if(this.checkRange(this.skillMovePos.x,this.skillMovePos.x+300,monster[a].upLeft.x,monster[a].upRight.x) && this.checkRange(this.skillMovePos.y,this.skillMovePos.y+50,monster[a].upLeft.y,monster[a].downRight.y))
+                    {
+
+                        if(monster[a].life >0)
+                        {  
+                        
+                        monster[a].life -= 2;
+                        
+                        
+                        //오른쪽 네모
+                        if(this.checkA == 0 )
+                        {
+                            console.log("add");
+                            
+                            if(monster[a].type != 3)
+                            {
+                                console.log("여기가 들어왔는가?");
+                                monster[a].animState = 7;
+                                monster[a].isAttacked = 1;
+                            }
+                            
+                            
+                            
+                        }else{
+                            
+                            if(monster[a].type != 3)
+                            {
+                                console.log("여기가 들어왔는가?");
+                                monster[a].animState = 8;
+                                monster[a].isAttacked = 1;
+                            }
+                            
+                        }
+                        
+                        
+                        }
+                    
+                        
+                    }
+
+                    
+
+            }
+            this.isSkillAttack = 0;
+        }
         
         
 
@@ -1070,68 +1259,68 @@ class Player
         return max(min0, max0) >= min(min1,max1) && min(min0,max0) <= max(min1,max1);
     }
 
-    checkAttacked(monster)
-    {
-        if(this.attackedCheck == 0)
-        {
+    // checkAttacked(monster)
+    // {
+    //     if(this.attackedCheck == 0)
+    //     {
 
             
-            if(this.checkRange(this.downLeft.x,this.downRight.x,monster.upLeft.x,monster.upRight.x) && this.checkRange(this.upLeft.y,this.downLeft.y,monster.upLeft.y,monster.downRight.y))
-            {
+    //         if(this.checkRange(this.downLeft.x,this.downRight.x,monster.upLeft.x,monster.upRight.x) && this.checkRange(this.upLeft.y,this.downLeft.y,monster.upLeft.y,monster.downRight.y))
+    //         {
                 
-                this.attackedCheck = 1;
-                if(this.pos.x+50 > monster.pos.x)
-                {
-                    console.log("오른쪽입니다.")
-                    this.life -= 1;
-                    this.gravityVel.addTo(new Vec2(5,-10));
-                }else{
-                    console.log("왼쪽 입니다.");
-                    this.life -= 1;
-                    this.gravityVel.addTo(new Vec2(-5,-10));
-                }
-            }
+    //             this.attackedCheck = 1;
+    //             if(this.pos.x+50 > monster.pos.x)
+    //             {
+    //                 console.log("오른쪽입니다.")
+    //                 this.life -= 1;
+    //                 this.gravityVel.addTo(new Vec2(5,-10));
+    //             }else{
+    //                 console.log("왼쪽 입니다.");
+    //                 this.life -= 1;
+    //                 this.gravityVel.addTo(new Vec2(-5,-10));
+    //             }
+    //         }
 
 
-        }
+    //     }
 
-        if(this.isGuard == 1 && this.attackedCheck == 0)
-        {
+    //     if(this.isGuard == 1 && this.attackedCheck == 0)
+    //     {
 
-            if(this.checkA == 0)
-            {
-                    if(this.checkRange(this.attackLeft.x,this.attackLeft.x+10,monster.upLeft.x,monster.upRight.x) && this.checkRange(this.attackLeft.y,this.attackLeft.y+50,monster.upLeft.y,monster.downRight.y))
-                    {
+    //         if(this.checkA == 0)
+    //         {
+    //                 if(this.checkRange(this.attackLeft.x,this.attackLeft.x+10,monster.upLeft.x,monster.upRight.x) && this.checkRange(this.attackLeft.y,this.attackLeft.y+50,monster.upLeft.y,monster.downRight.y))
+    //                 {
                         
-                        console.log("막았습니다.1");
-                        if(this.pos.x > monster.pos.x)
-                        {
-                            this.attackedVel.addTo(new Vec2(15,-2));
-                            this.shieldCount -= 1;
-                        }else{
-                            this.attackedVel.addTo(new Vec2(-15,-2));
-                            this.shieldCount -= 1;
-                        }
-                    }
-            }else{
-                if(this.checkRange(this.attackLeft.x+50,this.attackLeft.x+60,monster.upLeft.x,monster.upRight.x) && this.checkRange(this.attackLeft.y,this.attackLeft.y+50,monster.upLeft.y,monster.downRight.y))
-                {
-                    console.log("막았습니다.2");
-                    if(this.pos.x > monster.pos.x)
-                    {
-                        this.attackedVel.addTo(new Vec2(15,-2));
-                        this.shieldCount -= 1;
-                    }else{
-                        this.attackedVel.addTo(new Vec2(-15,-2));
-                        this.shieldCount -= 1;
-                    }
-                }
-            }
+    //                     console.log("막았습니다.1");
+    //                     if(this.pos.x > monster.pos.x)
+    //                     {
+    //                         this.attackedVel.addTo(new Vec2(15,-2));
+    //                         this.shieldCount -= 1;
+    //                     }else{
+    //                         this.attackedVel.addTo(new Vec2(-15,-2));
+    //                         this.shieldCount -= 1;
+    //                     }
+    //                 }
+    //         }else{
+    //             if(this.checkRange(this.attackLeft.x+50,this.attackLeft.x+60,monster.upLeft.x,monster.upRight.x) && this.checkRange(this.attackLeft.y,this.attackLeft.y+50,monster.upLeft.y,monster.downRight.y))
+    //             {
+    //                 console.log("막았습니다.2");
+    //                 if(this.pos.x > monster.pos.x)
+    //                 {
+    //                     this.attackedVel.addTo(new Vec2(15,-2));
+    //                     this.shieldCount -= 1;
+    //                 }else{
+    //                     this.attackedVel.addTo(new Vec2(-15,-2));
+    //                     this.shieldCount -= 1;
+    //                 }
+    //             }
+    //         }
             
 
 
-        }
-    }
+    //     }
+    // }
 
     checkDist(monsterList)
     {
@@ -1240,7 +1429,25 @@ class Player
             image(this.uiImage[2],x+1100-200,10,100,100);
             this.shieldCount = 0;
         }
+        if(this.rollCount == 3)
+        {
+            image(this.uiImage[6],x+200,0);
+        }else if(this.rollCount == 2)
+        {
+            image(this.uiImage[5],x+200,0);
+        }else if(this.rollCount == 1)
+        {
+            image(this.uiImage[4],x+200,0);
+        }else{
+            image(this.uiImage[3],x+200,0);
+        }
+        image(this.uiImage[8],x+300,0);
 
+        push();
+        fill(0,125);
+        rect(x+200,64,64,-64 * this.rollCountDeltaTime/3);
+        rect(x+300,64,64,-64 * this.skillCountDelta/5);
+        pop();
         rect(x+1020,120,100/10*this.guardRefillDelta,10);
         rect(x+1120,120,0,10);
 

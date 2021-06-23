@@ -17,7 +17,7 @@ class Pike{
     draw()
     {
         this.checkDeltaTime += deltaTime/1000;
-        console.log(this.checkDeltaTime);
+        
         push();
         imageMode(CENTER);
         if(this.checkDeltaTime > this.pikeTime)
@@ -41,12 +41,18 @@ class Pike{
         
         if(this.checkPike == 1)
         {
-            if(this.checkRange(this.pos.x-64,this.pos.x+64,player.upLeft.x,player.upRight.x) && this.checkRange(this.pos.y-64,this.pos.y+64,player.upLeft.y,player.downRight.y))
+            if(this.checkRange(this.pos.x-50,this.pos.x+50,player.upLeft.x,player.upRight.x) && this.checkRange(this.pos.y-64,this.pos.y+64,player.upLeft.y,player.downRight.y))
             {
                 if(player.attackedCheck == 0)
                 {
                     player.life--;
                     player.attackedCheck = 1;
+                    if(this.pos.x > player.pos.x+50)
+                    {
+                        player.attackedVel.x = -300;
+                    }else{
+                        player.attackedVel.x = 300;
+                    }
                 }
             }
         }
