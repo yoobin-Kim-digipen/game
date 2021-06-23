@@ -6,7 +6,7 @@ class PlatForm
         this.y = _y;
         this.width = _width;
         this._height = _height;
-        this.image = loadImage("/Assets/platForm.PNG");
+        this.image = loadImage("./Assets/platForm.PNG");
         this.base = _base;
         this.type = _type;
         this.vertical = _vertical;
