@@ -835,7 +835,7 @@ class Player
     {
         
 
-
+        
         // 가만히있는상태.
         if(!keyIsPressed && this.attackCheck == 0 && this.checkRoll == 0 && this.isSkill == 0)
         {
@@ -1020,6 +1020,13 @@ class Player
             this.startPlay = 1;
 
         }
+
+        if(keyIsDown(68) && this.shieldCount < 0)
+        {
+            this.isGuard = 0;
+        }
+
+
         if(!keyIsDown(68))
         {
             
@@ -1042,21 +1049,25 @@ class Player
 
         if(keyIsDown(83) && (keyIsDown(37) || this.checkA == 1) && this.checkRoll == 0 && !this.isJump && this.attackCheck == 0 && this.rollCount > 0 && this.isSkill == 0)
         {
+            console.log("여기는23?");
             this.animState = LEFTROLL;
             this.checkRoll = 1;
             this.startPlay = 1;
             this.rollCount--;
         }
-
+        
         if(this.checkRoll == 1)
         {
             if(this.checkA == 0)
             {
-                this.rollVec.x = 300;
+                this.moveVel.x = 0;
+                this.rollVec.x = 800;
             }else{
-                this.rollVec.x = -300;
+                this.moveVel.x = 0;
+                this.rollVec.x = -800;
             }
         }
+
 
 
 
@@ -1178,9 +1189,9 @@ class Player
                         {
                             console.log("add");
                             
-                            if(monster[a].type != 3)
+                            if(monster[a].type != 3 && monster[a].type != 5 )
                             {
-                                console.log("여기가 들어왔는가?");
+                                console.log("여기가 들어왔는가343434?");
                                 monster[a].animState = 7;
                                 monster[a].isAttacked = 1;
                             }
@@ -1189,9 +1200,9 @@ class Player
                             
                         }else{
                             
-                            if(monster[a].type != 3)
+                            if(monster[a].type != 3 && monster[a].type != 5)
                             {
-                                console.log("여기가 들어왔는가?");
+                                console.log("여기가 들어왔는가3434?");
                                 monster[a].animState = 8;
                                 monster[a].isAttacked = 1;
                             }
@@ -1235,7 +1246,7 @@ class Player
                         {
                             console.log("add");
                             
-                            if(monster[a].type != 3)
+                            if(monster[a].type != 3 && monster[a].type != 5)
                             {
                                 console.log("여기가 들어왔는가?");
                                 monster[a].animState = 7;
@@ -1246,7 +1257,7 @@ class Player
                             
                         }else{
                             
-                            if(monster[a].type != 3)
+                            if(monster[a].type != 3 && monster[a].type != 5)
                             {
                                 console.log("여기가 들어왔는가?");
                                 monster[a].animState = 8;
@@ -1474,13 +1485,19 @@ class Player
 
     }
 
-    checkLeft()
+    checkLeft(state)
     {
         if(this.pos.x < -25)
         {
             this.pos.x = -25;
         }
-        
+        if(state == 4)
+        {
+            if(this.pos.x > 1120)
+            {
+                this.pos.x = 1120;
+            } 
+        }
     }
 
 

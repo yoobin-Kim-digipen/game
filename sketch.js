@@ -44,6 +44,11 @@ let archerLA = [];
 let archerRA = [];
 let archerArrow = [];
 
+let bossMove = [];
+let bossLA = [];
+let bossRA = [];
+let bossEffect = [];
+
 
 let effectImage;
 
@@ -290,6 +295,58 @@ function preload()
 
     mainImage.push(loadImage("./Assets/MainMenu.png"));
     mainImage.push(loadImage("./Assets/Start.png"));
+
+    //Boss
+    bossEffect.push(loadImage("./Assets/Boss/defaiutImage/magic_1.png"));
+    bossEffect.push(loadImage("./Assets/Boss/defaiutImage/magic_2.png"));
+    bossEffect.push(loadImage("./Assets/Boss/defaiutImage/magic_3.png"));
+    bossEffect.push(loadImage("./Assets/Boss/defaiutImage/magic_4.png"));
+    bossEffect.push(loadImage("./Assets/Boss/defaiutImage/magic_5.png"));
+    bossEffect.push(loadImage("./Assets/Boss/defaiutImage/magic_6.png"));
+    bossEffect.push(loadImage("./Assets/Boss/defaiutImage/magic_7.png"));
+
+    bossLA.push(loadImage("./Assets/Boss/LeftAttack/LeftAttack_1.png"));
+    bossLA.push(loadImage("./Assets/Boss/LeftAttack/LeftAttack_2.png"));
+    bossLA.push(loadImage("./Assets/Boss/LeftAttack/LeftAttack_3.png"));
+    bossLA.push(loadImage("./Assets/Boss/LeftAttack/LeftAttack_4.png"));
+    bossLA.push(loadImage("./Assets/Boss/LeftAttack/LeftAttack_5.png"));
+    bossLA.push(loadImage("./Assets/Boss/LeftAttack/LeftAttack_6.png"));
+    bossLA.push(loadImage("./Assets/Boss/LeftAttack/LeftAttack_7.png"));
+    bossLA.push(loadImage("./Assets/Boss/LeftAttack/LeftAttack_8.png"));
+
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/RightAttack_1.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/RightAttack_2.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/RightAttack_3.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/RightAttack_4.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/RightAttack_5.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/RightAttack_6.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/RightAttack_7.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/RightAttack_8.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_1.png")); //8
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_2.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_3.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_4.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_5.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_6.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_7.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_8.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_9.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_10.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_11.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_12.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_13.png"));
+    bossRA.push(loadImage("./Assets/Boss/RightAttack/Right_2_14.png"));
+
+    bossMove.push(loadImage("./Assets/Boss/Move/Lmove_1.png"));
+    bossMove.push(loadImage("./Assets/Boss/Move/Lmove_2.png"));
+    bossMove.push(loadImage("./Assets/Boss/Move/Lmove_3.png"));
+    bossMove.push(loadImage("./Assets/Boss/Move/Lmove_4.png"));
+    bossMove.push(loadImage("./Assets/Boss/Move/Rmove_1.png"));
+    bossMove.push(loadImage("./Assets/Boss/Move/Rmove_2.png"));
+    bossMove.push(loadImage("./Assets/Boss/Move/Rmove_3.png"));
+    bossMove.push(loadImage("./Assets/Boss/Move/Rmove_4.png"));
+
+   
     
 
 
@@ -403,8 +460,7 @@ function setup()
     frameRate(60);
     defaultTime = 0;
     checkTime = 0;
-    stateCheck = 0;
-    backgroundMusic.loop();
+    stateCheck = 4;
     
 }
 
@@ -413,6 +469,10 @@ function draw()
     
     
     background( 0 );
+    if(!backgroundMusic.isPlaying())
+    {
+        backgroundMusic.play();
+    }
     push();
     if(!focused && screenCheck == 1)
     {
@@ -425,7 +485,7 @@ function draw()
     stateManager();
    
     
-    if(player.pos.x > 600 && player.pos.x <= cameraState-500)
+    if(player.pos.x > 600 && player.pos.x <= cameraState-500 && stateCheck != 4)
     {
         
         translate(-(player.pos.x-600),0);
@@ -439,7 +499,7 @@ function draw()
             text("Pause Press ESC",player.pos.x-100,300);
         }
         
-    }else if(player.pos.x >= cameraState-500)
+    }else if(player.pos.x >= cameraState-500 && stateCheck != 4)
     {
         
         translate(-(cameraState-1100),0);
@@ -481,15 +541,22 @@ function draw()
 
             
             updateMonsterAndPlatForm();
-            door.colPlayer(player);
-            door.animUpdate();
-            
+            if(door != null)
+            {
+                door.colPlayer(player);
+                door.animUpdate();
+            }
+           
+            if(key != null)
+                {
             if(slime.length == 0 && key.isRemove == 0)
             {
-            
-                key.draw();
-                key.checkPlayer(player,door);
+                
+                    key.draw();
+                    key.checkPlayer(player,door);
+                
             }
+        }
 
             push();
             player.updateAnim();
@@ -498,9 +565,10 @@ function draw()
             player.update();
             player.addGravity();
             player.checkCamera();
-            player.checkLeft();
+            player.checkLeft(stateCheck);
             cameraMove += player.cameraMove();
             playerCheck();
+            
 
 
     }
@@ -598,6 +666,14 @@ function firstStateSpawn(state)
 
         
         door = new Door(doorImage,3600,400,100,100);
+    }else if(state == 4)
+    {
+        slime.splice(0,slime.length);
+        platForm.splice(0,platForm.length);
+        slime.push(new Boss(5,bossEffect,500,450,25,-25,28,-50,40,bossRA,bossLA,bossMove,effectImage));
+        platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
+
+
     }
     
 }
@@ -629,6 +705,12 @@ function updateMonsterAndPlatForm()
                 slime[a].checkAttack(player);
                 slime[a].magic(player);
             }
+
+            if(slime[a].type == 5)
+            {
+                BossHp(slime[a]);
+            }
+
                 for(var b = 0;b<platForm.length;b++)
                 {
                     
@@ -675,7 +757,7 @@ function playerCheck()
         player.rollCount = 3;
         player.skillCount = 1;
         player.animState = 0;
-        player.isSkill = 0;
+        player.isSkill = 0;   
         player.attackCheck = 0;
 
         //이미지 오류시 여기로오기
@@ -699,7 +781,7 @@ function mainMenu()
     rect(500,400,200,50);
    
 }
-
+ 
 function mousePressed()
 {
     if(screenCheck == 0)
@@ -709,7 +791,7 @@ function mousePressed()
             screenCheck++;
         }
     }
-    console.log(mouseX);
+    
     
 }
 
@@ -722,4 +804,15 @@ function keyPressed()
     {
         checkPause = 1;
     }
+}
+
+function BossHp(boss)
+{
+    push();
+    textSize(30);
+    fill(0);
+    text("RichKing",400,100);
+    fill('red');
+    rect(530,80,300*(boss.life / 30),25);
+    pop();
 }
