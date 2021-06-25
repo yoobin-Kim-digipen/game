@@ -1,9 +1,10 @@
 class Boss 
 {
-    constructor(_type,_defaultImage,_x,_y,_right,_left,_up,_down,_rayDown,_rightAttack = null,_leftAttack,_moveImage,_effectImage)
+    constructor(_type,_defaultImage,_x,_y,_right,_left,_up,_down,_rayDown,_rightAttack = null,_leftAttack,_moveImage,_effectImage,sfx)
     {
 
         this.type = _type;
+        this.sfx = sfx;
 
 
         this.magicImage = _defaultImage;
@@ -42,11 +43,11 @@ class Boss
         this.up = _up;
         this.down = _down;
         //오른쪽 밑 왼쪽 밑.
-        this.downRight = new Vec2(this.pos.x+_right,this.pos.y+this.up);
+        this.downRight = new Vec2(this.pos.x+this.right,this.pos.y+this.up);
         this.downLeft = new Vec2(this.pos.x+_left,this.pos.y+this.up);
         //오른위 왼쪽 위
-        this.upRight = new Vec2(this.pos.x+_right,this.pos.y+this.down);
-        this.upLeft = new Vec2(this.pos.x+_left,this.pos.y+this.down);
+        this.upRight = new Vec2(this.pos.x+this.right,this.pos.y+this.down);
+        this.upLeft = new Vec2(this.pos.x+this.left,this.pos.y+this.down);
 
         //레이 선.
         this.rayDown = _rayDown;
@@ -54,7 +55,7 @@ class Boss
 
         this.isAttacked = 0;
 
-        this.life = 30;
+        this.life = 3;
 
 
         this.isPlayer = 0;
@@ -145,6 +146,7 @@ class Boss
 
         //change range
         this.range = 0;
+        this.musicCheck = 0;
 
         
 
@@ -155,6 +157,9 @@ class Boss
     {
         push();
         imageMode(CENTER);
+
+        quad(this.upLeft.x,this.upLeft.y,this.upRight.x,this.upRight.y,this.downRight.x,this.downRight.y,this.downLeft.x,this.downLeft.y);
+
         if(this.patternIs == 0)
         {
             this.patternDeltaTime += deltaTime/1000;
@@ -184,30 +189,29 @@ class Boss
                 {
                     image(this.moveImage[4],this.pos.x,this.pos.y-40,300,300);
                 }else{
-                    image(this.moveImage[0],this.pos.x,this.pos.y-40,300,300);
+                    image(this.moveImage[0],this.pos.x-20,this.pos.y-40,300,300);
                 }
                 
             //왼쪽 움직임.
             }else if(this.animState == 1)
             {
-                    this.rightWalkDelta += deltaTime/1000;
+                this.rightWalkDelta += deltaTime/1000;
                 if(this.rightWalkDelta > 0.8)
                 {
-                    
-                    image(this.moveImage[3],this.pos.x,this.pos.y-40,300,300);
+                    image(this.moveImage[3],this.pos.x-20,this.pos.y-40,300,300);
                     this.rightWalkDelta = 0;
                 }else if(this.rightWalkDelta >0.6)
                 {
-                    image(this.moveImage[3],this.pos.x,this.pos.y-40,300,300);
+                    image(this.moveImage[3],this.pos.x-20,this.pos.y-40,300,300);
                 }else if(this.rightWalkDelta >0.4)
                 {
-                    image(this.moveImage[2],this.pos.x,this.pos.y-40,300,300);
+                    image(this.moveImage[2],this.pos.x-20,this.pos.y-40,300,300);
                 }else if(this.rightWalkDelta >0.2)
                 {
-                    image(this.moveImage[1],this.pos.x,this.pos.y-40,300,300);
+                    image(this.moveImage[1],this.pos.x-20,this.pos.y-40,300,300);
                 }else
                 {
-                    image(this.moveImage[0],this.pos.x,this.pos.y-40,300,300);
+                    image(this.moveImage[0],this.pos.x-20,this.pos.y-40,300,300);
                 }
             //오른쪽 움직임
             }else if(this.animState == 2)
@@ -242,7 +246,7 @@ class Boss
                 if(this.rightAttackDelta > 1.85)
                 {
                     image(this.rightAttack[7],this.pos.x,this.pos.y-40,400,400);
-                    console.log("add2");
+                    
                     this.isCanParry = 0;
                     this.isAttack = 0;
                     
@@ -257,6 +261,7 @@ class Boss
                     image(this.rightAttack[7],this.pos.x,this.pos.y-40,400,400);
                     this.vel.x = 0;
                     this.isAttack = 1;
+                    this.musicCheck = 0;
                 }
                 else if(this.rightAttackDelta > 1.35 && this.rightAttackDelta < 1.60)
                 {
@@ -265,6 +270,11 @@ class Boss
                     this.wide = 0;
                     this.isAttack = 0;
                     this.playerShieldCheck = 0;
+                    if(this.musicCheck == 0)
+                    {
+                        this.sfx[3].play();
+                        this.musicCheck = 1;
+                    }
                 }else if(this.rightAttackDelta > 1.10 && this.rightAttackDelta < 1.35)
                 {
                     
@@ -278,9 +288,14 @@ class Boss
                     this.vel.x = 600;
                     this.wide = 1;
                     this.isAttack = 1;
+                    this.musicCheck = 0;
                 }else if(this.rightAttackDelta > 0.6 && this.rightAttackDelta < 0.85)
                 {
-                    
+                    if(this.musicCheck == 0)
+                    {
+                        this.sfx[3].play();
+                        this.musicCheck = 1;
+                    }
                     image(this.rightAttack[3],this.pos.x,this.pos.y-40,400,400);
                     this.isAttack = 0;
                     this.playerShieldCheck = 0;
@@ -289,11 +304,16 @@ class Boss
                     
                     this.isCanParry = 1;
                     this.isAttack = 1;
+                    this.musicCheck = 0;
                     image(this.rightAttack[2],this.pos.x,this.pos.y-40,400,400);
                 }else if(this.rightAttackDelta > 0.2 && this.rightAttackDelta < 0.4)
                 {
 
-
+                    if(this.musicCheck == 0)
+                    {
+                        this.sfx[3].play();
+                        this.musicCheck = 1;
+                    }
                     image(this.rightAttack[1],this.pos.x,this.pos.y-40,400,400);
                 }else
                 {
@@ -311,8 +331,8 @@ class Boss
                 this.leftAttackDelta += deltaTime/1000;
                 if(this.leftAttackDelta > 1.85)
                 {
-                    image(this.leftAttack[7],this.pos.x,this.pos.y-40,400,400);
-                    console.log("add2");
+                    image(this.leftAttack[7],this.pos.x-20,this.pos.y-40,400,400);
+                  
                     this.isCanParry = 0;
                     this.isAttack = 0;
                     this.playerShieldCheck = 0;
@@ -325,52 +345,70 @@ class Boss
                 }else if(this.leftAttackDelta > 1.60 && this.leftAttackDelta < 1.85)
                 {
                     
-                    image(this.leftAttack[7],this.pos.x,this.pos.y-40,400,400);
+                    image(this.leftAttack[7],this.pos.x-20,this.pos.y-40,400,400);
                     this.vel.x = 0;
                     this.isAttack = 1;
+                    this.musicCheck = 0;
                 }
                 else if(this.leftAttackDelta > 1.35 && this.leftAttackDelta < 1.60)
                 {
-                    image(this.leftAttack[6],this.pos.x,this.pos.y-40,400,400);
+                    image(this.leftAttack[6],this.pos.x-20,this.pos.y-40,400,400);
                     this.vel.x = -600;
                     this.wide = 0;
                     this.isAttack = 0;
                     this.playerShieldCheck = 0;
+                    if(this.musicCheck == 0)
+                    {
+                        this.sfx[3].play();
+                        this.musicCheck = 1;
+                    }
                 }else if(this.leftAttackDelta > 1.10 && this.leftAttackDelta < 1.35)
                 {
                     
-                    image(this.leftAttack[5],this.pos.x,this.pos.y-40,400,400);
+                    image(this.leftAttack[5],this.pos.x-20,this.pos.y-40,400,400);
                     this.vel.x = 0;
                 }else if(this.leftAttackDelta > 0.85 && this.leftAttackDelta < 1.10)
                 {
                     
-                    image(this.leftAttack[4],this.pos.x,this.pos.y-40,400,400);
+                    image(this.leftAttack[4],this.pos.x-20,this.pos.y-40,400,400);
                     this.vel.x = -600;
                     this.wide = 1;
                     this.isAttack = 1;
+                    this.musicCheck = 0;
                 }else if(this.leftAttackDelta > 0.6 && this.leftAttackDelta < 0.85)
                 {
                     
-                    image(this.leftAttack[3],this.pos.x,this.pos.y-40,400,400);
+                    image(this.leftAttack[3],this.pos.x-20,this.pos.y-40,400,400);
                     this.isAttack = 0;
                     this.playerShieldCheck = 0;
+                    if(this.musicCheck == 0)
+                    {
+                        this.sfx[3].play();
+                        this.musicCheck = 1;
+                    }
                 }else if(this.leftAttackDelta > 0.4 && this.leftAttackDelta<0.6)
                 {
                     
                     this.isCanParry = 1;
                     this.isAttack = 1;
-                    image(this.leftAttack[2],this.pos.x,this.pos.y-40,400,400);
+                    this.musicCheck = 0;
+                    image(this.leftAttack[2],this.pos.x-20,this.pos.y-40,400,400);
                 }else if(this.leftAttackDelta > 0.2 && this.leftAttackDelta < 0.4)
                 {
 
 
-                    image(this.leftAttack[1],this.pos.x,this.pos.y-40,400,400);
+                    image(this.leftAttack[1],this.pos.x-20,this.pos.y-40,400,400);
+                    if(this.musicCheck == 0)
+                    {
+                        this.sfx[3].play();
+                        this.musicCheck = 1;
+                    }
                 }else
                 {
                     this.isCanParry = 0;
                     this.isAttack = 0;
                     this.playerShieldCheck = 0;
-                    image(this.leftAttack[0],this.pos.x,this.pos.y-40,400,400);
+                    image(this.leftAttack[0],this.pos.x-20,this.pos.y-40,400,400);
                     
                     
                 }
@@ -384,6 +422,7 @@ class Boss
                     this.behaviorCheck = 0;
                     this.magicDeltaTime = 0;
                     this.patternIs = 0;
+                    this.musicCheck = 0;
 
 
                     
@@ -432,6 +471,11 @@ class Boss
                     image(this.rightAttack[9],this.pos.x,this.pos.y-40,400,400);
                 }else{
                     image(this.rightAttack[8],this.pos.x,this.pos.y-40,400,400);
+                    if(this.musicCheck == 0)
+                    {
+                        this.sfx[2].play();
+                        this.musicCheck = 1;
+                    }
                 }
 
                 
@@ -510,7 +554,6 @@ class Boss
             {
                 this.isMagic = 1;
                 this.range = 50;
-                console.log(this.isMagic);
                 image(this.magicImage[1],this.playerPos_x,this.playerPos_y-120,300,300);
                 
                 
@@ -531,6 +574,7 @@ class Boss
                     this.rightAttackDelta = 0;
                     this.leftAttackDelta = 0;
                     this.behaviorCheck = 0;
+                    this.musicCheck = 0;
                     
                 
             }
@@ -542,7 +586,6 @@ class Boss
 
        }
 
-       console.log(this.animState, this.pattern);
     }
 
 
@@ -600,7 +643,6 @@ class Boss
                 
                 // this.vel.x = 0;
                 this.animState = 1;
-                console.log("여기가 일단 들어와야지 아루");
                 // this.vel.x = -(this.pos.x-player.pos.x)
                 this.vel.x = -350;
                 this.checkA = 1;
@@ -615,7 +657,6 @@ class Boss
                         this.leftWalkDelta = 0;
                         this.rightWalkDelta = 0;
                         this.vel.x = 0;
-                        console.log("여기인가erer32424");
                     }
                 
             }else if(player.pos.x+40 > this.pos.x && this.behaviorCheck == 0 && this.isAttack == 0 && this.isAttacked == 0){
@@ -637,7 +678,6 @@ class Boss
                         this.rightWalkDelta = 0;
                         this.leftWalkDelta = 0;
                         this.vel.x = 0;
-                        console.log("여기인가ere111r");
                     }
                 
             }
@@ -647,7 +687,7 @@ class Boss
             this.isBehavior = 0;
         }
     }else{
-        console.log("여기로 들어와지나 설마?");
+        
         this.behaviorCheck = 1;
         this.animState = 5;
         this.acc.x = 0;
@@ -661,7 +701,7 @@ class Boss
 }else{
     this.animState = 0;
 }
-
+    
     }
 
 
@@ -690,11 +730,8 @@ class Boss
         }else{
             this.ray.set(this.pos.x+this.right+20,this.pos.y+this.rayDown)
         }
-        //this.downRight = new Vec2(this.pos.x+_right,this.pos.y+27.5);
         this.downRight.set(this.pos.x+this.right,this.pos.y+this.up);
         this.downLeft.set(this.pos.x+this.left,this.pos.y+this.up)
-        //this.upRight = new Vec2(this.pos.x+_right,this.pos.y-27.5);
-        // this.upLeft = new Vec2(this.pos.x+_left,this.pos.y-27.5);
         this.upRight.set(this.pos.x+this.right,this.pos.y+this.down);
         this.upLeft.set(this.pos.x+this.left,this.pos.y+this.down);
 
@@ -718,37 +755,10 @@ class Boss
 
     }
 
+
     moveUpdate()
     {
-        // if(this.isPlayer == 0)
-        // {
-        //     this.moveDelta += deltaTime/1000;
-        //     if(this.moveDelta > 4)
-        //     {
-        //         this.moveState = floor(random(0,4));
-        //         this.moveDelta = 0;
-        //         if(this.moveState == 1)
-        //         {
-                    
-        //             // this.acc.set(-1,0);
-        //             this.vel.x = -300;
-        //             this.animState = 1;
-        //         }else if(this.moveState == 2)
-        //         {
-        //             // this.acc.set(1,0);
-        //             this.vel.x = 300;
-        //             this.animState = 2;
-        //         }
-        //     }
-        //     if(this.moveState == 0)
-        //     {
-        //         this.acc.set(0,0);
-        //         this.vel.set(0,0);
-        //         this.animState = 0;
-        //     }
-        // }
-        // this.vel.limit(2);
-
+        
     }
 
     platformCheck(platform)
@@ -890,6 +900,7 @@ class Boss
                             if(player.attackedCheck == 0)
                             {
                                 player.life -= 1;
+                                this.sfx[0].play();
                             }
 
                             player.attackedCheck = 1;
@@ -905,7 +916,8 @@ class Boss
                             {
                                 player.shieldCount -= 1;
                                 player.shieldCheck = 1;
-                                console.log("여기인가?");
+                                this.sfx[1].play();
+                                
                             }
                             this.playerShieldCheck = 1;
                             player.shieldVel.x = 300;
@@ -917,6 +929,7 @@ class Boss
                         {
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[0].play();
                                 player.life -= 1;
                             }
 
@@ -934,7 +947,7 @@ class Boss
                             {
                                 player.shieldCount -= 1;
                                 player.shieldCheck = 1;
-                                console.log("여기인가?");
+                                this.sfx[1].play();
                             }
                             this.playerShieldCheck = 1;
                             player.shieldVel.x = 300;
@@ -952,6 +965,7 @@ class Boss
                         {
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[0].play();
                                 player.life -= 1;
                             }
 
@@ -968,7 +982,7 @@ class Boss
                             {
                                 player.shieldCount -= 1;
                                 player.shieldCheck = 1;
-                                console.log("여기인가?");
+                                this.sfx[1].play();
                             }
                             this.playerShieldCheck = 1;
                             player.shieldVel.x = -300;
@@ -981,6 +995,7 @@ class Boss
                         {
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[0].play();
                                 player.life -= 1;
                             }
 
@@ -996,8 +1011,8 @@ class Boss
                             if(this.playerShieldCheck == 0)
                             {
                                 player.shieldCount -= 1;
+                                this.sfx[1].play();
                                 player.shieldCheck = 1;
-                                console.log("여기인가?");
                             }
                             this.playerShieldCheck = 1;
                             player.shieldVel.x = -300;
@@ -1016,7 +1031,6 @@ class Boss
                     
                    
                         
-                        console.log("여기는 일단 맞는가?");
                         if(this.checkRange(this.playerPos_x+50,this.playerPos_x+250,player.upLeft.x,player.upRight.x) && this.checkRange(this.attackLeft.y+70-this.range,this.attackLeft.y+70,player.upLeft.y,player.downRight.y))
                         {
     
@@ -1027,6 +1041,7 @@ class Boss
                                 if(player.attackedCheck == 0)
                                 {
                                     player.life -= 1;
+                                    this.sfx[0].play();
                                 }
     
                                 player.attackedCheck = 1;

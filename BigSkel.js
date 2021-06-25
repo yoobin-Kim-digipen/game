@@ -1,9 +1,10 @@
 class BigSkel
 {
-    constructor(_type,_defaultImage,_x,_y,_right,_left,_up,_down,_rayDown,_rightAttack = null,_leftAttack,_moveImage,_effectImage)
+    constructor(_type,_defaultImage,_x,_y,_right,_left,_up,_down,_rayDown,_rightAttack = null,_leftAttack,_moveImage,_effectImage,sfx)
     {
 
         this.type = _type;
+        this.sfx = sfx;
 
 
         this.magicImage = _defaultImage;
@@ -131,6 +132,7 @@ class BigSkel
         
         
         this.platformCheckY = 0;
+        this.musicCheck = 0;
 
         
 
@@ -141,32 +143,6 @@ class BigSkel
     {
         push();
         imageMode(CENTER);
-        //페링 타이밍 재주는 Rect 위에 바.
-        // if(this.rightAttackDelta > 1.0 && this.rightAttackDelta < 1.3)
-        // {
-        //     fill('red');
-        //     rect(this.pos.x-20,this.pos.y-65,this.rightAttackDelta*30,10);
-        // }else{
-        //     fill(255);
-        //     rect(this.pos.x-20,this.pos.y-65,this.rightAttackDelta*30,10);
-        // }
-
-        // rect(this.pos.x-20,this.pos.y-65,this.rightAttackDelta*30,10);
-        // rect(this.pos.x-20,this.pos.y-65,this.leftAttackDelta*30,10);
-
-        // if(this.leftAttackDelta > 1.0 && this.leftAttackDelta < 1.3)
-        // {
-        //     fill('red');
-        //     rect(this.pos.x-20,this.pos.y-65,this.leftAttackDelta*30,10);
-        // }else{
-        //     fill(255);
-        //     rect(this.pos.x-20,this.pos.y-65,this.leftAttackDelta*30,10);
-        // }
-
-        
-
-
-
         if(this.type == 3)
         {
             
@@ -491,6 +467,7 @@ class BigSkel
                 this.magicCheck = 0;
                 this.isMagic = 0;
                 this.whereMagic = 0;
+                this.musicCheck = 0;
                }else if(this.magicDeltaTime >0.70 && this.magicDeltaTime <0.77)
                {
                 //11
@@ -542,6 +519,11 @@ class BigSkel
                 
                 //1
                 image(this.magicImage[12],this.playerPos_x,this.playerPos_y-120,300,300);
+                if(this.musicCheck == 0)
+                {
+                    this.sfx[0].play();
+                    this.musicCheck = 1;
+                }
                }
            }else if(this.whereMagic == 2){
             console.log("여기이길바라요");
@@ -553,6 +535,7 @@ class BigSkel
              this.magicCheck = 0;
              this.isMagic = 0;
              this.whereMagic = 0;
+             this.musicCheck = 0;
             }else if(this.magicDeltaTime >0.70 && this.magicDeltaTime <0.77)
             {
                 //11
@@ -602,6 +585,11 @@ class BigSkel
             }else if(this.magicDeltaTime > 0){
              //1
              image(this.magicImage[0],this.playerPos_x-200,this.playerPos_y-120,300,300);
+             if(this.musicCheck == 0)
+                {
+                    this.sfx[0].play();
+                    this.musicCheck = 1;
+                }
             }
            }
        }else{
@@ -924,6 +912,7 @@ class BigSkel
                         {
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[1].play();
                                 player.life -= 1;
                             }
 
@@ -939,6 +928,7 @@ class BigSkel
                         
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[1].play();
                                 player.life -=1;
                             }
                             player.attackedCheck = 1;
@@ -966,6 +956,7 @@ class BigSkel
                         {
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[1].play();
                                 player.life -= 1;
                             }
 
@@ -981,6 +972,7 @@ class BigSkel
                         
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[1].play();
                                 player.life -=1;
                             }
                             player.attackedCheck = 1;
@@ -1022,6 +1014,7 @@ class BigSkel
                             {
                                 if(player.attackedCheck == 0)
                                 {
+                                    this.sfx[1].play();
                                     player.life -= 1;
                                 }
     
@@ -1052,6 +1045,7 @@ class BigSkel
                             
                                 if(player.attackedCheck == 0)
                                 {
+                                    this.sfx[1].play();
                                     player.life -=1;
                                 }
                                 player.attackedCheck = 1;

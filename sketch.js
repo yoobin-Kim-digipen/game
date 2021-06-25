@@ -95,6 +95,12 @@ let checkPause = false;
 let cameraState = 2400;
 
 let backgroundMusic;
+let sfx = [];
+let skelSfx = [];
+let bigSfx = [];
+let archerSfx = [];
+let mageSfx = [];
+let bossSfx = [];
 
 
 
@@ -104,6 +110,28 @@ function preload()
     //뮤직
     backgroundMusic = loadSound("./Assets/Music/The golden Forest.mp3");
 
+    sfx.push(loadSound("./Assets/Music/471097__spycrah__knife-sword-swing.wav"));
+    sfx.push(loadSound("./Assets/Music/161378__vinrax__bone-crack4.wav"));
+    sfx.push(loadSound("./Assets/Music/274833_rempen_forest-dry-leaves-walk.wav"));
+    sfx.push(loadSound("./Assets/Music/422760__kierankeegan__jump-forest-2.wav"));
+    skelSfx.push(loadSound("./Assets/Music/319590__hybrid-v__shield-bash-impact.wav"));
+    skelSfx.push(loadSound("./Assets/Music/263008__dermotte__metallic-hit.wav"));
+
+    bigSfx.push(loadSound("./Assets//Music/191694__deleted-user-3544904__explosion-4 .wav"));
+    bigSfx.push(loadSound("./Assets/Music/263008__dermotte__metallic-hit.wav"));
+    
+    archerSfx.push(loadSound("./Assets/Music/263008__dermotte__metallic-hit.wav"));
+    archerSfx.push(loadSound("./Assets/Music/319590__hybrid-v__shield-bash-impact.wav"));
+    archerSfx.push(loadSound("./Assets/Music/511489__lydmakeren__fx-bow.wav"));
+    archerSfx.push(loadSound("./Assets/Music/511489__lydmakeren__fxarrow2.wav"));
+
+    mageSfx.push(loadSound("./Assets/Music/263008__dermotte__metallic-hit.wav"));
+    mageSfx.push(loadSound("./Assets/Music/396499__alonsotm__icespell03.wav"));
+    
+    bossSfx.push(loadSound("./Assets/Music/263008__dermotte__metallic-hit.wav"));
+    bossSfx.push(loadSound("/Assets/Music/319590__hybrid-v__shield-bash-impact.wav"));
+    bossSfx.push(loadSound("/Assets/Music/396499__alonsotm__icespell03.wav"));
+    bossSfx.push(loadSound("./Assets/Music/420612__glaneur-de-sons__sword-swing-b-strong-02.wav"));
 
     platFormImage = loadImage("./Assets/platForm.png");
 
@@ -295,6 +323,7 @@ function preload()
 
     mainImage.push(loadImage("./Assets/MainMenu.png"));
     mainImage.push(loadImage("./Assets/Start.png"));
+    mainImage.push(loadImage("./Assets/End.png"));
 
     //Boss
     bossEffect.push(loadImage("./Assets/Boss/defaiutImage/magic_1.png"));
@@ -357,6 +386,7 @@ function preload()
     verPlatForm = loadImage("./Assets/PlatForm/Vetical_Platfrom.png");
     //아이템
     itemImage.push(loadImage("./Assets/Item/Key.png"));
+    itemImage.push(loadImage("./Assets/Item/EndingItem.png"));
 
     //이펙트 이미지
     effectImage = loadImage("./Assets/Effect/Effect.png");
@@ -373,7 +403,6 @@ function preload()
     
     skeletonDefault.push(loadImage("./Assets/Skleton/AttackedRight/AttackedRIght_2.png"));
     skeletonDefault.push(loadImage("./Assets/Skleton/AttackedLeft/LeftAttacked_2.png"));
-
 
 
     skelRAttack.push(loadImage("./Assets/Skleton/rAttack/attackR_1.png"));
@@ -434,21 +463,7 @@ function preload()
 
     pikeImage.push(loadImage("./Assets/PlatForm/Pike_1.PNG"));
     pikeImage.push(loadImage("./Assets/PlatForm/Pike_2.PNG"));
-
-
-    
-    player = new Player(defaultImage, rightMoveImage , leftMoveImage,leftAttackImage, rightAttackImage,rigthGuardImage,leftGuardImage,uiImage,RRollImage);
-    // platForm.push(new PlatForm(0,500,1200,100,true,0));
-    // platForm.push(new PlatForm(1300,500,1200,100,true,0));
-    // platForm.push(new PlatForm(900,300,1200,100,false,0));
-    // platForm_2.push(new PlatForm(0,500,1200,100,true,0));
-    // platForm_2.push(new PlatForm(1300,500,1200,100,true,0));
-    // platForm_2.push(new PlatForm(900,300,1200,100,false,0));
-    
-
-
-    //_x,_y,_width,_height,_base,_type,_vertical = 
-    
+    player = new Player(defaultImage, rightMoveImage , leftMoveImage,leftAttackImage, rightAttackImage,rigthGuardImage,leftGuardImage,uiImage,RRollImage,sfx);
     
 }
 
@@ -460,8 +475,8 @@ function setup()
     frameRate(60);
     defaultTime = 0;
     checkTime = 0;
-    stateCheck = 4;
-    
+    stateCheck = 5 ; 
+      
 }
 
 function draw()
@@ -471,7 +486,16 @@ function draw()
     background( 0 );
     if(!backgroundMusic.isPlaying())
     {
+        push();
         backgroundMusic.play();
+        backgroundMusic.setVolume(0.2);
+        pop();
+        console.log("여기가안디ㅗ요ㅠㅠ");
+    }
+    if(!backgroundMusic.isLoaded())
+    {
+        backgroundMusic = loadSound("./Assets/Music/The golden Forest.mp3");
+        console.log("여기가안디ㅗ요345345ㅠㅠ");
     }
     push();
     if(!focused && screenCheck == 1)
@@ -485,7 +509,7 @@ function draw()
     stateManager();
    
     
-    if(player.pos.x > 600 && player.pos.x <= cameraState-500 && stateCheck != 4)
+    if(player.pos.x > 600 && player.pos.x <= cameraState-500 && stateCheck != 5)
     {
         
         translate(-(player.pos.x-600),0);
@@ -499,7 +523,7 @@ function draw()
             text("Pause Press ESC",player.pos.x-100,300);
         }
         
-    }else if(player.pos.x >= cameraState-500 && stateCheck != 4)
+    }else if(player.pos.x >= cameraState-500 && stateCheck != 5)
     {
         
         translate(-(cameraState-1100),0);
@@ -541,22 +565,30 @@ function draw()
 
             
             updateMonsterAndPlatForm();
-            if(door != null)
+            if(door != 0)
             {
                 door.colPlayer(player);
                 door.animUpdate();
             }
            
-            if(key != null)
-                {
-            if(slime.length == 0 && key.isRemove == 0)
+            if(key != 0)
             {
-                
-                    key.draw();
-                    key.checkPlayer(player,door);
-                
+                if(slime.length == 0 && key.isRemove == 0)
+                {
+                        key.draw();
+                        if(door != 0)
+                        {
+                            key.checkPlayer(player,door);
+                        }else{
+                            key.checkPlayer(player,0);
+                        }
+                    
+                }else if(slime.length == 0 && key.isRemove == 1 && key.type == 1)
+                {
+                    screenCheck++;
+                    key = 0;
+                }
             }
-        }
 
             push();
             player.updateAnim();
@@ -576,12 +608,19 @@ function draw()
     pop();
     }else if(screenCheck == 0){
         mainMenu();
+    }else if(screenCheck == 2)
+    {
+        endMenu();
     }
     
     
 }
 
-
+function endMenu()
+{
+    image(backgroundImage,0,0);
+    image(mainImage[2],0,0,1200,600);
+}
 
 
 
@@ -597,9 +636,14 @@ function stateManager()
         cameraMove = 0;
         spawnCheck = 0;
         player.startPlay = 0;
-        if(stateCheck == 1)
+        if(stateCheck == 3)
         {
-            cameraState = 3600;
+            console.log("addad")
+            cameraState = 2200;
+        }else if(stateCheck == 4){
+            cameraState = 3500;
+        }else{
+            cameraState = 2400;
         }
         
         
@@ -614,65 +658,157 @@ function firstStateSpawn(state)
         platForm.splice(0,platForm.length);
 
         door = new Door(doorImage,2400,400,100,100);
-        key = new Item(itemImage,1800,440);
+        key = new Item(itemImage[0],1800,200,0);
         platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
         platForm.push(new PlatForm(1300,500,1200,100,true,0,0,platFormImage));
         platForm.push(new PlatForm(900,300,1200,100,false,0,0,platFormImage));
         platForm.push(new PlatForm(2400,0,100,400,true,1,verPlatForm));
-        platForm.push(new Pike(500,436,pikeImage,10.0));
+        
 
-        slime.push(new Skeleton(1,skeletonDefault,1200,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage));
-        slime.push(new Skeleton(1,skeletonDefault,1400,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage));
-        // slime.push(new Skeleton(1,skeletonDefault,1500,150,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage));
-        // slime.push(new Skeleton(1,skeletonDefault,1000,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage));
-        // slime.push(new Skeleton(1,skeletonDefault,900,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage));
-        // // slime.push(new Skeleton(1,skeletonDefault,550,350,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage));
-        // // slime.push(new Skeleton(1,skeletonDefault,400,350,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));
-        slime.push(new Skeleton(1,skeletonDefault,2000,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));
-        slime.push(new Skeleton(1,skeletonDefault,2100,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));
+        slime.push(new Skeleton(1,skeletonDefault,1200,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,1400,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,1500,150,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,1000,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,900,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,2000,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,2100,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+
+        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,1600,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
         // // slime.push(new Skeleton(1,skeletonDefault,1900,350,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));
         // // slime.push(new Mage(2,magicImage,400,350,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage));
-        slime.push(new BigSkel(3,bigSkelEffect,2300,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage));
-        slime.push(new Archer(4,archerArrow,1100,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage));
+        // slime.push(new BigSkel(3,bigSkelEffect,2300,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage));
+        // slime.push(new Archer(4,archerArrow,1100,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage));
         // slime.push(new Archer(4,archerArrow,450,350,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage));
-        slime.push(new Mage(2,magicImage,1600,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage));
+        // slime.push(new Mage(2,magicImage,1600,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage));
     }else if(state == 1)
     {
         slime.splice(0,slime.length);
         platForm.splice(0,platForm.length);
 
         
-        key = new Item(itemImage,3000,440);
+        key = new Item(itemImage[0],1800,200,0);
+        door = new Door(doorImage,2400,400,100,100);
 
         platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
         platForm.push(new PlatForm(1300,500,1200,100,true,0,0,platFormImage));
         platForm.push(new PlatForm(900,300,1200,100,false,0,0,platFormImage));
-        platForm.push(new PlatForm(2500,500,1200,100,false,0,0,platFormImage));
-        platForm.push(new PlatForm(3600,0,100,400,true,1,verPlatForm));
-        slime.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage));
-        slime.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));
-        slime.push(new Mage(2,magicImage,700,450,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage));
+        platForm.push(new PlatForm(2400,0,100,400,true,1,verPlatForm));
 
-        slime.push(new Skeleton(1,skeletonDefault,2000,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));
-        slime.push(new Skeleton(1,skeletonDefault,1700,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));
-        slime.push(new BigSkel(3,bigSkelEffect,2000,250,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage));
+        slime.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new BigSkel(3,bigSkelEffect,700,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        
 
-        slime.push(new Archer(4,archerArrow,3000,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage));
-        slime.push(new Archer(4,archerArrow,3100,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage));
-        slime.push(new Mage(2,magicImage,3300,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage));
-        slime.push(new BigSkel(3,bigSkelEffect,2800,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage));
-        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));
-        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));
+        slime.push(new Skeleton(1,skeletonDefault,2000,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,1700,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new BigSkel(3,bigSkelEffect,2000,250,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+
+        slime.push(new BigSkel(3,bigSkelEffect,2300,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        
+
+    }else if(state == 2)
+    {
+        slime.splice(0,slime.length);
+        platForm.splice(0,platForm.length);
 
         
-        door = new Door(doorImage,3600,400,100,100);
+        key = new Item(itemImage[0],1800,200,0);
+        door = new Door(doorImage,2400,400,100,100);
+
+        platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
+        platForm.push(new PlatForm(1300,500,1200,100,true,0,0,platFormImage));
+        platForm.push(new PlatForm(900,300,1200,100,false,0,0,platFormImage));
+        platForm.push(new PlatForm(2400,0,100,400,true,1,verPlatForm));
+
+        slime.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Mage(2,magicImage,700,450,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
+        
+
+        slime.push(new Skeleton(1,skeletonDefault,2000,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,1700,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Mage(2,magicImage,2000,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
+
+        
+        slime.push(new Mage(2,magicImage,2300,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
+        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+
+
+
+
+
+    }else if(state == 3)
+    {
+        slime.splice(0,slime.length);
+        platForm.splice(0,platForm.length);
+        key = new Item(itemImage[0],2000,200,0);
+        door = new Door(doorImage,2200,400,100,100);
+        platForm.push(new PlatForm(2200,0,100,400,true,1,verPlatForm));
+
+        platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
+        platForm.push(new PlatForm(1200,500,1200,100,true,0,0,platFormImage));
+        
+        platForm.push(new Pike(380,436,pikeImage,5.0,1));
+
+        platForm.push(new Pike(500,436,pikeImage,5.0,1));
+        platForm.push(new Pike(620,436,pikeImage,5.0,1));
+        platForm.push(new Pike(740,436,pikeImage,5.0,1));
+
+        platForm.push(new Pike(840+100,436,pikeImage,3.0,0));
+        platForm.push(new Pike(960+100+50,436,pikeImage,3.0,1));
+        platForm.push(new Pike(1080+100+100,436,pikeImage,3.0,0));
+        platForm.push(new Pike(1200+100+150,436,pikeImage,3.0,1));
+        platForm.push(new Pike(1320+100+200,436,pikeImage,3.0,0));
+        platForm.push(new Pike(1440+100+250,436,pikeImage,3.0,1));
+        slime.push(new Archer(4,archerArrow,2100,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage,1,archerSfx));
     }else if(state == 4)
     {
         slime.splice(0,slime.length);
         platForm.splice(0,platForm.length);
-        slime.push(new Boss(5,bossEffect,500,450,25,-25,28,-50,40,bossRA,bossLA,bossMove,effectImage));
-        platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
 
+        
+        key = new Item(itemImage[0],3400,200,0);
+        door = new Door(doorImage,3500,400,100,100);
+
+        platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
+        platForm.push(new PlatForm(1300,500,2400,100,true,0,0,platFormImage));
+        platForm.push(new PlatForm(900,300,1200,100,false,0,0,platFormImage));
+        platForm.push(new PlatForm(3500,0,100,400,true,1,verPlatForm));
+
+        slime.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        slime.push(new BigSkel(3,bigSkelEffect,400,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        slime.push(new BigSkel(3,bigSkelEffect,700,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        
+
+        slime.push(new Skeleton(1,skeletonDefault,2000,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,1700,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        
+        slime.push(new Mage(2,magicImage,2000,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
+
+
+        slime.push(new BigSkel(3,bigSkelEffect,2300,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        slime.push(new Archer(4,archerArrow,2900,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage,1,archerSfx));
+        slime.push(new Archer(4,archerArrow,3000,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage,1,archerSfx));
+
+
+
+    }
+    else if(state == 5)
+    {
+        slime.splice(0,slime.length);
+        door = 0
+        platForm.splice(0,platForm.length);
+        key = new Item(itemImage[1],600,200,1);
+        slime.push(new Boss(5,bossEffect,500,450,15,-40,28,-50,40,bossRA,bossLA,bossMove,effectImage,bossSfx));
+        platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
 
     }
     
@@ -746,14 +882,33 @@ function playerCheck()
     }
     if(player.life <1)
     {
-        stateCheck = 0;
+        
+        if(stateCheck < 3)
+        {
+            stateCheck = 0
+        }else if(stateCheck == 5)
+        {
+            stateCheck = 5
+        }else{
+            stateCheck = 3
+        }
+        
         spawnCheck = 0;
         player.pos.x = 100;
         player.pos.y = 480;
         player.life = 5;
         player.startPlay = 0;
         checkPause = 1;
-        cameraState = 2400;
+        if(stateCheck == 4)
+        {
+            cameraState = 3500;
+        }else if(stateCheck == 3)
+        {
+            cameraState = 2200;
+        }else{
+            cameraState = 2400;
+        }
+        
         player.rollCount = 3;
         player.skillCount = 1;
         player.animState = 0;
@@ -790,7 +945,32 @@ function mousePressed()
         {
             screenCheck++;
         }
+    }else if(screenCheck == 2)
+    {
+        screenCheck = 0;
+        stateCheck = 0;
+        spawnCheck = 0;
+        player.pos.x = 100;
+        player.pos.y = 480;
+        player.life = 5;
+        player.startPlay = 0;
+        cameraState = 2400;
+        player.rollCount = 3;
+        player.skillCount = 1;
+        player.animState = 0;
+        player.isSkill = 0;   
+        player.attackCheck = 0;
+
+        //이미지 오류시 여기로오기
+        player.attackedVel.x = 0;
+        player.attackedCheck = 0;
+        player.rollVec.x = 0;
+        player.checkRoll = 0;
+        player.rollCountDeltaTime = 0;
+        player.skillCountDelta = 0;
+        player.guardRefillDelta = 0;
     }
+    console.log(screenCheck);
     
     
 }
@@ -813,6 +993,7 @@ function BossHp(boss)
     fill(0);
     text("RichKing",400,100);
     fill('red');
-    rect(530,80,300*(boss.life / 30),25);
+    rect(530,80,300*(boss.life / 20),25);
     pop();
+
 }

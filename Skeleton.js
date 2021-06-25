@@ -1,6 +1,6 @@
 class Skeleton
 {
-    constructor(_type,_defaultImage,_x,_y,_right,_left,_up,_down,_rayDown,_rightAttack = null,_leftAttack,_moveImage,_list,_effectImage)
+    constructor(_type,_defaultImage,_x,_y,_right,_left,_up,_down,_rayDown,_rightAttack = null,_leftAttack,_moveImage,_list,_effectImage,sfx)
     {
 
         this.type = _type;
@@ -12,6 +12,7 @@ class Skeleton
         this.leftAttack = _leftAttack;
         this.moveImage = _moveImage;
         this.effectImage = _effectImage;
+        this.sfx = sfx;
 
 
         this.pos = new Vec2(_x,_y);
@@ -272,6 +273,7 @@ class Skeleton
 
             }else if(this.animState == 4)
             {
+                console.log("Add");
                 this.stunDeltaTime += deltaTime/1000;
                 if(this.stunDeltaTime > 1.5)
                 {
@@ -367,7 +369,7 @@ class Skeleton
             }else if(this.animState == 8)
             {
                 this.attackedRightDelta += deltaTime/1000;
-                console.log("여기 들어왔어?")
+                
                 
                 if(this.attackedRightDelta > 0.5)
                 {
@@ -692,6 +694,8 @@ class Skeleton
                         this.animState = 3;
                         this.stunCheck = 1;
                         this.leftAttackDelta = 0;
+                        this.rightAttackDelta = 0;
+                        
                         if(player.life < 5)
                         {
                             player.life += 1;
@@ -700,6 +704,8 @@ class Skeleton
                     
                 }
             }
+            this.isCanParry = 0;
+            player.isParrying = 0;
 
         }
         }else{
@@ -714,7 +720,9 @@ class Skeleton
                     
                         this.animState = 4;
                         this.stunCheck = 1;
+                        this.leftAttackDelta = 0;
                         this.rightAttackDelta = 0;
+                        ;
                         if(player.life < 5)
                         {
                             player.life += 1;
@@ -722,6 +730,8 @@ class Skeleton
                     
                 }
             }
+            this.isCanParry = 0;
+            player.isParrying = 0;
 
         }
         }
@@ -750,6 +760,13 @@ class Skeleton
                         {
                             if(player.attackedCheck == 0)
                             {
+                                console.log(player.attackedCheck);
+                                this.sfx[1].setVolume(0.5);
+                                
+                                    console.log("addd");
+                                    this.sfx[1].play();
+                                
+                                
                                 player.life -= 1;
                             }
 
@@ -765,6 +782,12 @@ class Skeleton
                         
                             if(player.attackedCheck == 0)
                             {
+                                console.log(player.attackedCheck);
+                                this.sfx[1].setVolume(0.5);
+                                
+                                    console.log("addd");
+                                    this.sfx[1].play();
+                                
                                 player.life -=1;
                             }
                             player.attackedCheck = 1;
@@ -797,6 +820,8 @@ class Skeleton
                             if(this.playerShieldCheck == 0)
                             {
                                 player.shieldCount -= 1;
+                                this.sfx[0].setVolume(0.3);
+                                this.sfx[0].play();
                                 console.log("여기인가?");
                             }
                             this.playerShieldCheck = 1;
@@ -809,6 +834,8 @@ class Skeleton
                             player.shieldVel.x = -300;
                             if(this.playerShieldCheck == 0)
                             {
+                                this.sfx[0].setVolume(0.3);
+                                this.sfx[0].play();
                                 player.shieldCount -= 1;
                                 console.log("여기인가?");
                             }

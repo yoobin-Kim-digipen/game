@@ -15,7 +15,7 @@ const RIGHTSKILL = 10;
 
 class Player
 {
-    constructor(_defaultImage,_rightImage,_leftImage,_leftAttackImage,_rightAttackImage,_guardRight,_guardLeft,_uiImage,RollImage)
+    constructor(_defaultImage,_rightImage,_leftImage,_leftAttackImage,_rightAttackImage,_guardRight,_guardLeft,_uiImage,RollImage,sfx)
     {
 
         this.pos = new Vec2(100,500);
@@ -29,6 +29,7 @@ class Player
         this.shieldVel = new Vec2(0,0);
         
 
+        this.sfx = sfx;
 
         this.animState = 0;
         //defualtImage
@@ -196,20 +197,12 @@ class Player
         this.skillCount = 1;
         this.skillCountDelta = 0;
 
+        this.musicCheck = 0;
+
     }
 
     update()
     {
-        
-        // this.moveVel.addTo(this.moveAcc);
-        // this.moveVel.limit(5);
-
-
-
-        // this.gravityVel.addTo(this.accGravity);
-        // this.gravityVel.addTo(this.jumpVel);
-        // this.gravityVel.limit(15)
-        
         this.pos.y +=  this.gravityForce * deltaTime/1000;
 
         if(this.isJump && this.jumpForce > 0)
@@ -232,15 +225,6 @@ class Player
             this.gravityForce = 900;
         }
         
-
-
-
-
-        // this.vel.addTo(this.gravityVel);
-        // this.vel.addTo(this.moveVel);
-        // this.vel.addTo(this.jumpVel);
-        // this.vel.limit(7);
-        // this.vel.limitY(7)
         
         
         this.pos.addToTimeDelta(this.moveVel);
@@ -255,48 +239,12 @@ class Player
         {
             this.pos.addToTimeDelta(this.shieldVel);
         }
-
-
-        
-        
-        
-        
-        // this.pos.addTo(this.gravityVel);
-    
-        //this.pos.x+37,this.pos.y+100
-        // this.downLeft.setX(this.pos.x+30);
-        // this.downLeft.setY(this.pos.y+100);
-        // //this.pos.x+62,this.pos.y+100
-        // this.downRight.setX(this.pos.x+69);
-        // this.downRight.y = this.pos.y+100;
-        // this.upLeft.set(this.pos.x+30,this.pos.y+20);
-        // this.upRight.set(this.pos.x+69,this.pos.y+20);
-
-
-        ////+80 -30   , rect(this.pos.x-30,this.pos.y+40,60,50)
-        //키로 하자 키로. vel 말고
-        // if(this.moveVel.x > 0 )
-        // {
-        //     
-        // }else if(this.moveVel.x < 0)
-        // {
-        //     console.log("addd");
-        //     this.attackLeft.set(this.pos.x-30,this.pos.y+40);
-        // }else{
-        //     this.attackLeft.set(this.pos.x+80,this.pos.y+40);
-        // }
-        
         if(this.checkA == 1)
         {
             this.attackLeft.set(this.pos.x-30,this.pos.y+40);
         }else{
             this.attackLeft.set(this.pos.x+80,this.pos.y+40);
         }
-        // rect(this.attackLeft.x,this.attackLeft.y,60,50);
-        // quad(this.upLeft.x,this.upLeft.y,this.upRight.x,this.upRight.y,this.downRight.x,this.downRight.y,this.downLeft.x,this.downLeft.y);
-        
-        
-        // circle(this.pos.x,this.pos.y,30);
         
     }
 
@@ -399,13 +347,24 @@ class Player
                 this.guardLeftDeltaTime = 0;
                 this.rollDeltaTime = 0;
                 this.skillDeltaTime = 0;
+                if(this.sfx[2].isPlaying())
+                {
+                    this.sfx[2].stop();
+                }
 
             }
 
         }else if(this.animState == RIGHT && this.animState != RIGHTROLL)
         {
             
-            
+            if(!this.sfx[2].isPlaying() && !this.isJump)
+                {
+                    this.sfx[2].play();
+                }
+            if(this.isJump)
+            {
+                this.sfx[2].stop();
+            }
             this.RightDeltaTime += deltaTime/1000;
             if(this.RightDeltaTime > 0.75)
             {
@@ -431,10 +390,17 @@ class Player
             }else{
                 image(this.rightImage[0],this.pos.x-10,this.pos.y,130,130);
             }
-        }else if(this.animState == LEFT)
+        }else if(this.animState == LEFT && this.animState != RIGHTROLL)
         {
             
-            
+            if(!this.sfx[2].isPlaying()&& !this.isJump)
+                {
+                    this.sfx[2].play();
+                }
+            if(this.isJump)
+            {
+                this.sfx[2].stop();
+            }
             this.LeftDeltaTime += deltaTime/1000;
             if(this.LeftDeltaTime > 0.75)
             {
@@ -464,45 +430,70 @@ class Player
         {
             
             this.LeftAttackDeltaTime += deltaTime/1000;
-            if(this.LeftAttackDeltaTime > 0.6)
+            if(this.LeftAttackDeltaTime > 0.43)
             {
                 image(this.leftAttackImage[6],this.pos.x-10,this.pos.y,130,130);
                 this.animState = 0;
                 this.attackCheck = 0;
                 this.LeftAttackDeltaTime = 0;
                 this.lComboState = 1;
-                
-            }else if(this.LeftAttackDeltaTime > 0.5)
-            {
                 this.attOne = 0;
+                this.musicCheck = 0;
+                
+            }else if(this.LeftAttackDeltaTime > 0.40)
+            {
+                
                 image(this.leftAttackImage[5],this.pos.x-10,this.pos.y,130,130);
-            }else if(this.LeftAttackDeltaTime > 0.4)
+                if(this.attOne == 1)
+                {
+                    this.isAttack = 0;
+                }else{
+                    this.isAttack = 1;
+                }
+            }else if(this.LeftAttackDeltaTime > 0.32)
             {
                 image(this.leftAttackImage[4],this.pos.x-10,this.pos.y,130,130);
-            }else if(this.LeftAttackDeltaTime > 0.3)
+                if(this.attOne == 1)
+                {
+                    this.isAttack = 0;
+                }else{
+                    this.isAttack = 1;
+                }
+            }else if(this.LeftAttackDeltaTime > 0.24)
             {
                 image(this.leftAttackImage[3],this.pos.x-10,this.pos.y,130,130);
-                if(this.attOne == 0)
+                if(this.attOne == 1)
                 {
+                    this.isAttack = 0;
+                }else{
                     this.isAttack = 1;
-                    this.attOne = 1;
                 }
-                
-            }else if(this.LeftAttackDeltaTime > 0.2)
+            }else if(this.LeftAttackDeltaTime > 0.16)
             {
                 image(this.leftAttackImage[2],this.pos.x-10,this.pos.y,130,130);
-            }else if(this.LeftAttackDeltaTime > 0.1)
+                this.isAttack = 0;
+            }else if(this.LeftAttackDeltaTime > 0.08)
             {
                 image(this.leftAttackImage[1],this.pos.x-10,this.pos.y,130,130);
+                this.isAttack = 0;
             }else{
                 image(this.leftAttackImage[0],this.pos.x-10,this.pos.y,130,130);
+                this.isAttack = 0;
+                if(this.musicCheck == 0)
+                {
+                    push();
+                    this.sfx[0].setVolume(1.0);
+                    this.sfx[0].play();
+                    this.musicCheck = 1;
+                    pop();
+                }
             }
 
 
         }else if(this.animState == LEFTATTACK && this.lComboState == 1)
         {
             this.LeftAttackDeltaTime += deltaTime/1000;
-            if(this.LeftAttackDeltaTime > 0.35)
+            if(this.LeftAttackDeltaTime > 0.37)
             {
                 image(this.leftAttackImage[9],this.pos.x-10,this.pos.y,130,130);
                 this.animState = 0;
@@ -511,67 +502,110 @@ class Player
                 this.lComboState = 0;
                 this.lComboDelta = 0;
                 this.attOne = 0;
+                this.musicCheck = 0;
             }else if(this.LeftAttackDeltaTime > 0.25 && this.LeftAttackDeltaTime < 0.35)
             {
                 image(this.leftAttackImage[9],this.pos.x-10,this.pos.y,130,130);
                 this.pos.addToTimeDelta(new Vec2(-150,0));
+                if(this.attOne == 1)
+                {
+                    this.isAttack = 0;
+                }else{
+                    this.isAttack = 1;
+                }
                 //else if(this.RightAttackDeltaTime > 0.25 && this.RightAttackDeltaTime < 0.35)
             }else if(this.LeftAttackDeltaTime > 0.15 && this.LeftAttackDeltaTime < 0.25)
             {
                 image(this.leftAttackImage[8],this.pos.x-10,this.pos.y,130,130);
-                if(this.attOne == 0)
+                if(this.attOne == 1)
                 {
+                    this.isAttack = 0;
+                }else{
                     this.isAttack = 1;
-                    this.attOne = 1;
                 }
+                
             }else{
                 
                 image(this.leftAttackImage[7],this.pos.x-10,this.pos.y,130,130);
+                this.isAttack = 0;
+                if(this.musicCheck == 0)
+                {
+                    push();
+                    this.sfx[0].setVolume(1.0);
+                    this.sfx[0].play();
+                    this.musicCheck = 1;
+                    pop();
+                }
             }
         }else if(this.animState == RIGHTATTACK && this.rComboState == 0)
         {
             
             this.RightAttackDeltaTime += deltaTime/1000;
             
-            if(this.RightAttackDeltaTime > 0.6)
+            if(this.RightAttackDeltaTime > 0.41)
             {
                 image(this.rightAttackImage[6],this.pos.x-10,this.pos.y,130,130);
                 this.animState = 0;
                 this.attackCheck = 0;
                 this.RightAttackDeltaTime = 0;
                 this.rComboState = 1;
-            }else if(this.RightAttackDeltaTime > 0.5)
-            {
                 this.attOne = 0;
+                this.musicCheck = 0;
+            }else if(this.RightAttackDeltaTime > 0.40)
+            {
+                if(this.attOne == 1)
+                {
+                    this.isAttack = 0;
+                }else{
+                    this.isAttack = 1;
+                }
                 image(this.rightAttackImage[5],this.pos.x-10,this.pos.y,130,130);
-            }else if(this.RightAttackDeltaTime > 0.4)
+            }else if(this.RightAttackDeltaTime > 0.32)
             {
                 image(this.rightAttackImage[4],this.pos.x-10,this.pos.y,130,130);
-                
-            }else if(this.RightAttackDeltaTime > 0.3)
+                if(this.attOne == 1)
+                {
+                    this.isAttack = 0;
+                }else{
+                    this.isAttack = 1;
+                }
+            }else if(this.RightAttackDeltaTime > 0.24)
             {
                 image(this.rightAttackImage[3],this.pos.x-10,this.pos.y,130,130);
-                if(this.attOne == 0)
+                if(this.attOne == 1)
                 {
+                    this.isAttack = 0;
+                }else{
                     this.isAttack = 1;
-                    this.attOne = 1;
                 }
                 
-            }else if(this.RightAttackDeltaTime > 0.2)
+                
+            }else if(this.RightAttackDeltaTime > 0.16)
             {
                 image(this.rightAttackImage[2],this.pos.x-10,this.pos.y,130,130);
-            }else if(this.RightAttackDeltaTime > 0.1)
+                this.isAttack = 0;
+            }else if(this.RightAttackDeltaTime > 0.08)
             {
                 image(this.rightAttackImage[1],this.pos.x-10,this.pos.y,130,130);
+                this.isAttack = 0;
             }else{
                 image(this.rightAttackImage[0],this.pos.x-10,this.pos.y,130,130);
+                this.isAttack = 0;
+                if(this.musicCheck == 0)
+                {
+                    push();
+                    this.sfx[0].setVolume(1.0);
+                    this.sfx[0].play();
+                    this.musicCheck = 1;
+                    pop();
+                }
             }
 
 
         }else if(this.animState == RIGHTATTACK && this.rComboState == 1)
         {
             this.RightAttackDeltaTime += deltaTime/1000;
-            if(this.RightAttackDeltaTime > 0.35)
+            if(this.RightAttackDeltaTime > 0.37)
             {
                 image(this.rightAttackImage[9],this.pos.x-10,this.pos.y,130,130);
                 this.animState = 0;
@@ -579,25 +613,43 @@ class Player
                 this.RightAttackDeltaTime = 0;
                 this.rComboState = 0;
                 this.rComboDelta = 0;
+                this.isAttack = 0;
                 this.attOne = 0;
-            }else if(this.RightAttackDeltaTime > 0.25 && this.RightAttackDeltaTime < 0.35)
+                this.musicCheck = 0;
+            }else if(this.RightAttackDeltaTime > 0.25)
             {
                 image(this.rightAttackImage[9],this.pos.x-10,this.pos.y,130,130);
                 this.pos.addToTimeDelta(new Vec2(150,0));
+                if(this.attOne == 1)
+                {
+                    this.isAttack = 0;
+                }else{
+                    this.isAttack = 1;
+                }
 
-            }else if(this.RightAttackDeltaTime > 0.15 && this.RightAttackDeltaTime < 0.25)
+            }else if(this.RightAttackDeltaTime > 0.15)
             {
                 
                 image(this.rightAttackImage[8],this.pos.x-10,this.pos.y,130,130);
-                if(this.attOne == 0)
+                if(this.attOne == 1)
                 {
-                    
+                    this.isAttack = 0;
+                }else{
                     this.isAttack = 1;
-                    this.attOne = 1;
                 }
+                
             }else{
                 
                 image(this.rightAttackImage[7],this.pos.x-10,this.pos.y,130,130);
+                this.isAttack = 0;
+                if(this.musicCheck == 0)
+                {
+                    push();
+                    this.sfx[0].setVolume(1.0);
+                    this.sfx[0].play();
+                    this.musicCheck = 1;
+                    pop();
+                }
             }
 
 
@@ -730,10 +782,19 @@ class Player
                 this.attackedDelta = 0;
                 this.skillMoveCheck = 0;
                 this.isSkillAttack = 0;
+                this.musicCheck = 0;
             }else if(this.skillDeltaTime > 0.6 && this.skillDeltaTime < 0.7)
             {
                 image(this.rightAttackImage[11],this.pos.x-10,this.pos.y,130,130);
                 image(this.uiImage[7],this.pos.x-260,this.skillMovePos.y+20);
+                if(this.musicCheck == 0)
+                {
+                    push();
+                    this.sfx[0].setVolume(1.0);
+                    this.sfx[0].play();
+                    this.musicCheck = 1;
+                    pop();
+                }
             }else if(this.skillDeltaTime >0.5 && this.skillDeltaTime < 0.6)
             {
                 
@@ -771,9 +832,18 @@ class Player
                 this.attackedDelta = 0;
                 this.skillMoveCheck = 0;
                 this.isSkillAttack = 0;
+                this.musicCheck = 0; 
             }else if(this.skillDeltaTime > 0.6 && this.skillDeltaTime < 0.7)
             {
                 image(this.leftAttackImage[11],this.pos.x-10,this.pos.y,130,130);
+                if(this.musicCheck == 0)
+                {
+                    push();
+                    this.sfx[0].setVolume(1.0);
+                    this.sfx[0].play();
+                    this.musicCheck = 1;
+                    pop();
+                }
                 image(this.uiImage[7],this.pos.x+70,this.skillMovePos.y+20);
             }else if(this.skillDeltaTime >0.5 && this.skillDeltaTime < 0.6)
             {
@@ -870,7 +940,7 @@ class Player
         // 오른쪽키가기.
         if(keyIsDown(39) && this.attackCheck == 0 && this.checkRoll == 0 && this.isSkill == 0)
         {
-            console.log("add");
+            
             this.animDefaultDelta = 0;
             this.moveVel.x = 500;
             
@@ -938,7 +1008,6 @@ class Player
             this.moveAcc.y = 0;
             this.isGuard = 0;
             this.checkA = 1;
-            console.log(this.checkA);
             this.startPlay = 1;
         }
         
@@ -961,6 +1030,7 @@ class Player
         {
             
             this.isJump = true;
+            this.sfx[3].play();
             // this.attackLeft.set(this.pos.x+80,this.pos.y+40);
             this.checkA = 0;
             this.startPlay = 1;
@@ -1176,22 +1246,24 @@ class Player
             for(var a = 0; a<monster.length;a++)
             {
                 
-                if(this.checkRange(this.attackLeft.x,this.attackLeft.x+60,monster[a].upLeft.x,monster[a].upRight.x) && this.checkRange(this.attackLeft.y,this.attackLeft.y+50,monster[a].upLeft.y,monster[a].downRight.y))
+                if(this.checkRange(this.attackLeft.x-10,this.attackLeft.x+70,monster[a].upLeft.x,monster[a].upRight.x) && this.checkRange(this.attackLeft.y,this.attackLeft.y+50,monster[a].upLeft.y,monster[a].downRight.y))
                     {
 
                         if(monster[a].life >0)
                         {  
                         
+                        
                         monster[a].life -= 1;
+                        sfx[1].play();
                         
                         //오른쪽 네모
                         if(this.checkA == 0 )
                         {
-                            console.log("add");
+                            
                             
                             if(monster[a].type != 3 && monster[a].type != 5 )
                             {
-                                console.log("여기가 들어왔는가343434?");
+                               
                                 monster[a].animState = 7;
                                 monster[a].isAttacked = 1;
                             }
@@ -1199,10 +1271,10 @@ class Player
                             monster[a].pos.addTo(new Vec2(15,0));
                             
                         }else{
-                            
+                            console.log("1번");
                             if(monster[a].type != 3 && monster[a].type != 5)
                             {
-                                console.log("여기가 들어왔는가3434?");
+                                
                                 monster[a].animState = 8;
                                 monster[a].isAttacked = 1;
                             }
@@ -1210,13 +1282,13 @@ class Player
                             
                         }
                         
-                        
+                        this.attOne = 1;
                         }
-                    
+                        
                         
                     }
 
-                    this.isAttack = 0;
+                    
 
                 }
             
@@ -1225,7 +1297,7 @@ class Player
         
         
     }
-    if(this.isSkillAttack == 1)
+    if(this.isSkillAttack == 1 && this.isAttack != 1)
         {
             
         
@@ -1239,6 +1311,7 @@ class Player
                         {  
                         
                         monster[a].life -= 2;
+                        sfx[1].play();
                         
                         
                         //오른쪽 네모
@@ -1289,69 +1362,6 @@ class Player
     {
         return max(min0, max0) >= min(min1,max1) && min(min0,max0) <= max(min1,max1);
     }
-
-    // checkAttacked(monster)
-    // {
-    //     if(this.attackedCheck == 0)
-    //     {
-
-            
-    //         if(this.checkRange(this.downLeft.x,this.downRight.x,monster.upLeft.x,monster.upRight.x) && this.checkRange(this.upLeft.y,this.downLeft.y,monster.upLeft.y,monster.downRight.y))
-    //         {
-                
-    //             this.attackedCheck = 1;
-    //             if(this.pos.x+50 > monster.pos.x)
-    //             {
-    //                 console.log("오른쪽입니다.")
-    //                 this.life -= 1;
-    //                 this.gravityVel.addTo(new Vec2(5,-10));
-    //             }else{
-    //                 console.log("왼쪽 입니다.");
-    //                 this.life -= 1;
-    //                 this.gravityVel.addTo(new Vec2(-5,-10));
-    //             }
-    //         }
-
-
-    //     }
-
-    //     if(this.isGuard == 1 && this.attackedCheck == 0)
-    //     {
-
-    //         if(this.checkA == 0)
-    //         {
-    //                 if(this.checkRange(this.attackLeft.x,this.attackLeft.x+10,monster.upLeft.x,monster.upRight.x) && this.checkRange(this.attackLeft.y,this.attackLeft.y+50,monster.upLeft.y,monster.downRight.y))
-    //                 {
-                        
-    //                     console.log("막았습니다.1");
-    //                     if(this.pos.x > monster.pos.x)
-    //                     {
-    //                         this.attackedVel.addTo(new Vec2(15,-2));
-    //                         this.shieldCount -= 1;
-    //                     }else{
-    //                         this.attackedVel.addTo(new Vec2(-15,-2));
-    //                         this.shieldCount -= 1;
-    //                     }
-    //                 }
-    //         }else{
-    //             if(this.checkRange(this.attackLeft.x+50,this.attackLeft.x+60,monster.upLeft.x,monster.upRight.x) && this.checkRange(this.attackLeft.y,this.attackLeft.y+50,monster.upLeft.y,monster.downRight.y))
-    //             {
-    //                 console.log("막았습니다.2");
-    //                 if(this.pos.x > monster.pos.x)
-    //                 {
-    //                     this.attackedVel.addTo(new Vec2(15,-2));
-    //                     this.shieldCount -= 1;
-    //                 }else{
-    //                     this.attackedVel.addTo(new Vec2(-15,-2));
-    //                     this.shieldCount -= 1;
-    //                 }
-    //             }
-    //         }
-            
-
-
-    //     }
-    // }
 
     checkDist(monsterList)
     {
@@ -1491,7 +1501,7 @@ class Player
         {
             this.pos.x = -25;
         }
-        if(state == 4)
+        if(state == 5)
         {
             if(this.pos.x > 1120)
             {

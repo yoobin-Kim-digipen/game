@@ -1,9 +1,10 @@
 class Mage
 {
-    constructor(_type,_defaultImage,_x,_y,_right,_left,_up,_down,_rayDown,_rightAttack = null,_leftAttack,_moveImage,_effectImage)
+    constructor(_type,_defaultImage,_x,_y,_right,_left,_up,_down,_rayDown,_rightAttack = null,_leftAttack,_moveImage,_effectImage,sfx)
     {
 
         this.type = _type;
+        this.sfx = sfx;
 
 
         this.magicImage = _defaultImage;
@@ -126,6 +127,8 @@ class Mage
         this.isMagic = 0;
 
         this.whereMagic = 0;
+
+        this.magicCheck = 0;
 
         
         
@@ -295,6 +298,7 @@ class Mage
                     console.log("add2");
                     this.isCanParry = 0;
                     this.isAttack = 0;
+                    this.magicCheck = 0
                     
                     this.animState = 0;
                     this.behaviorCheck = 0;
@@ -331,6 +335,10 @@ class Mage
                 {
                     
                     image(this.rightAttack[3],this.pos.x,this.pos.y,200,200);
+                    if(this.magicCheck == 0)
+                    {
+                        this.sfx[1].play();
+                    }
                     
                     
                 }else if(this.rightAttackDelta > 0.4 && this.rightAttackDelta < 0.6)
@@ -346,9 +354,11 @@ class Mage
                     image(this.rightAttack[1],this.pos.x,this.pos.y,200,200);
                 }else
                 {
+                    
                     this.isCanParry = 0;
                     this.isAttack = 0;
                     image(this.rightAttack[0],this.pos.x,this.pos.y,200,200);
+                    this.magicCheck = 0;
                 }
             //왼쪽 공격.
             }else if(this.animState == 4)
@@ -384,6 +394,7 @@ class Mage
                     this.animState = 0;
                     this.behaviorCheck = 0;
                     this.leftAttackDelta = 0
+                    this.magicCheck = 0
                 }else if(this.leftAttackDelta > 1.6 && this.leftAttackDelta < 1.8)
                 {
                     
@@ -415,6 +426,10 @@ class Mage
                 {
                     
                     image(this.leftAttack[3],this.pos.x,this.pos.y,200,200);
+                    if(this.magicCheck == 0)
+                    {
+                        this.sfx[1].play();
+                    }
                     
                     
                 }else if(this.leftAttackDelta > 0.4 && this.leftAttackDelta < 0.6)
@@ -433,6 +448,7 @@ class Mage
                     this.isCanParry = 0;
                     this.isAttack = 0;
                     image(this.leftAttack[0],this.pos.x,this.pos.y,200,200);
+                    this.magicCheck = 0;
                 }
             //오른쪽으로 걷ㄷ기
             }
@@ -593,14 +609,7 @@ class Mage
 
         // this.magicCheck = 1;
 
-            if(this.magicDeltaTime < 0.3)
-            {
-                push();
-                fill(255,0,0,120);
-                rect(this.playerPos_x,this.playerPos_y,110,100);
-                pop();
-            }
-
+            
             
 
                 if(this.magicDeltaTime > 1.2)
@@ -686,13 +695,6 @@ class Mage
         if(this.magicCheck == 1 && this.whereMagic == 1)
         {
             this.magicDeltaTime += deltaTime/1000;
-            if(this.magicDeltaTime < 0.3)
-            {
-                push();
-                fill(255,0,0,120);
-                rect(this.playerPos_x,this.platformY-90,110,100);
-                pop();
-            }
 
             
         // this.magicCheck = 1;
@@ -1093,6 +1095,7 @@ class Mage
                         {
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[0].play();
                                 player.life -= 1;
                             }
 
@@ -1108,6 +1111,7 @@ class Mage
                         
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[0].play();
                                 player.life -=1;
                             }
                             player.attackedCheck = 1;
@@ -1135,6 +1139,7 @@ class Mage
                         {
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[0].play();
                                 player.life -= 1;
                             }
 
@@ -1150,6 +1155,7 @@ class Mage
                         
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[0].play();
                                 player.life -=1;
                             }
                             player.attackedCheck = 1;
@@ -1177,42 +1183,6 @@ class Mage
 
                 }
             }
-            // else if(this.isAttack == 1 && player.isGuard == 1  && this.stunCheck == 0)
-            // {
-            //     if(this.checkRange(this.attackLeft.x,this.attackLeft.x+60,player.upLeft.x,player.upRight.x) && this.checkRange(this.attackLeft.y,this.attackLeft.y+50,player.upLeft.y,player.downRight.y))
-            //         {
-
-                        
-            //             //오른쪽 네모
-            //             if(this.checkA == 0 )
-            //             {
-                            
-            //                 // player.gravityVel.addTo(new Vec2(1,-1));
-            //                 player.shieldVel.x = 300;
-            //                 if(player.shieldCheck == 0)
-            //                 {
-            //                     player.shieldCount -= 1;
-            //                 }
-            //                 player.shieldCheck = 1;
-            //                 console.log("여기인가?");
-                            
-                            
-            //             }else{
-                            
-            //                 // player.gravityVel.addTo(new Vec2(-1,-1));
-            //                 player.shieldVel.x = -300;
-            //                 if(player.shieldCheck == 0)
-            //                 {
-            //                     player.shieldCount -= 1;
-            //                 }
-            //                 player.shieldCheck = 1;
-            //                 console.log("여기인가?");
-                            
-            //             }
-                        
-                        
-            //         }
-            // }
 
     }
 

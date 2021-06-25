@@ -1,6 +1,6 @@
 class Archer
 {
-    constructor(_type,_defaultImage,_x,_y,_right,_left,_up,_down,_rayDown,_rightAttack = null,_leftAttack,_moveImage,_effectImage)
+    constructor(_type,_defaultImage,_x,_y,_right,_left,_up,_down,_rayDown,_rightAttack = null,_leftAttack,_moveImage,_effectImage,sige,sfx)
     {
 
         this.type = _type;
@@ -11,6 +11,8 @@ class Archer
         this.leftAttack = _leftAttack;
         this.moveImage = _moveImage;
         this.effectImage = _effectImage;
+        this.sige = sige;
+        this.sfx = sfx;
 
 
         this.pos = new Vec2(_x,_y);
@@ -131,6 +133,10 @@ class Archer
 
 
         this.shieldCheck = 0;
+        this.musicCheck = 0;
+        this.musicCheck_2 = 0;
+
+        this.arrowCheck = 0;
 
         
         
@@ -278,7 +284,9 @@ class Archer
                     this.behaviorCheck = 0;
                     this.rightAttackDelta = 0
                     this.magicCheck = 1;
+                    this.arrowCheck = 0;
                     this.whereMagic = 1;
+                    this.musicCheck = 0;
                     if(this.magicCheck == 1)
                     {
                         // console.log("여기 들어와지는가?")
@@ -323,6 +331,11 @@ class Archer
                     this.isCanParry = 0;
                     this.isAttack = 0;
                     image(this.rightAttack[0],this.pos.x,this.pos.y,200,200);
+                    if(this.musicCheck == 0)
+                    {
+                        this.sfx[2].play();
+                        this.musicCheck = 1;
+                    }
                 }
             //왼쪽 공격.
             }else if(this.animState == 4)
@@ -338,9 +351,11 @@ class Archer
                     
                     this.animState = 0;
                     this.behaviorCheck = 0;
-                    this.leftAttackDelta = 0
+                    this.leftAttackDelta = 0;
+                    this.arrowCheck = 0;
                     this.magicCheck = 1;
                     this.whereMagic = 0;
+                    this.musicCheck = 0;
                     if(this.magicCheck == 1)
                     {
                         
@@ -384,6 +399,11 @@ class Archer
                     this.isCanParry = 0;
                     this.isAttack = 0;
                     image(this.leftAttack[0],this.pos.x,this.pos.y,200,200);
+                    if(this.musicCheck == 0)
+                    {
+                        this.sfx[2].play();
+                        this.musicCheck = 1;
+                    }
                 }
             //오른쪽으로 걷ㄷ기
             }
@@ -490,14 +510,21 @@ class Archer
             push();
             imageMode(CENTER);
             image(this.magicImage[0],this.playerPos_x,this.playerPos_y-10,300,300);
+            if(this.musicCheck_2 == 0 && this.arrowCheck == 0)
+            {
+                this.sfx[3].play();
+                this.musicCheck_2 =1;
+            }
             this.arrowMove -= 1000 * deltaTime /1500;
             this.playerPos_x -= 1000 * deltaTime /1500;
             this.isAttack = 1;
             if(this.arrowMove < -1000)
             {
+                this.musicCheck_2 = 0;
                 this.magicCheck = 0;
                 this.arrowMove = 0;
                 this.isAttack = 0;
+                this.arrowCheck = 0;
             }
             pop();
             
@@ -509,11 +536,18 @@ class Archer
             this.isAttack = 1;
             this.arrowMove += 1000 * deltaTime /1500;
             this.playerPos_x += 1000 * deltaTime /1500;
+            if(this.musicCheck_2 == 0 && this.arrowCheck == 0)
+            {
+                this.sfx[3].play();
+                this.musicCheck_2 =1;
+            }
             if(this.arrowMove > 1000)
             {
+                this.musicCheck_2 = 0;
                 this.magicCheck = 0;
                 this.arrowMove = 0;
                 this.isAttack = 0;
+                this.arrowCheck = 0;
             }
             pop();
 
@@ -573,10 +607,13 @@ class Archer
             {
                 
                 // this.vel.x = 0;
+                if(this.sige == 0)
+                {
                 this.animState = 1;
                 // this.vel.x = -(this.pos.x-player.pos.x)
                 this.vel.x = -350;
                 this.checkA = 1;
+                }
                 
                     if(dist(player.pos.x,player.pos.y,this.pos.x,this.pos.y) < 1000 && (this.pos.y > player.pos.y-50 &&this.pos.y<player.pos.y+100))
                     {
@@ -588,16 +625,19 @@ class Archer
                         this.leftWalkDelta = 0;
                         this.rightWalkDelta = 0;
                         this.vel.x = 0;
+                        this.magicCheck = 0;
                     }
                 
             }else if(player.pos.x > this.pos.x && this.behaviorCheck == 0 && this.isAttack == 0 && this.isAttacked == 0){
                 // this.vel.x = 0;
+                if(this.sige == 0)
+                {
                 this.animState = 2;
                 // this.vel.x = (player.pos.x-this.pos.x)
                 this.vel.x = 350 + random(-50,50);
                 
                 this.checkA = 0;
-                
+                }
                 
                     if(dist(player.pos.x,player.pos.y,this.pos.x,this.pos.y) < 1000 && (this.pos.y > player.pos.y-50 &&this.pos.y<player.pos.y+100))
                     {
@@ -609,6 +649,7 @@ class Archer
                         this.rightWalkDelta = 0;
                         this.leftWalkDelta = 0;
                         this.vel.x = 0;
+                        this.magicCheck = 0;
                     }
                 
             }
@@ -678,7 +719,7 @@ class Archer
 
     moveUpdate()
     {
-        if(this.isPlayer == 0)
+        if(this.isPlayer == 0 && this.sige == 0)
         {
             this.moveDelta += deltaTime/1000;
             if(this.moveDelta > 4)
@@ -832,7 +873,10 @@ class Archer
                         {
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[0].play();
+                                this.musicCheck_2 = 0;
                                 player.life -= 1;
+                                this.arrowCheck =1;
                             }
 
                             player.attackedCheck = 1;
@@ -847,7 +891,10 @@ class Archer
                         
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[0].play();
+                                this.musicCheck_2 = 0;
                                 player.life -=1;
+                                this.arrowCheck =1;
                             }
                             player.attackedCheck = 1;
                           
@@ -873,7 +920,10 @@ class Archer
                      
                             if(player.attackedCheck == 0)
                             {
+                                this.sfx[0].play();
+                                this.musicCheck_2 = 0;
                                 player.life -= 1;
+                                this.arrowCheck =1;
                             }
 
                             player.attackedCheck = 1;
@@ -916,6 +966,8 @@ class Archer
                             player.shieldVel.x = -300;
                             if(this.shieldCheck == 0)
                             {
+                                this.sfx[1].play();
+                                this.musicCheck_2 = 0;
                                 player.shieldCount -= 1;
                                 this.magicCheck = 0;
                                 this.arrowMove = 0;
@@ -941,6 +993,8 @@ class Archer
                             player.shieldVel.x = 300;
                             if(this.shieldCheck == 0)
                             {
+                                this.sfx[1].play();
+                                this.musicCheck_2 = 0;
                                 player.shieldCount -= 1;
                                 this.magicCheck = 0;
                                 this.arrowMove = 0;
