@@ -129,8 +129,8 @@ function preload()
     mageSfx.push(loadSound("./Assets/Music/396499__alonsotm__icespell03.wav"));
     
     bossSfx.push(loadSound("./Assets/Music/263008__dermotte__metallic-hit.wav"));
-    bossSfx.push(loadSound("/Assets/Music/319590__hybrid-v__shield-bash-impact.wav"));
-    bossSfx.push(loadSound("/Assets/Music/396499__alonsotm__icespell03.wav"));
+    bossSfx.push(loadSound("./Assets/Music/319590__hybrid-v__shield-bash-impact.wav"));
+    bossSfx.push(loadSound("./Assets/Music/396499__alonsotm__icespell03.wav"));
     bossSfx.push(loadSound("./Assets/Music/420612__glaneur-de-sons__sword-swing-b-strong-02.wav"));
 
     platFormImage = loadImage("./Assets/platForm.png");
