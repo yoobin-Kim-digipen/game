@@ -475,7 +475,7 @@ function setup()
     frameRate(60);
     defaultTime = 0;
     checkTime = 0;
-    stateCheck = 5 ; 
+    stateCheck = 0 ; 
       
 }
 
