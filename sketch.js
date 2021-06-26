@@ -56,7 +56,7 @@ let effectImage;
 
 let player;
 
-let slime = [];
+let enemy = [];
 let mage = [];
 
 
@@ -555,7 +555,7 @@ function draw()
         translate(-(player.pos.x-600),0);
         
         image(backgroundImage,player.pos.x-600,0);
-        player.seeUIImage(player.pos.x-600);
+        // player.seeUIImage(player.pos.x-600);
         if(checkPause == 1)
         {
             
@@ -568,7 +568,7 @@ function draw()
         
         translate(-(cameraState-1100),0);
         image(backgroundImage,cameraState-1100,0);
-        player.seeUIImage(cameraState-1100);
+        // player.seeUIImage(cameraState-1100);
         if(checkPause == 1)
         {
             
@@ -578,7 +578,7 @@ function draw()
     }else{
         translate(0,0);
         image(backgroundImage,0,0);
-        player.seeUIImage(0);
+        // player.seeUIImage(0);
         if(checkPause == 1)
         {
             
@@ -623,13 +623,22 @@ function draw()
                             key.checkPlayer(player,0);
                         }
                     
-                }else if(slime.length == 0 && key.isRemove == 1 && key.type == 1)
+                }else if(enemy.length == 0 && key.isRemove == 1 && key.type == 1)
                 {
                     screenCheck = 5;
                     key = 0;
                 }
             }
-
+            
+            if(player.pos.x > 600 && player.pos.x <= cameraState-500 && stateCheck != 5)
+            {
+                player.seeUIImage(player.pos.x-600);
+            }else if(player.pos.x >= cameraState-500 && stateCheck != 5)
+            {
+                player.seeUIImage(cameraState-1100);
+            }else{
+                player.seeUIImage(0);
+            }
             push();
             player.updateAnim();
             pop();
@@ -640,6 +649,20 @@ function draw()
             player.checkLeft(stateCheck);
             playerCheck();
             
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -707,7 +730,7 @@ function firstStateSpawn(state)
 {
     if(state == 0)
     {
-        slime.splice(0,slime.length);
+        enemy.splice(0,enemy.length);
         platForm.splice(0,platForm.length);
         keyIs = false;
 
@@ -719,22 +742,22 @@ function firstStateSpawn(state)
         platForm.push(new PlatForm(2400,0,100,400,true,1,verPlatForm));
         
 
-        slime.push(new Skeleton(1,skeletonDefault,1200,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,1400,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,1500,150,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,1000,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,900,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,2000,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,2100,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,1200,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,1400,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,1500,150,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,1000,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,900,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2000,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2100,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
 
-        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,1600,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,1600,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
         
     }else if(state == 1)
     {
-        slime.splice(0,slime.length);
+        enemy.splice(0,enemy.length);
         platForm.splice(0,platForm.length);
         keyIs = false;
 
@@ -747,23 +770,23 @@ function firstStateSpawn(state)
         platForm.push(new PlatForm(900,300,1200,100,false,0,0,platFormImage));
         platForm.push(new PlatForm(2400,0,100,400,true,1,verPlatForm));
 
-        slime.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new BigSkel(3,bigSkelEffect,700,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new BigSkel(3,bigSkelEffect,700,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
         
 
-        slime.push(new Skeleton(1,skeletonDefault,2000,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,1700,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new BigSkel(3,bigSkelEffect,2000,250,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2000,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,1700,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new BigSkel(3,bigSkelEffect,2000,250,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
 
-        slime.push(new BigSkel(3,bigSkelEffect,2300,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
-        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new BigSkel(3,bigSkelEffect,2300,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
         
 
     }else if(state == 2)
     {
-        slime.splice(0,slime.length);
+        enemy.splice(0,enemy.length);
         platForm.splice(0,platForm.length);
         keyIs = false;
 
@@ -776,19 +799,19 @@ function firstStateSpawn(state)
         platForm.push(new PlatForm(900,300,1200,100,false,0,0,platFormImage));
         platForm.push(new PlatForm(2400,0,100,400,true,1,verPlatForm));
 
-        slime.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Mage(2,magicImage,700,450,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,400,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Mage(2,magicImage,700,450,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
         
 
-        slime.push(new Skeleton(1,skeletonDefault,2000,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,1700,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Mage(2,magicImage,2000,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2000,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,1700,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Mage(2,magicImage,2000,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
 
         
-        slime.push(new Mage(2,magicImage,2300,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
-        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Mage(2,magicImage,2300,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
 
 
 
@@ -796,7 +819,7 @@ function firstStateSpawn(state)
 
     }else if(state == 3)
     {
-        slime.splice(0,slime.length);
+        enemy.splice(0,enemy.length);
         platForm.splice(0,platForm.length);
         keyIs = false;
         key = new Item(itemImage[0],2000,200,0);
@@ -818,10 +841,10 @@ function firstStateSpawn(state)
         platForm.push(new Pike(1200+100+150,436,pikeImage,3.0,1));
         platForm.push(new Pike(1320+100+200,436,pikeImage,3.0,0));
         platForm.push(new Pike(1440+100+250,436,pikeImage,3.0,1));
-        slime.push(new Archer(4,archerArrow,2100,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage,1,archerSfx));
+        enemy.push(new Archer(4,archerArrow,2100,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage,1,archerSfx));
     }else if(state == 4)
     {
-        slime.splice(0,slime.length);
+        enemy.splice(0,enemy.length);
         platForm.splice(0,platForm.length);
         keyIs = false;
 
@@ -834,34 +857,34 @@ function firstStateSpawn(state)
         platForm.push(new PlatForm(900,300,1200,100,false,0,0,platFormImage));
         platForm.push(new PlatForm(3500,0,100,400,true,1,verPlatForm));
 
-        slime.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
-        slime.push(new BigSkel(3,bigSkelEffect,400,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
-        slime.push(new BigSkel(3,bigSkelEffect,700,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,550,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,0,effectImage,skelSfx));
+        enemy.push(new BigSkel(3,bigSkelEffect,400,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        enemy.push(new BigSkel(3,bigSkelEffect,700,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
         
 
-        slime.push(new Skeleton(1,skeletonDefault,2000,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,1700,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2000,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,1700,250,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
         
-        slime.push(new Mage(2,magicImage,2000,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
+        enemy.push(new Mage(2,magicImage,2000,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage,mageSfx));
 
 
-        slime.push(new BigSkel(3,bigSkelEffect,2300,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
-        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        slime.push(new Archer(4,archerArrow,2900,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage,1,archerSfx));
-        slime.push(new Archer(4,archerArrow,3000,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage,1,archerSfx));
+        enemy.push(new BigSkel(3,bigSkelEffect,2300,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage,bigSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
+        enemy.push(new Archer(4,archerArrow,2900,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage,1,archerSfx));
+        enemy.push(new Archer(4,archerArrow,3000,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage,1,archerSfx));
 
 
 
     }
     else if(state == 5)
     {
-        slime.splice(0,slime.length);
+        enemy.splice(0,enemy.length);
         keyIs = false;
         door = 0
         platForm.splice(0,platForm.length);
         key = new Item(itemImage[1],600,200,1);
-        slime.push(new Boss(5,bossEffect,500,450,15,-40,28,-50,40,bossRA,bossLA,bossMove,effectImage,bossSfx));
+        enemy.push(new Boss(5,bossEffect,500,450,15,-40,28,-50,40,bossRA,bossLA,bossMove,effectImage,bossSfx));
         platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
 
     }
@@ -879,26 +902,30 @@ function updateMonsterAndPlatForm()
             }
 
 
-    for(var a = 0; a<slime.length;a++)
+    for(var a = 0; a<enemy.length;a++)
     {
-        if(slime[a].life > 0)
+        if(enemy[a].life > 0)
         {
-            slime[a].animSlimeUpdate();
-            
-            slime[a].update();
-            slime[a].rayUpdate();
-            if(slime[a].type == 1)
+            if(enemy[a].pos.y > 600)
             {
-                slime[a].checkParry(player);
-                slime[a].checkAttack(player);
+                enemy[a].life = 0;
+            }
+            enemy[a].animSlimeUpdate();
+            
+            enemy[a].update();
+            enemy[a].rayUpdate();
+            if(enemy[a].type == 1)
+            {
+                enemy[a].checkParry(player);
+                enemy[a].checkAttack(player);
             }else{
-                slime[a].checkAttack(player);
-                slime[a].magic(player);
+                enemy[a].checkAttack(player);
+                enemy[a].magic(player);
             }
 
-            if(slime[a].type == 5)
+            if(enemy[a].type == 5)
             {
-                BossHp(slime[a]);
+                BossHp(enemy[a]);
             }
 
                 for(var b = 0;b<platForm.length;b++)
@@ -906,41 +933,41 @@ function updateMonsterAndPlatForm()
                     
                     if(platForm[b].type != 3)
                     {
-                        slime[a].platformCheck(platForm[b]);
+                        enemy[a].platformCheck(platForm[b]);
                         if(player.startPlay == 1)
                         {
-                            slime[a].behavior(player,platForm[b]);
-                            slime[a].moveUpdate();
+                            enemy[a].behavior(player,platForm[b]);
+                            enemy[a].moveUpdate();
                         }
-                        platForm[b].colMonster(slime[a]);
+                        platForm[b].colMonster(enemy[a]);
                     }
                     
                 }
             
         }else{
-            if(slime[a].type != 5)
+            if(enemy[a].type != 5)
             {
-                slime[a].dead();
+                enemy[a].dead();
                 let c = 0;
-                for(var e = 0; e < slime.length ; e ++)
+                for(var e = 0; e < enemy.length ; e ++)
                 {
-                    if(slime[e].isDead == 1)
+                    if(enemy[e].isDead == 1)
                     {
                         c++;
                     }
-                    if(c == slime.length)
+                    if(c == enemy.length)
                     {
                         keyIs = true;
                     }
                 }
             }else{
                 keyIs = true;
-                slime.splice(a,1);
+                enemy.splice(a,1);
             }
             
         }
     }
-    player.checkAttack(slime);
+    player.checkAttack(enemy);
 
    
 }
