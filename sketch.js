@@ -19,6 +19,7 @@ let platFormImage;
 // let hpImage;
 
 let uiImage =[];
+let keyIs = false;
 
 
 let slimeDefualt = [];
@@ -52,20 +53,11 @@ let bossEffect = [];
 
 let effectImage;
 
-var defaultTime;
-var defaultCheck = 0;
-
-var player_x = 100;
-var player_y = 200;
-
-var cameraMove = 0;
-
 
 let player;
 
 let slime = [];
 let mage = [];
-let skeleton;
 
 
 let platForm = [];
@@ -87,14 +79,11 @@ let screenCheck = 0;
 //스폰 체크 하는것.
 let spawnCheck = 0;
 
-//체크
-let checkFrame = 0;
-
 //체크 퍼즈.
 let checkPause = false;
 let cameraState = 2400;
 
-let backgroundMusic;
+let backgroundMusic = [];
 let sfx = [];
 let skelSfx = [];
 let bigSfx = [];
@@ -102,13 +91,18 @@ let archerSfx = [];
 let mageSfx = [];
 let bossSfx = [];
 
+let doorMusic;
+
 
 
 function preload()
 {
 
     //뮤직
-    backgroundMusic = loadSound("./Assets/Music/The golden Forest.mp3");
+    backgroundMusic.push(loadSound("./Assets/Music/The golden Forest.mp3"));
+    backgroundMusic.push(loadSound("./Assets/Music/LEGACY - Encounter of Misdeeds MP3.mp3"));
+    backgroundMusic.push(loadSound("./Assets/Music/LEGACY - The World At Your Door MP3.mp3"));
+    doorMusic = loadSound("./Assets/Music/474178__dwoboyle__door-stone-large-001.wav");
 
     sfx.push(loadSound("./Assets/Music/471097__spycrah__knife-sword-swing.wav"));
     sfx.push(loadSound("./Assets/Music/161378__vinrax__bone-crack4.wav"));
@@ -204,6 +198,10 @@ function preload()
     mageMove.push(loadImage("./Assets/Mage/Move/moveL.png"));
     mageMove.push(loadImage("./Assets/Mage/Move/RAttacked_1.png"));
     mageMove.push(loadImage("./Assets/Mage/Move/LAttacked_1.png"));
+    mageMove.push(loadImage("./Assets/Mage/Move/MageDead_1.png"));
+    mageMove.push(loadImage("./Assets/Mage/Move/MageDead_2.png"));
+    mageMove.push(loadImage("./Assets/Mage/Move/MageDead_3.png"));
+    mageMove.push(loadImage("./Assets/Mage/Move/MageDead_4.png"));
 
     mageRAttack.push(loadImage("./Assets/Mage/RAttack/RAttack_1.png"));
     mageRAttack.push(loadImage("./Assets/Mage/RAttack/RAttack_2.png"));
@@ -279,6 +277,10 @@ function preload()
     bigSkelL.push(loadImage("./Assets/BigSkel/Right/Right_5.png"));
     bigSkelL.push(loadImage("./Assets/BigSkel/Right/Right_6.png"));
 
+    bigSkelL.push(loadImage("./Assets/BigSkel/bigSkelDead_1.png"));
+    bigSkelL.push(loadImage("./Assets/BigSkel/bigSkelDead_2.png"));
+    bigSkelL.push(loadImage("./Assets/BigSkel/bigSkelDead_3.png"));
+
     
     bigSkelLA.push(loadImage("./Assets/BigSkel/LeftA/LeftA_3.png"));
     bigSkelLA.push(loadImage("./Assets/BigSkel/LeftA/LeftA_4.png"));
@@ -298,16 +300,20 @@ function preload()
     archerMove.push(loadImage("./Assets/Archer/Move/ArcherL_2.png"));
     archerMove.push(loadImage("./Assets/Archer/Move/ArcherL_3.png"));
     archerMove.push(loadImage("./Assets/Archer/Move/ArcherL_4.png"));
-    archerMove.push(loadImage("./Assets/Archer/Move/ArcherL_5.png"));
+    archerMove.push(loadImage("./Assets/Archer/Move/ArcherL_5.png")); //4
 
     archerMove.push(loadImage("./Assets/Archer/Move/ArcherR_1.png"));
     archerMove.push(loadImage("./Assets/Archer/Move/ArcherR_2.png"));
     archerMove.push(loadImage("./Assets/Archer/Move/ArcherR_3.png"));
     archerMove.push(loadImage("./Assets/Archer/Move/ArcherR_4.png"));
-    archerMove.push(loadImage("./Assets/Archer/Move/ArcherR_5.png"));
+    archerMove.push(loadImage("./Assets/Archer/Move/ArcherR_5.png")); //9
 
     archerMove.push(loadImage("./Assets/Archer/Move/LAttacked.png"));
     archerMove.push(loadImage("./Assets/Archer/Move/RAttacked.png"));
+
+    archerMove.push(loadImage("./Assets/Archer/Move/archerDead_1.png"));
+    archerMove.push(loadImage("./Assets/Archer/Move/archerDead_2.png"));
+    archerMove.push(loadImage("./Assets/Archer/Move/archerDead_3.png"));
 
     archerLA.push(loadImage("./Assets/Archer/LAttack/LAttack_2.png"));
     archerLA.push(loadImage("./Assets/Archer/LAttack/LAttack_3.png"));
@@ -324,6 +330,10 @@ function preload()
     mainImage.push(loadImage("./Assets/MainMenu.png"));
     mainImage.push(loadImage("./Assets/Start.png"));
     mainImage.push(loadImage("./Assets/End.png"));
+    mainImage.push(loadImage("./Assets/Tutorial.png"));
+    mainImage.push(loadImage("./Assets/Tutor_1.png"));
+    mainImage.push(loadImage("./Assets/Tutor_2.png"));
+    mainImage.push(loadImage("./Assets/story.png"));
 
     //Boss
     bossEffect.push(loadImage("./Assets/Boss/defaiutImage/magic_1.png"));
@@ -435,6 +445,10 @@ function preload()
     skelMove.push(loadImage("./Assets/Skleton/walkLeft/walkLeft_3.png"));
     skelMove.push(loadImage("./Assets/Skleton/walkLeft/walkLeft_4.png"));
 
+    skelMove.push(loadImage("./Assets/Skleton/skelDead_1.png"));
+    skelMove.push(loadImage("./Assets/Skleton/skelDead_2.png"));
+    skelMove.push(loadImage("./Assets/Skleton/skelDead_3.png"));
+
     //피격모션.
     skelMove.push(loadImage("./Assets/Skleton/attackedImage/attackedLeft.png"));
     skelMove.push(loadImage("./Assets/Skleton/attackedImage/attackedRight.png"));
@@ -473,9 +487,20 @@ function setup()
 {
     createCanvas( 1200, 600 );
     frameRate(60);
-    defaultTime = 0;
-    checkTime = 0;
     stateCheck = 0 ; 
+    if(!backgroundMusic[0].isLoaded())
+    {
+        backgroundMusic[0] = loadSound("./Assets/Music/The golden Forest.mp3");
+        
+    }
+    if(!backgroundMusic[1].isLoaded())
+    {
+        backgroundMusic[1] = loadSound("./Assets/Music/LEGACY - Encounter of Misdeeds MP3.mp3");
+    }
+    if(!backgroundMusic[2].isLoaded())
+    {
+        backgroundMusic[2] = loadSound("./Assets/Music/LEGACY - The World At Your Door MP3.mp3");
+    }
       
 }
 
@@ -484,19 +509,34 @@ function draw()
     
     
     background( 0 );
-    if(!backgroundMusic.isPlaying())
+    if(!backgroundMusic[0].isPlaying() && stateCheck != 5)
     {
         push();
-        backgroundMusic.play();
-        backgroundMusic.setVolume(0.2);
+        if(backgroundMusic[2].isPlaying())
+        {
+            backgroundMusic[2].stop();
+        }
+        backgroundMusic[0].play();
+        backgroundMusic[0].setVolume(0.2);
         pop();
-        console.log("여기가안디ㅗ요ㅠㅠ");
     }
-    if(!backgroundMusic.isLoaded())
+    if(stateCheck == 5 && screenCheck == 5 && !backgroundMusic[2].isPlaying())
     {
-        backgroundMusic = loadSound("./Assets/Music/The golden Forest.mp3");
-        console.log("여기가안디ㅗ요345345ㅠㅠ");
+        if(backgroundMusic[1].isPlaying())
+        {
+            backgroundMusic[1].stop();
+        }
+        backgroundMusic[2].play();
     }
+    if(stateCheck == 5 && screenCheck != 5 && !backgroundMusic[1].isPlaying())
+    {
+        if(backgroundMusic[0].isPlaying())
+        {
+            backgroundMusic[0].stop();
+        }
+        backgroundMusic[1].play();
+    }
+    
     push();
     if(!focused && screenCheck == 1)
     {
@@ -573,7 +613,7 @@ function draw()
            
             if(key != 0)
             {
-                if(slime.length == 0 && key.isRemove == 0)
+                if(keyIs && key.isRemove == 0)
                 {
                         key.draw();
                         if(door != 0)
@@ -585,7 +625,7 @@ function draw()
                     
                 }else if(slime.length == 0 && key.isRemove == 1 && key.type == 1)
                 {
-                    screenCheck++;
+                    screenCheck = 5;
                     key = 0;
                 }
             }
@@ -598,7 +638,6 @@ function draw()
             player.addGravity();
             player.checkCamera();
             player.checkLeft(stateCheck);
-            cameraMove += player.cameraMove();
             playerCheck();
             
 
@@ -606,15 +645,30 @@ function draw()
     }
     
     pop();
-    }else if(screenCheck == 0){
+    }else if(screenCheck == 0 || screenCheck == 2){
         mainMenu();
-    }else if(screenCheck == 2)
+    }else if(screenCheck == 5)
     {
         endMenu();
+    }else if(screenCheck == 3 || screenCheck == 4)
+    {
+        tutorScreen();
     }
     
     
 }
+function tutorScreen()
+{
+    if(screenCheck == 3)
+    {
+        image(mainImage[4],100,0);
+    }else{
+        image(mainImage[5],100,0);
+    }
+
+}
+
+
 
 function endMenu()
 {
@@ -626,14 +680,13 @@ function endMenu()
 
 function stateManager()
 {
-    if(player.pos.x > cameraState)
+    if(player.pos.x > cameraState && keyIs)
     {
         stateCheck++;
         console.log("여기들어와봐");
         player.pos.x = 100;
         player.checkCameraX = 600;
         player.checkCameraX_L = 500;
-        cameraMove = 0;
         spawnCheck = 0;
         player.startPlay = 0;
         if(stateCheck == 3)
@@ -656,8 +709,9 @@ function firstStateSpawn(state)
     {
         slime.splice(0,slime.length);
         platForm.splice(0,platForm.length);
+        keyIs = false;
 
-        door = new Door(doorImage,2400,400,100,100);
+        door = new Door(doorImage,2400,400,100,100,doorMusic);
         key = new Item(itemImage[0],1800,200,0);
         platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
         platForm.push(new PlatForm(1300,500,1200,100,true,0,0,platFormImage));
@@ -677,20 +731,16 @@ function firstStateSpawn(state)
 
         slime.push(new Skeleton(1,skeletonDefault,2300,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
         slime.push(new Skeleton(1,skeletonDefault,1600,450,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage,skelSfx));
-        // // slime.push(new Skeleton(1,skeletonDefault,1900,350,25,-25,28,-50,40,skelRAttack,skelLAttack,skelMove,1,effectImage));
-        // // slime.push(new Mage(2,magicImage,400,350,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage));
-        // slime.push(new BigSkel(3,bigSkelEffect,2300,450,25,-25,28,-50,40,bigSkelRA,bigSkelLA,bigSkelL,effectImage));
-        // slime.push(new Archer(4,archerArrow,1100,450,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage));
-        // slime.push(new Archer(4,archerArrow,450,350,25,-25,28,-50,40,archerRA,archerLA,archerMove,effectImage));
-        // slime.push(new Mage(2,magicImage,1600,250,25,-25,28,-50,40,mageRAttack,mageLAttack,mageMove,effectImage));
+        
     }else if(state == 1)
     {
         slime.splice(0,slime.length);
         platForm.splice(0,platForm.length);
+        keyIs = false;
 
         
         key = new Item(itemImage[0],1800,200,0);
-        door = new Door(doorImage,2400,400,100,100);
+        door = new Door(doorImage,2400,400,100,100,doorMusic);
 
         platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
         platForm.push(new PlatForm(1300,500,1200,100,true,0,0,platFormImage));
@@ -715,10 +765,11 @@ function firstStateSpawn(state)
     {
         slime.splice(0,slime.length);
         platForm.splice(0,platForm.length);
+        keyIs = false;
 
         
         key = new Item(itemImage[0],1800,200,0);
-        door = new Door(doorImage,2400,400,100,100);
+        door = new Door(doorImage,2400,400,100,100,doorMusic);
 
         platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
         platForm.push(new PlatForm(1300,500,1200,100,true,0,0,platFormImage));
@@ -747,8 +798,9 @@ function firstStateSpawn(state)
     {
         slime.splice(0,slime.length);
         platForm.splice(0,platForm.length);
+        keyIs = false;
         key = new Item(itemImage[0],2000,200,0);
-        door = new Door(doorImage,2200,400,100,100);
+        door = new Door(doorImage,2200,400,100,100,doorMusic);
         platForm.push(new PlatForm(2200,0,100,400,true,1,verPlatForm));
 
         platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
@@ -771,10 +823,11 @@ function firstStateSpawn(state)
     {
         slime.splice(0,slime.length);
         platForm.splice(0,platForm.length);
+        keyIs = false;
 
         
         key = new Item(itemImage[0],3400,200,0);
-        door = new Door(doorImage,3500,400,100,100);
+        door = new Door(doorImage,3500,400,100,100,doorMusic);
 
         platForm.push(new PlatForm(0,500,1200,100,true,0,0,platFormImage));
         platForm.push(new PlatForm(1300,500,2400,100,true,0,0,platFormImage));
@@ -804,6 +857,7 @@ function firstStateSpawn(state)
     else if(state == 5)
     {
         slime.splice(0,slime.length);
+        keyIs = false;
         door = 0
         platForm.splice(0,platForm.length);
         key = new Item(itemImage[1],600,200,1);
@@ -864,7 +918,26 @@ function updateMonsterAndPlatForm()
                 }
             
         }else{
-            slime.splice(a,1);
+            if(slime[a].type != 5)
+            {
+                slime[a].dead();
+                let c = 0;
+                for(var e = 0; e < slime.length ; e ++)
+                {
+                    if(slime[e].isDead == 1)
+                    {
+                        c++;
+                    }
+                    if(c == slime.length)
+                    {
+                        keyIs = true;
+                    }
+                }
+            }else{
+                keyIs = true;
+                slime.splice(a,1);
+            }
+            
         }
     }
     player.checkAttack(slime);
@@ -882,7 +955,11 @@ function playerCheck()
     }
     if(player.life <1)
     {
-        
+        keyIs = false;
+        if(stateCheck != 3)
+        {
+            player.attackedCheck = 0;
+        }
         if(stateCheck < 3)
         {
             stateCheck = 0
@@ -892,6 +969,8 @@ function playerCheck()
         }else{
             stateCheck = 3
         }
+        
+        
         
         spawnCheck = 0;
         player.pos.x = 100;
@@ -917,7 +996,7 @@ function playerCheck()
 
         //이미지 오류시 여기로오기
         player.attackedVel.x = 0;
-        player.attackedCheck = 0;
+        
         player.rollVec.x = 0;
         player.checkRoll = 0;
         player.rollCountDeltaTime = 0;
@@ -929,11 +1008,16 @@ function playerCheck()
 
 function mainMenu()
 {
-  
-    image(mainImage[0],400,50,400,200);
-    // rect(500,300,200,50);
-    image(mainImage[1],500,300);
-    rect(500,400,200,50);
+    if(screenCheck == 0)
+    {
+        image(mainImage[0],400,50,400,200);
+        image(mainImage[1],500,300);
+        image(mainImage[3],500,400);
+    }else if(screenCheck == 2)
+    {
+        image(mainImage[6],200,0);
+    }
+    
    
 }
  
@@ -943,9 +1027,22 @@ function mousePressed()
     {
         if((mouseX > 500 && mouseX < 700) && (mouseY > 300 && mouseY < 350))
         {
-            screenCheck++;
+            screenCheck = 2;
+        }else if((mouseX > 500 && mouseX < 700) && (mouseY > 400 && mouseY < 450))
+        {
+            screenCheck = 3;
         }
+        
     }else if(screenCheck == 2)
+    {  
+        screenCheck = 1;
+    }else if(screenCheck == 3)
+    {
+        screenCheck = 4;
+    }else if(screenCheck == 4)
+    {
+        screenCheck = 0;
+    }else if(screenCheck == 5)
     {
         screenCheck = 0;
         stateCheck = 0;

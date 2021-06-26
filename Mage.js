@@ -133,7 +133,8 @@ class Mage
         
         
 
-
+        this.deadDeltaTime = 0;
+        this.isDead = 0;
         
 
 
@@ -143,7 +144,7 @@ class Mage
     {
         
         
-        quad(this.upLeft.x,this.upLeft.y,this.upRight.x,this.upRight.y,this.downRight.x,this.downRight.y,this.downLeft.x,this.downRight.y);
+        // quad(this.upLeft.x,this.upLeft.y,this.upRight.x,this.upRight.y,this.downRight.x,this.downRight.y,this.downLeft.x,this.downRight.y);
         push();
         imageMode(CENTER);
         //페링 타이밍 재주는 Rect 위에 바.
@@ -170,7 +171,7 @@ class Mage
 
 
 
-        if(this.type == 2)
+        if(this.type == 2 && this.isDead == 0)
         {
             
             
@@ -359,6 +360,7 @@ class Mage
                     this.isAttack = 0;
                     image(this.rightAttack[0],this.pos.x,this.pos.y,200,200);
                     this.magicCheck = 0;
+                    this.magicDeltaTime = 0;
                 }
             //왼쪽 공격.
             }else if(this.animState == 4)
@@ -449,6 +451,7 @@ class Mage
                     this.isAttack = 0;
                     image(this.leftAttack[0],this.pos.x,this.pos.y,200,200);
                     this.magicCheck = 0;
+                    this.magicDeltaTime = 0;
                 }
             //오른쪽으로 걷ㄷ기
             }
@@ -602,7 +605,7 @@ class Mage
 
 
 
-        circle(this.playerPos_x,this.playerPos_y,5);
+        // circle(this.playerPos_x,this.playerPos_y,5);
         if(this.magicCheck == 1 && this.whereMagic == 0)
         {
             this.magicDeltaTime += deltaTime/1000;
@@ -822,8 +825,8 @@ class Mage
     behavior(player,platform)
     {
 
-        circle(this.pos.x,this.pos.y+30,10);
-        circle(this.pos.x,this.pos.y-30,10);
+        // circle(this.pos.x,this.pos.y+30,10);
+        // circle(this.pos.x,this.pos.y-30,10);
         if((this.downRight.x> platform.x && this.downRight.x < platform.x+platform.width+this.right) && ((this.downRight.y >= platform.y-10) && (this.downRight.y <=platform.y+15)))
         {
 
@@ -1016,7 +1019,7 @@ class Mage
     rayUpdate()
     {
         
-        rect(this.ray.x,this.ray.y,10,50);
+        // rect(this.ray.x,this.ray.y,10,50);
        
 
         
@@ -1035,40 +1038,7 @@ class Mage
     }
 
     
-    checkedAttack(player)
-    {
-        
-        
-        // if(player.checkA == 0)
-        // {
 
-        
-            
-        if(this.checkRange(player.attackLeft.x,player.attackLeft.x+60,this.upLeft.x,this.upRight.x) && this.checkRange(player.attackLeft.y,player.attackLeft.y+50,this.upRight.y,this.downRight.y))
-            {
-                if(player.isAttack == 1)
-        {   
-                if(this.life >0)
-                {    
-                this.life -= 1;
-                //오른쪽 네모
-                if(player.checkA == 0 )
-                {
-                    this.isAttacked = 1;
-                    this.gravityVel.addTo(new Vec2(5,-10));
-                    
-                }else{
-                    this.isAttacked = 1;
-                    this.gravityVel.addTo(new Vec2(-5,-10));
-                    
-                }
-            }
-            player.isAttack = 0;
-        }
-            
-    }
-        
-    }
 
 
 
@@ -1184,6 +1154,34 @@ class Mage
                 }
             }
 
+    }
+
+    dead()
+    {
+        push();
+        imageMode(CENTER);
+        if(this.deadDeltaTime < 0.81)
+        {
+            this.deadDeltaTime += deltaTime/1000;
+        }
+        if(this.deadDeltaTime >= 0.8)
+        {
+            image(this.moveImage[7],this.pos.x,this.pos.y,200,200);
+            this.isDead = 1;
+        }else if(this.deadDeltaTime >= 0.6 && this.deadDeltaTime <= 0.8)
+        {
+            image(this.moveImage[7],this.pos.x,this.pos.y,200,200);
+        }else if(this.deadDeltaTime >= 0.4 && this.deadDeltaTime <= 0.6)
+        {
+            image(this.moveImage[6],this.pos.x,this.pos.y,200,200);
+        }else if(this.deadDeltaTime >= 0.2 && this.deadDeltaTime <= 0.4)
+        {
+            image(this.moveImage[5],this.pos.x,this.pos.y,200,200);
+        }else if(this.deadDeltaTime >= 0){
+            image(this.moveImage[4],this.pos.x,this.pos.y,200,200);
+            this.isDead = 1;
+        }
+        pop();
     }
 
 

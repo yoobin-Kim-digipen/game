@@ -439,6 +439,7 @@ class Player
                 this.lComboState = 1;
                 this.attOne = 0;
                 this.musicCheck = 0;
+                this.isAttack = 0;
                 
             }else if(this.LeftAttackDeltaTime > 0.40)
             {
@@ -503,6 +504,7 @@ class Player
                 this.lComboDelta = 0;
                 this.attOne = 0;
                 this.musicCheck = 0;
+                this.isAttack = 0;
             }else if(this.LeftAttackDeltaTime > 0.25 && this.LeftAttackDeltaTime < 0.35)
             {
                 image(this.leftAttackImage[9],this.pos.x-10,this.pos.y,130,130);
@@ -513,7 +515,6 @@ class Player
                 }else{
                     this.isAttack = 1;
                 }
-                //else if(this.RightAttackDeltaTime > 0.25 && this.RightAttackDeltaTime < 0.35)
             }else if(this.LeftAttackDeltaTime > 0.15 && this.LeftAttackDeltaTime < 0.25)
             {
                 image(this.leftAttackImage[8],this.pos.x-10,this.pos.y,130,130);
@@ -551,6 +552,7 @@ class Player
                 this.rComboState = 1;
                 this.attOne = 0;
                 this.musicCheck = 0;
+                this.isAttack = 0;
             }else if(this.RightAttackDeltaTime > 0.40)
             {
                 if(this.attOne == 1)
@@ -616,6 +618,7 @@ class Player
                 this.isAttack = 0;
                 this.attOne = 0;
                 this.musicCheck = 0;
+                this.isAttack = 0;
             }else if(this.RightAttackDeltaTime > 0.25)
             {
                 image(this.rightAttackImage[9],this.pos.x-10,this.pos.y,130,130);
@@ -795,6 +798,7 @@ class Player
                     this.musicCheck = 1;
                     pop();
                 }
+                
             }else if(this.skillDeltaTime >0.5 && this.skillDeltaTime < 0.6)
             {
                 
@@ -815,6 +819,7 @@ class Player
                 this.attackedCheck = 1;
                 this.skillMovePos.y = this.pos.y+20;
                 this.skillMovePos.x = this.pos.x+20;
+                this.skillMoveCheck = 0;
                 circle(this.skillMovePos,this.pos.y,30);
             }
         }else if(this.animState == LEFTSKILL)
@@ -845,6 +850,7 @@ class Player
                     pop();
                 }
                 image(this.uiImage[7],this.pos.x+70,this.skillMovePos.y+20);
+                
             }else if(this.skillDeltaTime >0.5 && this.skillDeltaTime < 0.6)
             {
                 
@@ -866,6 +872,7 @@ class Player
                 this.skillMovePos.y = this.pos.y+20;
                 this.skillMovePos.x = this.pos.x-230;
                 circle(this.skillMovePos,this.pos.y,30);
+                this.skillMoveCheck = 0;
             }
         }
         
@@ -914,30 +921,12 @@ class Player
             this.moveVel.x = 0;
             this.moveAcc.x = 0;
             this.moveAcc.y = 0;
-            // this.attackLeft.set(this.pos.x+80,this.pos.y+40);
-            // this.checkA = 0;
+            
             this.isGuard = 0;
             
             
         }
 
-        //가만히 있을떄 공격
-
-        // if(keyIsDown(65) && this.attackCheck == 0 && (!keyIsDown(37)) && this.checkRoll == 0 && this.isSkill == 0)
-        //     {
-                
-        //         this.animState = 4
-        //         this.attackCheck = 1;
-        //         this.moveVel.x = 0;
-        //         this.moveAcc.x = 0;
-        //         this.moveAcc.y = 0;
-        //         this.isGuard = 0;
-        //         this.checkA = 0;
-        //         this.startPlay = 1;
-                
-        //     }
-        
-        // 오른쪽키가기.
         if(keyIsDown(39) && this.attackCheck == 0 && this.checkRoll == 0 && this.isSkill == 0)
         {
             
@@ -1297,10 +1286,10 @@ class Player
         
         
     }
-    if(this.isSkillAttack == 1 && this.isAttack != 1)
+    if(this.isSkillAttack == 1)
         {
             
-        
+            let is = false;
             for(var a = 0; a<monster.length;a++)
             {
                 console.log("여기 들어왔기를 제발!")
@@ -1311,6 +1300,7 @@ class Player
                         {  
                         
                         monster[a].life -= 2;
+                        is = true;
                         sfx[1].play();
                         
                         
@@ -1348,7 +1338,11 @@ class Player
                     
 
             }
-            this.isSkillAttack = 0;
+            if(is)
+            {
+                this.isSkillAttack = 0;
+            }
+            
         }
         
         
@@ -1363,52 +1357,7 @@ class Player
         return max(min0, max0) >= min(min1,max1) && min(min0,max0) <= max(min1,max1);
     }
 
-    checkDist(monsterList)
-    {
-        let checkList = [];
-        let min;
-        let number = 0;
-
-
-        for(var a =0;a< monsterList.length;a++)
-        {
-            // checkList.push(dist(this.pos.x+20,this.pos.y,monsterList[a].pos.x,monsterList[a].pos.y));
-            if(monsterList[a].life == 0)
-            {
-                monsterList.splice(a,1);
-            }
-        }
-
-
-
-        for(var a =0;a< monsterList.length;a++)
-        {
-            checkList.push(dist(this.attackLeft.x+30,this.attackLeft.y+25,monsterList[a].pos.x,monsterList[a].pos.y));
-        }
-        
-        for(var a= 0;a<checkList.length;a++)
-        {
-            if(a == 0)
-            {
-                min = checkList[a];
-                number = a;
-                
-            }else{
-                if(min > checkList[a])
-                {
-                    min = checkList[a];
-                    number = a
-                }
-            }
-
-            
-        }
-        
-        
-        this.checkAttack(monsterList[number]);
-
-
-    }
+    
 
 
     seeUIImage(x)
@@ -1503,9 +1452,9 @@ class Player
         }
         if(state == 5)
         {
-            if(this.pos.x > 1120)
+            if(this.pos.x > 1110)
             {
-                this.pos.x = 1120;
+                this.pos.x = 1110;
             } 
         }
     }

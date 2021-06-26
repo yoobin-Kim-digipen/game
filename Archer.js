@@ -139,7 +139,8 @@ class Archer
         this.arrowCheck = 0;
 
         
-        
+        this.deadDeltaTime = 0;
+        this.isDead = 0;
 
 
         
@@ -178,12 +179,12 @@ class Archer
 
 
 
-        if(this.type == 4)
+        if(this.type == 4 && this.isDead == 0)
         {
             
             
             // animState == 0 은 defualt
-            if(this.animState == 0)
+            if(this.animState == 0 )
             {
                 // this.animDefaultDelta += deltaTime/1000;
                 // if(this.animDefaultDelta > 0.8 && this.animDefaultDelta < 1.2)
@@ -502,7 +503,7 @@ class Archer
             this.playerPos_x = this.pos.x;
             this.playerPos_y = this.pos.y;
         }
-        circle(this.playerPos_x,this.playerPos_y,5);
+        // circle(this.playerPos_x,this.playerPos_y,5);
         
         //왼쪽
         if(this.whereMagic == 0 && this.magicCheck == 1)
@@ -592,8 +593,8 @@ class Archer
     behavior(player,platform)
     {
 
-        circle(this.pos.x,this.pos.y+30,10);
-        circle(this.pos.x,this.pos.y-30,10);
+        // circle(this.pos.x,this.pos.y+30,10);
+        // circle(this.pos.x,this.pos.y-30,10);
         if((this.downRight.x> platform.x && this.downRight.x < platform.x+platform.width+this.right) && ((this.downRight.y >= platform.y-10) && (this.downRight.y <=platform.y+15)))
         {
 
@@ -793,7 +794,7 @@ class Archer
     rayUpdate()
     {
         
-        rect(this.ray.x,this.ray.y,10,50);
+        // rect(this.ray.x,this.ray.y,10,50);
        
 
         
@@ -812,40 +813,7 @@ class Archer
     }
 
     
-    checkedAttack(player)
-    {
-        
-        
-        // if(player.checkA == 0)
-        // {
-
-        
-            
-        if(this.checkRange(player.attackLeft.x,player.attackLeft.x+60,this.upLeft.x,this.upRight.x) && this.checkRange(player.attackLeft.y,player.attackLeft.y+50,this.upRight.y,this.downRight.y))
-            {
-                if(player.isAttack == 1)
-        {   
-                if(this.life >0)
-                {    
-                this.life -= 1;
-                //오른쪽 네모
-                if(player.checkA == 0 )
-                {
-                    this.isAttacked = 1;
-                    this.gravityVel.addTo(new Vec2(5,-10));
-                    
-                }else{
-                    this.isAttacked = 1;
-                    this.gravityVel.addTo(new Vec2(-5,-10));
-                    
-                }
-            }
-            player.isAttack = 0;
-        }
-            
-    }
-        
-    }
+    
 
 
 
@@ -1012,7 +980,30 @@ class Archer
 
     }
 
-
+    dead()
+    {
+        push();
+        imageMode(CENTER);
+        if(this.deadDeltaTime < 0.61)
+        {
+            this.deadDeltaTime += deltaTime/1000;
+        }
+        if(this.deadDeltaTime >= 0.6)
+        {
+            image(this.moveImage[14],this.pos.x,this.pos.y,200,200);
+            this.isDead = 1;
+        }else if(this.deadDeltaTime >= 0.4 && this.deadDeltaTime <= 0.6)
+        {
+            image(this.moveImage[14],this.pos.x,this.pos.y,200,200);
+        }else if(this.deadDeltaTime >= 0.2 && this.deadDeltaTime <= 0.4)
+        {
+            image(this.moveImage[13],this.pos.x,this.pos.y,200,200);
+        }else if(this.deadDeltaTime >= 0){
+            image(this.moveImage[12],this.pos.x,this.pos.y,200,200);
+            this.isDead = 1;
+        }
+        pop();
+    }
 
 
 

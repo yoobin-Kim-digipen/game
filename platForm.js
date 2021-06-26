@@ -200,7 +200,7 @@ class PlatForm
 
             }
         }
-        circle(monster.downRight.x,monster.downRight.y,10);
+        
         
     }
 

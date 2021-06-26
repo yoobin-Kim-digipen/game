@@ -119,6 +119,8 @@ class Skeleton
 
         //PlayerShieldCheck
         this.playerShieldCheck = 0;
+        this.deadDeltaTime = 0;
+        this.isDead = 0;
 
         
 
@@ -155,7 +157,7 @@ class Skeleton
 
 
 
-        if(this.type == 1)
+        if(this.type == 1 && this.isDead == 0)
         {
             
             // animState == 0 은 defualt
@@ -419,8 +421,8 @@ class Skeleton
     behavior(player,platform)
     {
 
-        circle(this.pos.x,this.pos.y+30,10);
-        circle(this.pos.x,this.pos.y-30,10);
+        // circle(this.pos.x,this.pos.y+30,10);
+        // circle(this.pos.x,this.pos.y-30,10);
         if((this.downRight.x> platform.x && this.downRight.x < platform.x+platform.width+this.right) && ((this.downRight.y >= platform.y-10) && (this.downRight.y <=platform.y+15)))
         {
 
@@ -607,7 +609,7 @@ class Skeleton
     rayUpdate()
     {
         
-        rect(this.ray.x,this.ray.y,10,50);
+        // rect(this.ray.x,this.ray.y,10,50);
        
 
         
@@ -625,60 +627,16 @@ class Skeleton
         return max(min0, max0) >= min(min1,max1) && min(min0,max0) <= max(min1,max1);
     }
 
-    
-    checkedAttack(player)
-    {
-        
-        
-        // if(player.checkA == 0)
-        // {
-
-        
-            
-        if(this.checkRange(player.attackLeft.x,player.attackLeft.x+60,this.upLeft.x,this.upRight.x) && this.checkRange(player.attackLeft.y,player.attackLeft.y+50,this.upRight.y,this.downRight.y))
-            {
-                if(player.isAttack == 1)
-        {   
-                if(this.life >0)
-                {    
-                this.life -= 1;
-                //오른쪽 네모
-                if(player.checkA == 0 )
-                {
-                    this.isAttacked = 1;
-                    this.gravityVel.addTo(new Vec2(5,-10));
-                    
-                }else{
-                    this.isAttacked = 1;
-                    this.gravityVel.addTo(new Vec2(-5,-10));
-                    
-                }
-            }
-            player.isAttack = 0;
-        }
-            
-    }
-        
-
-        // }else{
-        //     if(this.checkRange(this.attackLeft.x,this.attackLeft.x+60,monster.upLeft.x,monster.upRight.x) && this.checkRange(this.attackLeft.y,this.attackLeft.y+50,monster.upLeft.y,monster.downRight.y))
-        //     {
-        //         console.log("들어왔다.");
-        //     }
-        // }
-        
-    }
-
     checkParry(player)
     {
         //this.attackLeft.set(this.pos.x+30,this.pos.y-30);
         // quad(this.attackLeft.x,this.attackLeft.y,this.attackLeft.x+60,this.attackLeft.y,this.attackLeft.x+60,this.attackLeft.y+50,this.attackLeft.x,this.attackLeft.y+50);
-        if(player.checkA == 0)
-        {
-            quad(player.attackLeft.x,player.attackLeft.y,player.attackLeft.x+20,player.attackLeft.y,player.attackLeft.x+20,player.attackLeft.y+50,player.attackLeft.x,player.attackLeft.y+50);
-        }else{
-            quad(player.attackLeft.x+40,player.attackLeft.y,player.attackLeft.x+60,player.attackLeft.y,player.attackLeft.x+60,player.attackLeft.y+50,player.attackLeft.x+40,player.attackLeft.y+50);
-        }
+        // if(player.checkA == 0)
+        // {
+        //     quad(player.attackLeft.x,player.attackLeft.y,player.attackLeft.x+20,player.attackLeft.y,player.attackLeft.x+20,player.attackLeft.y+50,player.attackLeft.x,player.attackLeft.y+50);
+        // }else{
+        //     quad(player.attackLeft.x+40,player.attackLeft.y,player.attackLeft.x+60,player.attackLeft.y,player.attackLeft.x+60,player.attackLeft.y+50,player.attackLeft.x+40,player.attackLeft.y+50);
+        // }
 
         if(player.checkA == 0)
         {
@@ -849,7 +807,32 @@ class Skeleton
 
     }
 
-
+    dead()
+    {
+        push();
+        imageMode(CENTER);
+        console.log(this.deadDeltaTime);
+        if(this.deadDeltaTime <= 0.61)
+        {
+            this.deadDeltaTime += deltaTime/1000;
+        }
+        if(this.deadDeltaTime >= 0.6)
+        {
+            image(this.moveImage[10],this.pos.x,this.pos.y-5,200,200);
+            
+            
+        }else if(this.deadDeltaTime >= 0.4 && this.deadDeltaTime <= 0.6)
+        {
+            image(this.moveImage[10],this.pos.x,this.pos.y-5,200,200);
+        }else if(this.deadDeltaTime >= 0.2 && this.deadDeltaTime <= 0.4)
+        {
+            image(this.moveImage[9],this.pos.x,this.pos.y-5,200,200);
+        }else if(this.deadDeltaTime >= 0){
+            image(this.moveImage[8],this.pos.x,this.pos.y-5,200,200);
+            this.isDead = 1;
+        }
+        pop();
+    }
 
 
 

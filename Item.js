@@ -32,12 +32,15 @@ class Item{
             {
                 console.log("add")
                 door.isOpen = 1;
+                
                 this.isRemove = 1;
+                
             }
         }else{
             if(this.checkRange(player.upLeft.x,player.upRight.x,this.x,this.x+64) && this.checkRange(player.upLeft.y,player.downRight.y,this.y,this.y+64))
             {
                 console.log("add")
+                
                 this.isRemove = 1;
             }
         }

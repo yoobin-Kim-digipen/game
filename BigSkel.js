@@ -134,6 +134,9 @@ class BigSkel
         this.platformCheckY = 0;
         this.musicCheck = 0;
 
+        this.deadDeltaTime  = 0;
+        this.isDead = 0;
+
         
 
 
@@ -143,7 +146,7 @@ class BigSkel
     {
         push();
         imageMode(CENTER);
-        if(this.type == 3)
+        if(this.type == 3 && this.isDead == 0)
         {
             
             
@@ -272,7 +275,7 @@ class BigSkel
                     console.log("add2");
                     this.isCanParry = 0;
                     this.isAttack = 0;
-                    
+                    image(this.rightAttack[2],this.pos.x,this.pos.y-5,400,400);
                     this.animState = 0;
                     this.behaviorCheck = 0;
                     this.rightAttackDelta = 0
@@ -326,7 +329,7 @@ class BigSkel
                     console.log("add2");
                     this.isCanParry = 0;
                     this.isAttack = 0;
-                    
+                    image(this.leftAttack[2],this.pos.x,this.pos.y-5,400,400);
                     this.animState = 0;
                     this.behaviorCheck = 0;
                     this.leftAttackDelta = 0
@@ -635,8 +638,8 @@ class BigSkel
     behavior(player,platform)
     {
 
-        circle(this.pos.x,this.pos.y+30,10);
-        circle(this.pos.x,this.pos.y-30,10);
+        // circle(this.pos.x,this.pos.y+30,10);
+        // circle(this.pos.x,this.pos.y-30,10);
         if((this.downRight.x> platform.x && this.downRight.x < platform.x+platform.width+this.right) && ((this.downRight.y >= platform.y-10) && (this.downRight.y <=platform.y+15)))
         {
 
@@ -829,7 +832,7 @@ class BigSkel
     rayUpdate()
     {
         
-        rect(this.ray.x,this.ray.y,10,50);
+        
        
 
         
@@ -848,40 +851,7 @@ class BigSkel
     }
 
     
-    checkedAttack(player)
-    {
-        
-        
-        // if(player.checkA == 0)
-        // {
-
-        
-            
-        if(this.checkRange(player.attackLeft.x,player.attackLeft.x+60,this.upLeft.x,this.upRight.x) && this.checkRange(player.attackLeft.y,player.attackLeft.y+50,this.upRight.y,this.downRight.y))
-            {
-                if(player.isAttack == 1)
-        {   
-                if(this.life >0)
-                {    
-                this.life -= 1;
-                //오른쪽 네모
-                if(player.checkA == 0 )
-                {
-                    this.isAttacked = 1;
-                    this.gravityVel.addTo(new Vec2(5,-10));
-                    
-                }else{
-                    this.isAttacked = 1;
-                    this.gravityVel.addTo(new Vec2(-5,-10));
-                    
-                }
-            }
-            player.isAttack = 0;
-        }
-            
-    }
-        
-    }
+    
 
 
 
@@ -1066,5 +1036,33 @@ class BigSkel
                     }
             }
         }
+
+    dead()
+    {
+        console.log("실행되고있는가요?")
+        push();
+        imageMode(CENTER);
+        if(this.deadDeltaTime < 0.61)
+        {
+            this.deadDeltaTime += deltaTime/1000;
+        }
+        
+        if(this.deadDeltaTime >= 0.6)
+        {
+            image(this.moveImage[14],this.pos.x,this.pos.y-5,400,400);
+            
+        }else if(this.deadDeltaTime >= 0.4 && this.deadDeltaTime <= 0.6)
+        {
+            image(this.moveImage[14],this.pos.x,this.pos.y-5,400,400);
+        }else if(this.deadDeltaTime >= 0.2 && this.deadDeltaTime <= 0.4)
+        {
+            image(this.moveImage[13],this.pos.x,this.pos.y-5,400,400);
+        }else if(this.deadDeltaTime >= 0){
+            image(this.moveImage[12],this.pos.x,this.pos.y-5,400,400);
+            this.isDead = 1;
+        }
+        pop();
+    }
+
 
 }

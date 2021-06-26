@@ -55,7 +55,7 @@ class Boss
 
         this.isAttacked = 0;
 
-        this.life = 3;
+        this.life = 20;
 
 
         this.isPlayer = 0;
@@ -158,7 +158,7 @@ class Boss
         push();
         imageMode(CENTER);
 
-        quad(this.upLeft.x,this.upLeft.y,this.upRight.x,this.upRight.y,this.downRight.x,this.downRight.y,this.downLeft.x,this.downLeft.y);
+        // quad(this.upLeft.x,this.upLeft.y,this.upRight.x,this.upRight.y,this.downRight.x,this.downRight.y,this.downLeft.x,this.downLeft.y);
 
         if(this.patternIs == 0)
         {
@@ -812,7 +812,7 @@ class Boss
     rayUpdate()
     {
         
-        rect(this.ray.x,this.ray.y,10,50);
+        // rect(this.ray.x,this.ray.y,10,50);
        
 
         
@@ -829,44 +829,6 @@ class Boss
     {
         return max(min0, max0) >= min(min1,max1) && min(min0,max0) <= max(min1,max1);
     }
-
-    
-    checkedAttack(player)
-    {
-        
-        
-        // if(player.checkA == 0)
-        // {
-
-        
-            
-        if(this.checkRange(player.attackLeft.x,player.attackLeft.x+60,this.upLeft.x,this.upRight.x) && this.checkRange(player.attackLeft.y,player.attackLeft.y+50,this.upRight.y,this.downRight.y))
-            {
-                if(player.isAttack == 1)
-        {   
-                if(this.life >0)
-                {    
-                this.life -= 1;
-                //오른쪽 네모
-                if(player.checkA == 0 )
-                {
-                    this.isAttacked = 1;
-                    this.gravityVel.addTo(new Vec2(5,-10));
-                    
-                }else{
-                    this.isAttacked = 1;
-                    this.gravityVel.addTo(new Vec2(-5,-10));
-                    
-                }
-            }
-            player.isAttack = 0;
-        }
-            
-    }
-        
-    }
-
-
 
 
     checkAttack(player)
