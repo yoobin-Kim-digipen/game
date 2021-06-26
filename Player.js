@@ -54,26 +54,24 @@ class Player
         //attackCheck
         this.attackCheck = 0;
 
-        //카메라 체크
+        //camaera Check
         this.cameraR = false;
         this.cameraL = false;
 
-        //오른쪽 꼭짓점.
+        //heatBox
         this.downRight = new Vec2(this.pos.x+62,this.pos.y+100);
 
-        //왼쪽 꼭짓점.
+       
         this.downLeft = new Vec2(this.pos.x+37,this.pos.y+100);
 
-        //오른쪽 위 꼭짓점.
+      
         this.upLeft = new Vec2(this.pos.x+30,this.pos.y+20);
-        //왼쪽위 꼭짓점.
+       
         this.upRight = new Vec2(this.pos.x+62,this.pos.y+20);
 
-        //내려가는거 체크.
+        //downcheck
         this.downCheck = false;
-        //내려가는거 시간 체크
         this.downCheckDelta = 0;
-        //
         this.downCheck_2 = false;
 
         
@@ -98,22 +96,22 @@ class Player
         //Player Collision
 
 
-        //점프판정?
+        //jump about
         this.isJump = false;
         
         this.checkCameraX = 600;
         this.checkCameraX_L = 500;
         this.attackLeft = new Vec2(0,0);
 
-        //왼쪽 오른쪽인지 체크하는 코드.
+        //left or right
         this.checkA = 0;
         this.isAttack = 0;
 
 
-        //isAttack 을 한번만 실행되게 하는 것.
+        //use for only one attack
         this.attOne = 0;
 
-        //공격받는걸 한번만 되게 체크하는거.
+       // use for attacked only once time
         this.attackedCheck = 0;
         
         this.attackedDelta = 0;
@@ -122,33 +120,28 @@ class Player
 
 
 
-        //가드 중?
         this.isGuard = 0;
-        //패링가능?
         this.isParrying = 0;
-        //가드 오른쪽 델타타임.
         this.guardRightDeltaTime = 0;
-        //가드 왼쪽 델타타임.
         this.guardLeftDeltaTime = 0;
-        //가드를 다시 채워주는 값.
         this.guardRefillDelta = 0;
 
 
 
-        //체력.
+        // HP
         this.life = 5;
-        //방어 갯수.
+        //shield count
         this.shieldCount = 3;
-        //한번만 떨어지게 하는것
+        //shield restrict
         this.shieldCheck = 0;
 
         //uiImage
         this.uiImage = _uiImage;
 
-        //왼쪽 콤보 상태.
+        //lcombo about
         this.lComboState = 0;
         this.lComboDelta = 0;
-        //오른쪽콤보 상태.
+        //rCombo about.
         this.rComboState = 0;
         this.rComboDelta = 0;
 
@@ -174,20 +167,20 @@ class Player
 
 
 
-        //구르기 체크.
+        //roll check
         this.checkRoll = 0;
-        //구르기 추가 속도.
+        //roll vel
         this.rollVec = new Vec2(0,0);
-        //구를때 deltaTime.
+        //roll deltaTime.
         this.rollDeltaTime = 0;
 
-        //시작을 알림
+        //Start alram.
         this.startPlay = 0;
-        //구르기 관련
+        //Roll
         this.rollCount = 3;
         this.rollCountDeltaTime = 0;
 
-        //스킬관련.
+        //skill about.
         this.isSkill = 0;
         //RightSkillDelta;
         this.skillDeltaTime = 0;
@@ -1040,19 +1033,6 @@ class Player
         {
             this.downCheckDelta += deltaTime/1000;
         }
-
-
-        // if(keyIsDown(68) && (!keyIsDown(37)) && (!keyIsDown(39)) && this.shieldCount > 0  &&this.attackCheck == 0 && this.checkRoll == 0 && this.isSkill == 0)
-        // {
-        //     console.log("a1")
-        //     this.isGuard = 1;
-        //     this.checkA = 0;
-        //     this.animState = RIGHTGUARD;
-        //     this.moveVel.x = 0;
-        //     this.moveAcc.x = 0;
-        //     this.moveAcc.y = 0;
-        //     this.startPlay = 1;
-        // }
 
         if(keyIsDown(68) && (keyIsDown(37) || this.checkA == 1)&& this.attackCheck == 0 && this.shieldCount >0 && this.checkRoll == 0 && this.isSkill == 0)
         {

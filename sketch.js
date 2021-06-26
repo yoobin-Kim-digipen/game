@@ -487,7 +487,8 @@ function setup()
 {
     createCanvas( 1200, 600 );
     frameRate(60);
-    stateCheck = 0 ; 
+    stateCheck = 0;
+    checkPause = 0;
     if(!backgroundMusic[0].isLoaded())
     {
         backgroundMusic[0] = loadSound("./Assets/Music/The golden Forest.mp3");
